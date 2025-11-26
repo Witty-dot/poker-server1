@@ -46,11 +46,7 @@
     /* HEADER / TOPBAR */
 
     .topbar {
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      padding: 8px 16px 10px;
       background: linear-gradient(to bottom,
         rgba(5, 5, 10, 0.96),
         rgba(5, 5, 10, 0.85),
@@ -61,12 +57,24 @@
       position: sticky;
       top: 0;
       z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .topbar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-width: 0;
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
 
     .logo-mark {
@@ -86,6 +94,7 @@
         0 0 18px rgba(0, 0, 0, 0.9);
       position: relative;
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     .logo-mark::after {
@@ -100,6 +109,13 @@
       );
     }
 
+    .topbar-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
     .topbar-title {
       display: flex;
       flex-direction: column;
@@ -110,6 +126,7 @@
       font-size: 13px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .topbar-sub {
@@ -117,6 +134,13 @@
       color: var(--text-muted);
       letter-spacing: 0.2em;
       text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .topbar-table-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
     }
 
     .pill {
@@ -124,19 +148,14 @@
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(10, 10, 20, 0.85);
-    }
-
-    .pill-compact {
       font-size: 11px;
-      padding: 3px 7px;
+      white-space: nowrap;
     }
 
-    .topbar-right {
+    .topbar-actions {
       display: flex;
-      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
 
     .btn {
@@ -174,6 +193,16 @@
     .btn-leave:hover {
       box-shadow: 0 0 18px rgba(255, 65, 111, 0.6);
       transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .topbar-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .topbar-table-meta {
+        align-self: flex-start;
+      }
     }
 
     /* MAIN */
@@ -322,10 +351,11 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateY(-18px);
+      transform: translate(-50%, -50%) translateY(-32px);
       font-size: 12px;
       color: rgba(221, 223, 255, 0.9);
       text-align: center;
+      display: none; /* по умолчанию не показываем */
     }
 
     #pot span {
@@ -337,7 +367,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateY(16px);
+      transform: translate(-50%, -50%) translateY(4px);
       display: flex;
       gap: 6px;
     }
@@ -346,7 +376,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateY(46px);
+      transform: translate(-50%, -50%) translateY(40px);
       font-size: 11px;
       color: rgba(200, 203, 255, 0.9);
       text-align: center;
@@ -399,28 +429,46 @@
 
     .seat {
       position: absolute;
-      width: 76px;
-      height: 30px;
+      height: 34px;
       border-radius: 999px;
       background: rgba(5, 5, 15, 0.96);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 0 16px rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
+      padding: 3px 10px;
       font-size: 11px;
       color: var(--text-muted);
-      padding-inline: 6px;
-      gap: 4px;
-      overflow: hidden;
-      white-space: nowrap;
       pointer-events: auto;
+    }
+
+    .seat-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.4), #050509);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 600;
+      color: #f5f5ff;
+      flex-shrink: 0;
+    }
+
+    .seat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
     }
 
     .seat-name {
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 44px;
+      white-space: nowrap;
     }
 
     .seat-stack {
@@ -437,42 +485,42 @@
       color: #e2e2ff;
     }
 
-    /* 6-max seats around */
+    /* 6-max seats внутри овала, у краёв */
 
     .seat-1 {
       top: 6%;
       left: 50%;
-      transform: translate(-50%, -110%);
+      transform: translate(-50%, 0);
     }
 
     .seat-2 {
-      top: 30%;
-      right: 4%;
-      transform: translate(110%, -50%);
+      top: 32%;
+      right: 6%;
+      transform: translate(0, -50%);
     }
 
     .seat-3 {
-      bottom: 30%;
-      right: 4%;
-      transform: translate(110%, 50%);
+      bottom: 32%;
+      right: 6%;
+      transform: translate(0, 50%);
     }
 
     .seat-4 {
       bottom: 6%;
       left: 50%;
-      transform: translate(-50%, 110%);
+      transform: translate(-50%, 0);
     }
 
     .seat-5 {
-      bottom: 30%;
-      left: 4%;
-      transform: translate(-110%, 50%);
+      bottom: 32%;
+      left: 6%;
+      transform: translate(0, 50%);
     }
 
     .seat-6 {
-      top: 30%;
-      left: 4%;
-      transform: translate(-110%, -50%);
+      top: 32%;
+      left: 6%;
+      transform: translate(0, -50%);
     }
 
     /* DEALER CHIP */
@@ -492,12 +540,12 @@
       box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
     }
 
-    .dealer-1 { top: 12%; left: 50%; transform: translate(-50%, -50%); }
-    .dealer-2 { top: 32%; right: 11%; transform: translate(50%, -50%); }
-    .dealer-3 { bottom: 32%; right: 11%; transform: translate(50%, 50%); }
-    .dealer-4 { bottom: 12%; left: 50%; transform: translate(-50%, 50%); }
-    .dealer-5 { bottom: 32%; left: 11%; transform: translate(-50%, 50%); }
-    .dealer-6 { top: 32%; left: 11%; transform: translate(-50%, -50%); }
+    .dealer-1 { top: 13%; left: 50%; transform: translate(-50%, -50%); }
+    .dealer-2 { top: 33%; right: 14%; transform: translate(50%, -50%); }
+    .dealer-3 { bottom: 33%; right: 14%; transform: translate(50%, 50%); }
+    .dealer-4 { bottom: 13%; left: 50%; transform: translate(-50%, 50%); }
+    .dealer-5 { bottom: 33%; left: 14%; transform: translate(-50%, 50%); }
+    .dealer-6 { top: 33%; left: 14%; transform: translate(-50%, -50%); }
 
     /* BOTTOM ACTION PANEL */
 
@@ -515,14 +563,14 @@
 
     .hero-row {
       display: grid;
-      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr);
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr) minmax(0, 1.8fr);
       gap: 10px;
       align-items: center;
     }
 
-    @media (min-width: 900px) {
+    @media (max-width: 900px) {
       .hero-row {
-        grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr) minmax(0, 2fr);
+        grid-template-columns: minmax(0, 1fr);
       }
     }
 
@@ -565,7 +613,7 @@
     }
 
     .hero-stack span {
-      color: var(--success);
+      color: --success;
     }
 
     .timebank {
@@ -896,38 +944,30 @@
       padding: 5px 10px;
       cursor: pointer;
     }
-
-    /* MOBILE */
-
-    @media (max-width: 768px) {
-      .hero-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      #hand {
-        margin-left: 0;
-      }
-      .topbar {
-        flex-wrap: wrap;
-      }
-    }
   </style>
 </head>
 <body>
 <div class="page">
   <!-- HEADER -->
   <header class="topbar">
-    <div class="topbar-left">
-      <div class="logo-mark"></div>
-      <div class="topbar-title">
-        <div class="topbar-main">MIDNIGHT BLACK</div>
-        <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
+    <div class="topbar-row">
+      <div class="topbar-left">
+        <div class="logo-mark"></div>
+        <div class="topbar-title-block">
+          <div class="topbar-title">
+            <div class="topbar-main">MIDNIGHT BLACK</div>
+            <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-table-meta">
+        <div class="pill" id="tableName">Стол #MB-001</div>
+        <div class="pill" id="tablePlayers">6 / 6 игроков</div>
       </div>
     </div>
-    <div class="topbar-right">
-      <div class="pill pill-compact" id="tableName">Стол #MB-001</div>
-      <div class="pill pill-compact" id="tablePlayers">6 / 6 игроков</div>
-      <button class="btn btn-ghost" id="btnSettings">Настройки</button>
+    <div class="topbar-actions">
       <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
+      <button class="btn btn-ghost" id="btnSettings">Настройки</button>
     </div>
   </header>
 
@@ -966,31 +1006,49 @@
             <div id="sidePots"></div>
           </div>
 
-          <!-- Сиденья вокруг стола -->
+          <!-- Сиденья -->
           <div id="players">
             <div class="seat seat-1" data-seat="1">
-              <span class="seat-name">Seat 1</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P1</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 1</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
             <div class="seat seat-2" data-seat="2">
-              <span class="seat-name">Seat 2</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P2</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 2</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
             <div class="seat seat-3" data-seat="3">
-              <span class="seat-name">Seat 3</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P3</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 3</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
             <div class="seat seat-4" data-seat="4">
-              <span class="seat-name">Seat 4</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P4</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 4</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
             <div class="seat seat-5" data-seat="5">
-              <span class="seat-name">Seat 5</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P5</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 5</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
             <div class="seat seat-6" data-seat="6">
-              <span class="seat-name">Seat 6</span>
-              <span class="seat-stack">0</span>
+              <div class="seat-avatar">P6</div>
+              <div class="seat-info">
+                <div class="seat-name">Seat 6</div>
+                <div class="seat-stack">0</div>
+              </div>
             </div>
           </div>
 
@@ -1088,6 +1146,28 @@
     </section>
   </main>
 </div>
+
+<!-- авто-скрытие надписи "Банк", если 0 или пусто -->
+<script>
+(function () {
+  var potEl = document.getElementById('pot');
+  if (!potEl) return;
+  var amountEl = potEl.querySelector('span');
+  function refreshPotVisibility() {
+    if (!amountEl) return;
+    var v = (amountEl.textContent || '').trim();
+    var num = parseFloat(v.replace(/\s+/g, ''));
+    if (!v || !isFinite(num) || num <= 0) {
+      potEl.style.display = 'none';
+    } else {
+      potEl.style.display = 'block';
+    }
+  }
+  refreshPotVisibility();
+  var obs = new MutationObserver(refreshPotVisibility);
+  obs.observe(amountEl, { childList: true, characterData: true, subtree: true });
+})();
+</script>
 
 <!-- твой js -->
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
