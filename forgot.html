@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poker Room – Восстановление пароля</title>
+  <!-- Можешь подключить общий файл стилей, если объединишь CSS -->
+  <link rel="stylesheet" href="forgot.css" />
+</head>
+<body>
+
+<div class="container">
+
+  <div class="form-box">
+
+    <h1 class="title">Восстановление пароля</h1>
+
+    <p class="subtitle">
+      Введите Email или логин, мы отправим ссылку<br/>
+      для восстановления пароля (или код подтверждения).
+    </p>
+
+    <form id="forgotForm">
+      <label>Логин или Email</label>
+      <input type="text" id="identifier" required>
+
+      <button type="submit" class="neon-btn">Отправить ссылку</button>
+    </form>
+
+    <div class="switch">
+      Вспомнили пароль? <a href="/login">Вернуться ко входу</a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+document.getElementById("forgotForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const identifier = document.getElementById("identifier").value.trim();
+    if (!identifier) return;
+
+    const payload = { identifier };
+
+    // Здесь вместо console.log — твой запрос на backend:
+    // fetch('/api/auth/forgot', { method:'POST', headers:{...}, body: JSON.stringify(payload) })
+    console.log("Forgot password payload:", payload);
+
+    // Можешь заменить на красивый тост/модалку
+    alert("Если такой аккаунт существует, на него будет отправлена инструкция по восстановлению.");
+});
+</script>
+
+</body>
+</html>
