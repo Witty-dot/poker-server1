@@ -119,15 +119,6 @@
       text-transform: uppercase;
     }
 
-    .topbar-center {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 12px;
-      color: var(--text-muted);
-      justify-content: center;
-    }
-
     .pill {
       padding: 4px 9px;
       border-radius: 999px;
@@ -135,10 +126,17 @@
       background: rgba(10, 10, 20, 0.85);
     }
 
+    .pill-compact {
+      font-size: 11px;
+      padding: 3px 7px;
+    }
+
     .topbar-right {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .btn {
@@ -189,7 +187,7 @@
       min-height: 0;
     }
 
-    /* TABLE BLOCK (ВСЕГДА СВЕРХУ) */
+    /* TABLE BLOCK */
 
     .table-wrap {
       flex: 0 0 auto;
@@ -219,9 +217,9 @@
       padding-inline: 4px 6px;
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .table-top-left {
@@ -241,15 +239,15 @@
 
     .table-top-right {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
     }
 
     .mini-pill {
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 2px 7px;
+      padding: 1px 7px;
       font-size: 11px;
       color: var(--text-muted);
       background: rgba(5, 5, 15, 0.9);
@@ -262,7 +260,7 @@
       min-height: 220px;
     }
 
-    /* СТОЛ */
+    /* POKER TABLE */
 
     .poker-table {
       width: 100%;
@@ -307,6 +305,7 @@
       text-transform: uppercase;
       color: rgba(245, 245, 255, 0.95);
       white-space: nowrap;
+      pointer-events: none;
     }
 
     .table-logo span {
@@ -317,13 +316,13 @@
       margin-top: 3px;
     }
 
-    /* POT */
+    /* POT / BOARD / SIDE POTS */
 
     #pot {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateY(-12px);
+      transform: translate(-50%, -50%) translateY(-18px);
       font-size: 12px;
       color: rgba(221, 223, 255, 0.9);
       text-align: center;
@@ -334,15 +333,23 @@
       color: #f5f5ff;
     }
 
-    /* COMMUNITY CARDS */
-
     #board {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) translateY(26px);
+      transform: translate(-50%, -50%) translateY(16px);
       display: flex;
       gap: 6px;
+    }
+
+    #sidePots {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(46px);
+      font-size: 11px;
+      color: rgba(200, 203, 255, 0.9);
+      text-align: center;
     }
 
     .card {
@@ -382,16 +389,18 @@
     .card.red { color: #d41245; }
     .card.black { color: #16162a; }
 
-    /* SEATS / PLAYERS */
+    /* PLAYERS AROUND TABLE */
 
     #players {
-      /* контейнер для JS, сами сиденья — готовы под 6-max */
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
 
     .seat {
       position: absolute;
-      width: 70px;
-      height: 28px;
+      width: 76px;
+      height: 30px;
       border-radius: 999px;
       background: rgba(5, 5, 15, 0.96);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -405,12 +414,13 @@
       gap: 4px;
       overflow: hidden;
       white-space: nowrap;
+      pointer-events: auto;
     }
 
     .seat-name {
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 40px;
+      max-width: 44px;
     }
 
     .seat-stack {
@@ -427,22 +437,54 @@
       color: #e2e2ff;
     }
 
-    /* seat positions (6-max) */
-    .seat-1 { top: 5%; left: 50%; transform: translateX(-50%); }
-    .seat-2 { top: 23%; right: 6%; }
-    .seat-3 { bottom: 23%; right: 6%; }
-    .seat-4 { bottom: 5%; left: 50%; transform: translateX(-50%); }
-    .seat-5 { bottom: 23%; left: 6%; }
-    .seat-6 { top: 23%; left: 6%; }
+    /* 6-max seats around */
+
+    .seat-1 {
+      top: 6%;
+      left: 50%;
+      transform: translate(-50%, -110%);
+    }
+
+    .seat-2 {
+      top: 30%;
+      right: 4%;
+      transform: translate(110%, -50%);
+    }
+
+    .seat-3 {
+      bottom: 30%;
+      right: 4%;
+      transform: translate(110%, 50%);
+    }
+
+    .seat-4 {
+      bottom: 6%;
+      left: 50%;
+      transform: translate(-50%, 110%);
+    }
+
+    .seat-5 {
+      bottom: 30%;
+      left: 4%;
+      transform: translate(-110%, 50%);
+    }
+
+    .seat-6 {
+      top: 30%;
+      left: 4%;
+      transform: translate(-110%, -50%);
+    }
+
+    /* DEALER CHIP */
 
     .dealer-chip {
       position: absolute;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.8);
       background: rgba(5, 5, 15, 0.95);
-      font-size: 9px;
+      font-size: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -450,12 +492,12 @@
       box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
     }
 
-    .dealer-1 { top: 18%; left: 52%; }
-    .dealer-2 { top: 27%; right: 17%; }
-    .dealer-3 { bottom: 27%; right: 17%; }
-    .dealer-4 { bottom: 18%; left: 52%; }
-    .dealer-5 { bottom: 27%; left: 17%; }
-    .dealer-6 { top: 27%; left: 17%; }
+    .dealer-1 { top: 12%; left: 50%; transform: translate(-50%, -50%); }
+    .dealer-2 { top: 32%; right: 11%; transform: translate(50%, -50%); }
+    .dealer-3 { bottom: 32%; right: 11%; transform: translate(50%, 50%); }
+    .dealer-4 { bottom: 12%; left: 50%; transform: translate(-50%, 50%); }
+    .dealer-5 { bottom: 32%; left: 11%; transform: translate(-50%, 50%); }
+    .dealer-6 { top: 32%; left: 11%; transform: translate(-50%, -50%); }
 
     /* BOTTOM ACTION PANEL */
 
@@ -746,7 +788,15 @@
       box-shadow: 0 0 24px rgba(255, 215, 0, 0.9);
     }
 
-    /* CHAT / HISTORY BLOCK (НИЖЕ СТОЛА И КНОПОК) */
+    /* фикс отступов для Check / Call */
+    #checkCallButton {
+      padding: 8px 16px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CHAT / HISTORY BLOCK */
 
     .side-panel {
       flex: 1 1 auto;
@@ -847,19 +897,15 @@
       cursor: pointer;
     }
 
-    /* MOBILE TWEAKS */
+    /* MOBILE */
 
     @media (max-width: 768px) {
       .hero-row {
         grid-template-columns: minmax(0, 1fr);
       }
-
       #hand {
         margin-left: 0;
       }
-    }
-
-    @media (max-width: 600px) {
       .topbar {
         flex-wrap: wrap;
       }
@@ -877,11 +923,9 @@
         <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
       </div>
     </div>
-    <div class="topbar-center">
-      <div class="pill" id="tableName">Стол #MB-001</div>
-      <div class="pill" id="tablePlayers">6 / 6 игроков</div>
-    </div>
     <div class="topbar-right">
+      <div class="pill pill-compact" id="tableName">Стол #MB-001</div>
+      <div class="pill pill-compact" id="tablePlayers">6 / 6 игроков</div>
       <button class="btn btn-ghost" id="btnSettings">Настройки</button>
       <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
     </div>
@@ -889,7 +933,7 @@
 
   <!-- MAIN -->
   <main class="main">
-    <!-- СТОЛ -->
+    <!-- TABLE -->
     <section class="table-wrap">
       <div class="table-top-info">
         <div class="table-top-left">
@@ -916,49 +960,49 @@
             </div>
 
             <!-- Борд -->
-            <div id="board">
-              <!-- index.js будет рендерить сюда карты .card -->
-            </div>
+            <div id="board"></div>
 
-            <!-- Игроки -->
-            <div id="players">
-              <div class="seat seat-1" data-seat="1">
-                <span class="seat-name">Seat 1</span>
-                <span class="seat-stack">0</span>
-              </div>
-              <div class="seat seat-2" data-seat="2">
-                <span class="seat-name">Seat 2</span>
-                <span class="seat-stack">0</span>
-              </div>
-              <div class="seat seat-3" data-seat="3">
-                <span class="seat-name">Seat 3</span>
-                <span class="seat-stack">0</span>
-              </div>
-              <div class="seat seat-4" data-seat="4">
-                <span class="seat-name">Seat 4</span>
-                <span class="seat-stack">0</span>
-              </div>
-              <div class="seat seat-5" data-seat="5">
-                <span class="seat-name">Seat 5</span>
-                <span class="seat-stack">0</span>
-              </div>
-              <div class="seat seat-6" data-seat="6">
-                <span class="seat-name">Seat 6</span>
-                <span class="seat-stack">0</span>
-              </div>
-            </div>
-
-            <!-- Фишка дилера (index.js может менять классы dealer-X) -->
-            <div class="dealer-chip dealer-1" id="dealerChip">D</div>
+            <!-- Сайд-поты -->
+            <div id="sidePots"></div>
           </div>
+
+          <!-- Сиденья вокруг стола -->
+          <div id="players">
+            <div class="seat seat-1" data-seat="1">
+              <span class="seat-name">Seat 1</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-2" data-seat="2">
+              <span class="seat-name">Seat 2</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-3" data-seat="3">
+              <span class="seat-name">Seat 3</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-4" data-seat="4">
+              <span class="seat-name">Seat 4</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-5" data-seat="5">
+              <span class="seat-name">Seat 5</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-6" data-seat="6">
+              <span class="seat-name">Seat 6</span>
+              <span class="seat-stack">0</span>
+            </div>
+          </div>
+
+          <!-- Фишка дилера -->
+          <div class="dealer-chip dealer-1" id="dealerChip">D</div>
         </div>
       </div>
     </section>
 
-    <!-- КНОПКИ / ХОД ИГРОКА -->
+    <!-- HERO + ACTIONS -->
     <section class="bottom-panel">
       <div class="hero-row">
-        <!-- Hero info + cards -->
         <div class="hero-info">
           <div class="hero-avatar" id="heroAvatar">MB</div>
           <div class="hero-meta">
@@ -976,7 +1020,6 @@
           </div>
         </div>
 
-        <!-- Панель действий -->
         <div class="action-panel">
           <div class="bet-row">
             <div class="bet-slider-wrap">
@@ -1020,10 +1063,15 @@
             <button class="action-btn action-allin" id="allInButton">All-in</button>
           </div>
         </div>
+
+        <div class="hero-meta" style="justify-self:flex-end; font-size:11px;">
+          <div id="heroPosition">Позиция: BTN</div>
+          <div id="heroLastAction">Ваш ход</div>
+        </div>
       </div>
     </section>
 
-    <!-- ЧАТ / ИСТОРИЯ -->
+    <!-- CHAT / HISTORY -->
     <section class="side-panel">
       <div class="side-tabs">
         <button class="side-tab-btn side-tab-btn-active" id="tabChat">Чат</button>
@@ -1031,9 +1079,7 @@
       </div>
 
       <div class="side-body">
-        <div id="chat">
-          <!-- index.js может уже пушить сюда строки -->
-        </div>
+        <div id="chat"></div>
         <div class="chat-input-row">
           <input class="input" id="chatInput" placeholder="Сообщение в чат..." />
           <button class="chat-send" id="chatSend">⮞</button>
@@ -1043,7 +1089,7 @@
   </main>
 </div>
 
-<!-- ТВОЙ JS -->
+<!-- твой js -->
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script src="/index.js"></script>
 </body>
