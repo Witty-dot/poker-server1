@@ -17,9 +17,6 @@
       --text-main: #f5f5f5;
       --text-muted: #9a9aad;
       --border-soft: rgba(255, 255, 255, 0.08);
-      --card-bg: rgba(10, 10, 20, 0.92);
-      --radius-lg: 18px;
-      --radius-md: 12px;
       --shadow-soft: 0 0 50px rgba(0, 0, 0, 0.9);
     }
 
@@ -40,15 +37,15 @@
       color: var(--text-main);
     }
 
-    .mb-page {
+    .page {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
-    /* TOP BAR / HEADER */
+    /* HEADER / TOPBAR */
 
-    .mb-topbar {
+    .topbar {
       padding: 10px 16px;
       display: flex;
       align-items: center;
@@ -66,15 +63,15 @@
       z-index: 10;
     }
 
-    .mb-topbar-left {
+    .topbar-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .mb-logo-mark {
-      width: 28px;
-      height: 28px;
+    .logo-mark {
+      width: 26px;
+      height: 26px;
       border-radius: 999px;
       background: conic-gradient(
         from 210deg,
@@ -91,7 +88,7 @@
       overflow: hidden;
     }
 
-    .mb-logo-mark::after {
+    .logo-mark::after {
       content: "";
       position: absolute;
       inset: 26%;
@@ -103,48 +100,48 @@
       );
     }
 
-    .mb-topbar-title {
+    .topbar-title {
       display: flex;
       flex-direction: column;
       gap: 1px;
     }
 
-    .mb-topbar-main {
+    .topbar-main {
       font-size: 13px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
-    .mb-topbar-sub {
+    .topbar-sub {
       font-size: 11px;
       color: var(--text-muted);
-      letter-spacing: 0.22em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
     }
 
-    .mb-topbar-center {
+    .topbar-center {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 10px;
       font-size: 12px;
       color: var(--text-muted);
       justify-content: center;
     }
 
-    .mb-topbar-pill {
+    .pill {
       padding: 4px 9px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(10, 10, 20, 0.85);
     }
 
-    .mb-topbar-right {
+    .topbar-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .mb-btn {
+    .btn {
       border-radius: 999px;
       border: 1px solid transparent;
       padding: 6px 14px;
@@ -159,62 +156,53 @@
       white-space: nowrap;
     }
 
-    .mb-btn-ghost {
+    .btn-ghost {
       border-color: rgba(255, 255, 255, 0.18);
       background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), transparent);
       color: var(--text-muted);
     }
 
-    .mb-btn-ghost:hover {
+    .btn-ghost:hover {
       color: var(--text-main);
       border-color: rgba(255, 255, 255, 0.35);
     }
 
-    .mb-btn-leave {
+    .btn-leave {
       border-color: rgba(255, 65, 111, 0.55);
       color: #ffd7e2;
       background: radial-gradient(circle at 0 0, rgba(255, 65, 111, 0.2), transparent);
     }
 
-    .mb-btn-leave:hover {
+    .btn-leave:hover {
       box-shadow: 0 0 18px rgba(255, 65, 111, 0.6);
       transform: translateY(-1px);
     }
 
-    /* MAIN LAYOUT */
+    /* MAIN */
 
-    .mb-main {
+    .main {
       flex: 1;
       display: flex;
       flex-direction: column;
       padding: 8px 10px 12px;
       gap: 8px;
-    }
-
-    .mb-main-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3.5fr) minmax(260px, 1.3fr);
-      gap: 10px;
-      height: 100%;
       min-height: 0;
     }
 
-    /* TABLE AREA */
+    /* TABLE BLOCK (ВСЕГДА СВЕРХУ) */
 
-    .mb-table-wrap {
+    .table-wrap {
+      flex: 0 0 auto;
       border-radius: 24px;
       background: radial-gradient(circle at top, #18182b, #050509 60%);
       border: 1px solid rgba(255, 255, 255, 0.06);
       box-shadow: var(--shadow-soft);
-      padding: 14px 10px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      padding: 12px 10px 16px;
       position: relative;
       overflow: hidden;
     }
 
-    .mb-table-wrap::after {
+    .table-wrap::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -224,23 +212,26 @@
       mix-blend-mode: screen;
     }
 
-    .mb-table-top-info {
+    .table-top-info {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-inline: 6px;
+      padding-inline: 4px 6px;
       font-size: 12px;
       color: var(--text-muted);
-    }
-
-    .mb-table-top-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      margin-bottom: 8px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .mb-dot-live {
+    .table-top-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .dot-live {
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -248,36 +239,36 @@
       box-shadow: 0 0 10px rgba(53, 212, 155, 0.9);
     }
 
-    .mb-table-top-right {
+    .table-top-right {
       display: flex;
-      gap: 10px;
       align-items: center;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .mb-mini-pill {
+    .mini-pill {
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 3px 8px;
+      padding: 2px 7px;
       font-size: 11px;
       color: var(--text-muted);
       background: rgba(5, 5, 15, 0.9);
     }
 
-    /* POKER TABLE ITSELF */
-
-    .mb-table-center {
-      flex: 1;
+    .table-center {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 260px;
+      min-height: 220px;
     }
 
-    .mb-poker-table {
+    /* СТОЛ */
+
+    .poker-table {
       width: 100%;
       max-width: 820px;
       aspect-ratio: 2.3 / 1;
+      max-height: 45vh;
       border-radius: 999px;
       background:
         radial-gradient(circle at 50% -40%, rgba(255, 255, 255, 0.18), transparent 60%),
@@ -293,7 +284,7 @@
       overflow: hidden;
     }
 
-    .mb-poker-table-inner {
+    .poker-table-inner {
       width: 80%;
       height: 60%;
       border-radius: 999px;
@@ -305,7 +296,7 @@
       position: relative;
     }
 
-    .mb-table-logo {
+    .table-logo {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -318,7 +309,7 @@
       white-space: nowrap;
     }
 
-    .mb-table-logo span {
+    .table-logo span {
       display: block;
       font-size: 9px;
       letter-spacing: 0.3em;
@@ -326,9 +317,26 @@
       margin-top: 3px;
     }
 
+    /* POT */
+
+    #pot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(-12px);
+      font-size: 12px;
+      color: rgba(221, 223, 255, 0.9);
+      text-align: center;
+    }
+
+    #pot span {
+      font-weight: 600;
+      color: #f5f5ff;
+    }
+
     /* COMMUNITY CARDS */
 
-    .mb-community-cards {
+    #board {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -337,7 +345,7 @@
       gap: 6px;
     }
 
-    .mb-card {
+    .card {
       width: 28px;
       height: 38px;
       border-radius: 6px;
@@ -348,7 +356,7 @@
       overflow: hidden;
     }
 
-    .mb-card::after {
+    .card::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -356,7 +364,7 @@
       mix-blend-mode: multiply;
     }
 
-    .mb-card-rank {
+    .card-rank {
       position: absolute;
       left: 4px;
       top: 3px;
@@ -364,41 +372,23 @@
       font-weight: 600;
     }
 
-    .mb-card-suit {
+    .card-suit {
       position: absolute;
       right: 4px;
       bottom: 3px;
       font-size: 9px;
     }
 
-    .mb-card.red {
-      color: #d41245;
+    .card.red { color: #d41245; }
+    .card.black { color: #16162a; }
+
+    /* SEATS / PLAYERS */
+
+    #players {
+      /* контейнер для JS, сами сиденья — готовы под 6-max */
     }
 
-    .mb-card.black {
-      color: #16162a;
-    }
-
-    /* POT */
-
-    .mb-pot {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) translateY(-12px);
-      font-size: 12px;
-      color: rgba(221, 223, 255, 0.9);
-      text-align: center;
-    }
-
-    .mb-pot span {
-      font-weight: 600;
-      color: #f5f5ff;
-    }
-
-    /* SEATS */
-
-    .mb-seat {
+    .seat {
       position: absolute;
       width: 70px;
       height: 28px;
@@ -417,19 +407,19 @@
       white-space: nowrap;
     }
 
-    .mb-seat-name {
+    .seat-name {
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 40px;
     }
 
-    .mb-seat-stack {
+    .seat-stack {
       font-weight: 600;
       color: #f5f5ff;
       font-size: 11px;
     }
 
-    .mb-seat-active {
+    .seat-active {
       border-color: var(--accent-strong);
       box-shadow:
         0 0 16px rgba(111, 122, 255, 0.75),
@@ -437,7 +427,15 @@
       color: #e2e2ff;
     }
 
-    .mb-seat-dealer {
+    /* seat positions (6-max) */
+    .seat-1 { top: 5%; left: 50%; transform: translateX(-50%); }
+    .seat-2 { top: 23%; right: 6%; }
+    .seat-3 { bottom: 23%; right: 6%; }
+    .seat-4 { bottom: 5%; left: 50%; transform: translateX(-50%); }
+    .seat-5 { bottom: 23%; left: 6%; }
+    .seat-6 { top: 23%; left: 6%; }
+
+    .dealer-chip {
       position: absolute;
       width: 16px;
       height: 16px;
@@ -452,124 +450,17 @@
       box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
     }
 
-    /* seat positions 6-max */
-    .mb-seat-1 { top: 5%; left: 50%; transform: translateX(-50%); }
-    .mb-seat-2 { top: 23%; right: 6%; }
-    .mb-seat-3 { bottom: 23%; right: 6%; }
-    .mb-seat-4 { bottom: 5%; left: 50%; transform: translateX(-50%); }
-    .mb-seat-5 { bottom: 23%; left: 6%; }
-    .mb-seat-6 { top: 23%; left: 6%; }
+    .dealer-1 { top: 18%; left: 52%; }
+    .dealer-2 { top: 27%; right: 17%; }
+    .dealer-3 { bottom: 27%; right: 17%; }
+    .dealer-4 { bottom: 18%; left: 52%; }
+    .dealer-5 { bottom: 27%; left: 17%; }
+    .dealer-6 { top: 27%; left: 17%; }
 
-    .mb-dealer-1 { top: 18%; left: 52%; }
-    .mb-dealer-2 { top: 27%; right: 17%; }
-    .mb-dealer-3 { bottom: 27%; right: 17%; }
-    .mb-dealer-4 { bottom: 18%; left: 52%; }
-    .mb-dealer-5 { bottom: 27%; left: 17%; }
-    .mb-dealer-6 { top: 27%; left: 17%; }
+    /* BOTTOM ACTION PANEL */
 
-    /* SIDE PANEL: CHAT / INFO */
-
-    .mb-side-panel {
-      border-radius: 20px;
-      background: radial-gradient(circle at top, #171725, #050509 70%);
-      border: 1px solid var(--border-soft);
-      box-shadow: var(--shadow-soft);
-      padding: 10px 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-height: 0;
-    }
-
-    .mb-side-tabs {
-      display: flex;
-      gap: 6px;
-      font-size: 12px;
-    }
-
-    .mb-side-tab-btn {
-      flex: 1;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      padding: 5px 8px;
-      cursor: pointer;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .mb-side-tab-btn-active {
-      background: rgba(10, 10, 24, 0.96);
-      border-color: rgba(255, 255, 255, 0.18);
-      color: #f5f5ff;
-    }
-
-    .mb-side-body {
-      flex: 1;
-      border-radius: 14px;
-      background: rgba(5, 5, 15, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      min-height: 0;
-    }
-
-    .mb-chat-log {
-      flex: 1;
-      overflow-y: auto;
-      font-size: 11px;
-      color: var(--text-muted);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .mb-chat-line-hero {
-      color: #e2e2ff;
-    }
-
-    .mb-chat-line-system {
-      color: #8fd4ff;
-    }
-
-    .mb-chat-input-row {
-      display: flex;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .mb-input {
-      flex: 1;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(10, 10, 22, 0.95);
-      padding: 5px 10px;
-      font-size: 11px;
-      color: var(--text-main);
-    }
-
-    .mb-input:focus {
-      outline: none;
-      border-color: var(--accent-strong);
-      box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
-    }
-
-    .mb-chat-send {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.24), transparent);
-      font-size: 11px;
-      color: #f5f5ff;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    /* BOTTOM PLAYER PANEL */
-
-    .mb-bottom-panel {
-      margin-top: 4px;
+    .bottom-panel {
+      flex: 0 0 auto;
       border-radius: 18px;
       background: radial-gradient(circle at 0 0, #18182a, #050509 70%);
       border: 1px solid rgba(255, 255, 255, 0.07);
@@ -580,22 +471,26 @@
       gap: 8px;
     }
 
-    .mb-hero-row {
+    .hero-row {
       display: grid;
-      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr) minmax(0, 2fr);
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr);
       gap: 10px;
       align-items: center;
     }
 
-    /* HERO INFO + CARDS */
+    @media (min-width: 900px) {
+      .hero-row {
+        grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr) minmax(0, 2fr);
+      }
+    }
 
-    .mb-hero-info {
+    .hero-info {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .mb-hero-avatar {
+    .hero-avatar {
       width: 40px;
       height: 40px;
       border-radius: 999px;
@@ -611,27 +506,27 @@
       text-transform: uppercase;
     }
 
-    .mb-hero-meta {
+    .hero-meta {
       display: flex;
       flex-direction: column;
       gap: 2px;
       font-size: 12px;
     }
 
-    .mb-hero-name {
+    .hero-name {
       font-weight: 500;
     }
 
-    .mb-hero-stack {
+    .hero-stack {
       font-size: 13px;
       font-weight: 600;
     }
 
-    .mb-hero-stack span {
+    .hero-stack span {
       color: var(--success);
     }
 
-    .mb-timebank {
+    .timebank {
       margin-top: 3px;
       height: 4px;
       border-radius: 999px;
@@ -639,20 +534,20 @@
       overflow: hidden;
     }
 
-    .mb-timebank-fill {
+    .timebank-fill {
       height: 100%;
       width: 70%;
       background: linear-gradient(90deg, var(--success), var(--accent));
       box-shadow: 0 0 10px rgba(111, 122, 255, 0.7);
     }
 
-    .mb-hero-cards {
+    #hand {
       display: flex;
       gap: 6px;
       margin-left: auto;
     }
 
-    .mb-hero-card {
+    .hero-card-slot {
       width: 34px;
       height: 46px;
       border-radius: 8px;
@@ -663,35 +558,9 @@
       overflow: hidden;
     }
 
-    .mb-hero-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent 60%);
-      mix-blend-mode: multiply;
-    }
-
-    .mb-hero-card-rank {
-      position: absolute;
-      left: 5px;
-      top: 4px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .mb-hero-card-suit {
-      position: absolute;
-      right: 5px;
-      bottom: 4px;
-      font-size: 11px;
-    }
-
-    .mb-hero-card.red { color: #d41245; }
-    .mb-hero-card.black { color: #16162a; }
-
     /* ACTION PANEL */
 
-    .mb-action-panel {
+    .action-panel {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -701,31 +570,31 @@
       padding: 7px 9px;
     }
 
-    .mb-bet-row {
+    .bet-row {
       display: grid;
       grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.6fr);
       gap: 8px;
       align-items: center;
     }
 
-    .mb-bet-slider-wrap {
+    .bet-slider-wrap {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .mb-bet-label-row {
+    .bet-label-row {
       display: flex;
       justify-content: space-between;
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    .mb-range {
+    .range {
       width: 100%;
     }
 
-    input[type="range"].mb-range {
+    input[type="range"].range {
       -webkit-appearance: none;
       appearance: none;
       height: 4px;
@@ -734,7 +603,7 @@
       outline: none;
     }
 
-    input[type="range"].mb-range::-webkit-slider-thumb {
+    input[type="range"].range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 14px;
@@ -747,7 +616,7 @@
       margin-top: -5px;
     }
 
-    input[type="range"].mb-range::-moz-range-thumb {
+    input[type="range"].range::-moz-range-thumb {
       width: 14px;
       height: 14px;
       border-radius: 50%;
@@ -757,13 +626,13 @@
       cursor: pointer;
     }
 
-    .mb-bet-input-wrap {
+    .bet-input-wrap {
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .mb-bet-input {
+    #betAmount {
       flex: 1;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -774,26 +643,26 @@
       min-width: 0;
     }
 
-    .mb-bet-input:focus {
+    #betAmount:focus {
       outline: none;
       border-color: var(--accent-strong);
       box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
     }
 
-    .mb-bet-currency {
+    .bet-currency {
       font-size: 11px;
       color: var(--text-muted);
       white-space: nowrap;
     }
 
-    .mb-bet-presets {
+    .bet-presets {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
       font-size: 11px;
     }
 
-    .mb-preset-btn {
+    .preset-btn {
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.13);
       background: rgba(10, 10, 24, 0.9);
@@ -802,23 +671,23 @@
       cursor: pointer;
     }
 
-    .mb-preset-btn-ghost {
+    .preset-btn-ghost {
       border-color: rgba(255, 255, 255, 0.08);
       color: var(--text-muted);
     }
 
-    .mb-preset-btn:hover {
+    .preset-btn:hover {
       border-color: rgba(255, 255, 255, 0.22);
     }
 
-    .mb-actions-row {
+    .actions-row {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 6px;
       margin-top: 4px;
     }
 
-    .mb-action-btn {
+    .action-btn {
       border-radius: 999px;
       border: 1px solid transparent;
       padding: 7px 10px;
@@ -830,428 +699,352 @@
       transition: all 0.15s ease-out;
     }
 
-    .mb-action-folid {
+    .action-fold {
       background: radial-gradient(circle at 0 0, rgba(255, 65, 111, 0.25), #2b0b16);
       border-color: rgba(255, 65, 111, 0.7);
       color: #ffe5ef;
       box-shadow: 0 0 16px rgba(255, 65, 111, 0.55);
     }
 
-    .mb-action-folid:hover {
+    .action-fold:hover {
       transform: translateY(-1px);
       box-shadow: 0 0 22px rgba(255, 65, 111, 0.8);
     }
 
-    .mb-action-check {
+    .action-check {
       background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), #10101a);
       border-color: rgba(255, 255, 255, 0.2);
       color: #f5f5ff;
     }
 
-    .mb-action-check:hover {
+    .action-check:hover {
       border-color: rgba(255, 255, 255, 0.4);
     }
 
-    .mb-action-bet {
+    .action-bet {
       background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.35), #282a68);
       border-color: rgba(111, 122, 255, 0.85);
       color: #050509;
       box-shadow: 0 0 18px rgba(111, 122, 255, 0.8);
     }
 
-    .mb-action-bet:hover {
+    .action-bet:hover {
       transform: translateY(-1px);
       box-shadow: 0 0 24px rgba(111, 122, 255, 0.9);
       filter: brightness(1.05);
     }
 
-    .mb-bottom-toggles {
+    .action-allin {
+      background: radial-gradient(circle at 0 0, rgba(255, 215, 0, 0.25), #4a3a05);
+      border-color: rgba(255, 215, 0, 0.8);
+      color: #fff7d0;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.7);
+    }
+
+    .action-allin:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(255, 215, 0, 0.9);
+    }
+
+    /* CHAT / HISTORY BLOCK (НИЖЕ СТОЛА И КНОПОК) */
+
+    .side-panel {
+      flex: 1 1 auto;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, #171725, #050509 70%);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 12px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .side-tabs {
+      display: flex;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .side-tab-btn {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 5px 8px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .side-tab-btn-active {
+      background: rgba(10, 10, 24, 0.96);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #f5f5ff;
+    }
+
+    .side-body {
+      flex: 1;
+      border-radius: 14px;
+      background: rgba(5, 5, 15, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 0;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
       font-size: 11px;
       color: var(--text-muted);
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 2px;
-    }
-
-    .mb-toggle-group {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .mb-toggle {
-      display: inline-flex;
-      align-items: center;
+      flex-direction: column;
       gap: 4px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      cursor: pointer;
-      background: rgba(5, 5, 15, 0.9);
     }
 
-    .mb-toggle-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+    .chat-line-hero {
+      color: #e2e2ff;
     }
 
-    .mb-toggle-active .mb-toggle-dot {
-      background: var(--accent);
-      box-shadow: 0 0 10px rgba(111, 122, 255, 0.9);
+    .chat-line-system {
+      color: #8fd4ff;
     }
 
-    .mb-bottom-right-info {
+    .chat-input-row {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 4px;
     }
 
-    /* RESPONSIVE */
-
-    @media (max-width: 900px) {
-      .mb-main-grid {
-        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
-      }
-
-      .mb-hero-row {
-        grid-template-columns: minmax(0, 1.8fr) minmax(0, 2.6fr);
-      }
+    .input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 10, 22, 0.95);
+      padding: 5px 10px;
+      font-size: 11px;
+      color: var(--text-main);
     }
 
-    @media (max-width: 760px) {
-      .mb-topbar {
-        flex-wrap: wrap;
+    .input:focus {
+      outline: none;
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
+    }
+
+    .chat-send {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.24), transparent);
+      font-size: 11px;
+      color: #f5f5ff;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    /* MOBILE TWEAKS */
+
+    @media (max-width: 768px) {
+      .hero-row {
+        grid-template-columns: minmax(0, 1fr);
       }
 
-      .mb-main-grid {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-
-      .mb-side-panel {
-        max-height: 220px;
-      }
-
-      .mb-hero-row {
-        grid-template-columns: 1fr;
-      }
-
-      .mb-hero-cards {
+      #hand {
         margin-left: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar {
+        flex-wrap: wrap;
       }
     }
   </style>
 </head>
 <body>
-<div class="mb-page">
-  <!-- TOP BAR -->
-  <header class="mb-topbar">
-    <div class="mb-topbar-left">
-      <div class="mb-logo-mark"></div>
-      <div class="mb-topbar-title">
-        <div class="mb-topbar-main">MIDNIGHT BLACK</div>
-        <div class="mb-topbar-sub">TABLE · NL 50–100</div>
+<div class="page">
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-mark"></div>
+      <div class="topbar-title">
+        <div class="topbar-main">MIDNIGHT BLACK</div>
+        <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
       </div>
     </div>
-    <div class="mb-topbar-center">
-      <div class="mb-topbar-pill">Стол #MB-104</div>
-      <div class="mb-topbar-pill">6 / 6 игроков</div>
-      <div class="mb-topbar-pill">Rake: 5% · Cap 3 BB</div>
+    <div class="topbar-center">
+      <div class="pill" id="tableName">Стол #MB-001</div>
+      <div class="pill" id="tablePlayers">6 / 6 игроков</div>
     </div>
-    <div class="mb-topbar-right">
-      <button class="mb-btn mb-btn-ghost">Настройки</button>
-      <button class="mb-btn mb-btn-leave">Покинуть стол</button>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" id="btnSettings">Настройки</button>
+      <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
     </div>
   </header>
 
   <!-- MAIN -->
-  <main class="mb-main">
-    <div class="mb-main-grid">
-      <!-- TABLE AREA -->
-      <section class="mb-table-wrap">
-        <div class="mb-table-top-info">
-          <div class="mb-table-top-left">
-            <div class="mb-dot-live"></div>
-            <div>Live · Midnight Hold'em · Blind 50 / 100</div>
-          </div>
-          <div class="mb-table-top-right">
-            <div class="mb-mini-pill">Мин. бай-ин: 5 000</div>
-            <div class="mb-mini-pill">Макс. бай-ин: 50 000</div>
-          </div>
+  <main class="main">
+    <!-- СТОЛ -->
+    <section class="table-wrap">
+      <div class="table-top-info">
+        <div class="table-top-left">
+          <div class="dot-live"></div>
+          <div id="tableInfo">Live · Hold'em · Blind 50 / 100</div>
         </div>
+        <div class="table-top-right">
+          <div class="mini-pill" id="minBuyin">Мин. бай-ин: 5 000</div>
+          <div class="mini-pill" id="maxBuyin">Макс. бай-ин: 50 000</div>
+        </div>
+      </div>
 
-        <div class="mb-table-center">
-          <div class="mb-poker-table">
-            <div class="mb-poker-table-inner">
-              <div class="mb-table-logo">
-                MIDNIGHT BLACK
-                <span>POKER ROOM</span>
-              </div>
-
-              <!-- Пот -->
-              <div class="mb-pot">
-                Банк: <span id="mb-pot-amount">12 600</span> MBC
-              </div>
-
-              <!-- Коммьюнити-карты -->
-              <div class="mb-community-cards">
-                <div class="mb-card red">
-                  <div class="mb-card-rank">Q</div>
-                  <div class="mb-card-suit">♥</div>
-                </div>
-                <div class="mb-card.black">
-                  <div class="mb-card-rank">9</div>
-                  <div class="mb-card-suit">♣</div>
-                </div>
-                <div class="mb-card.red">
-                  <div class="mb-card-rank">7</div>
-                  <div class="mb-card-suit">♦</div>
-                </div>
-                <div class="mb-card.black">
-                  <div class="mb-card-rank">2</div>
-                  <div class="mb-card-suit">♠</div>
-                </div>
-                <div class="mb-card.red">
-                  <div class="mb-card-rank">K</div>
-                  <div class="mb-card-suit">♥</div>
-                </div>
-              </div>
-
-              <!-- Места игроков (пример 6-max) -->
-              <div class="mb-seat mb-seat-1 mb-seat-active">
-                <span class="mb-seat-name">Hero</span>
-                <span class="mb-seat-stack">36K</span>
-              </div>
-              <div class="mb-seat mb-seat-2">
-                <span class="mb-seat-name">NightFox</span>
-                <span class="mb-seat-stack">22K</span>
-              </div>
-              <div class="mb-seat mb-seat-3">
-                <span class="mb-seat-name">Bronze</span>
-                <span class="mb-seat-stack">18K</span>
-              </div>
-              <div class="mb-seat mb-seat-4">
-                <span class="mb-seat-name">DeepSea</span>
-                <span class="mb-seat-stack">41K</span>
-              </div>
-              <div class="mb-seat mb-seat-5">
-                <span class="mb-seat-name">MBPlayer</span>
-                <span class="mb-seat-stack">9K</span>
-              </div>
-              <div class="mb-seat mb-seat-6">
-                <span class="mb-seat-name">Shadow</span>
-                <span class="mb-seat-stack">27K</span>
-              </div>
-
-              <!-- Фишка дилера (пример на Hero) -->
-              <div class="mb-seat-dealer mb-dealer-1">D</div>
+      <div class="table-center">
+        <div class="poker-table" id="table">
+          <div class="poker-table-inner">
+            <div class="table-logo">
+              MIDNIGHT BLACK
+              <span>POKER ROOM</span>
             </div>
+
+            <!-- Пот -->
+            <div id="pot">
+              Банк: <span>0</span> MBC
+            </div>
+
+            <!-- Борд -->
+            <div id="board">
+              <!-- index.js будет рендерить сюда карты .card -->
+            </div>
+
+            <!-- Игроки -->
+            <div id="players">
+              <div class="seat seat-1" data-seat="1">
+                <span class="seat-name">Seat 1</span>
+                <span class="seat-stack">0</span>
+              </div>
+              <div class="seat seat-2" data-seat="2">
+                <span class="seat-name">Seat 2</span>
+                <span class="seat-stack">0</span>
+              </div>
+              <div class="seat seat-3" data-seat="3">
+                <span class="seat-name">Seat 3</span>
+                <span class="seat-stack">0</span>
+              </div>
+              <div class="seat seat-4" data-seat="4">
+                <span class="seat-name">Seat 4</span>
+                <span class="seat-stack">0</span>
+              </div>
+              <div class="seat seat-5" data-seat="5">
+                <span class="seat-name">Seat 5</span>
+                <span class="seat-stack">0</span>
+              </div>
+              <div class="seat seat-6" data-seat="6">
+                <span class="seat-name">Seat 6</span>
+                <span class="seat-stack">0</span>
+              </div>
+            </div>
+
+            <!-- Фишка дилера (index.js может менять классы dealer-X) -->
+            <div class="dealer-chip dealer-1" id="dealerChip">D</div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- SIDE PANEL (CHAT / HISTORY) -->
-      <aside class="mb-side-panel">
-        <div class="mb-side-tabs">
-          <button class="mb-side-tab-btn mb-side-tab-btn-active">Чат</button>
-          <button class="mb-side-tab-btn">История раздач</button>
-        </div>
-
-        <div class="mb-side-body">
-          <div class="mb-chat-log" id="mb-chat-log">
-            <div class="mb-chat-line-system">Система: Добро пожаловать за стол Midnight Black.</div>
-            <div class="mb-chat-line-hero">Вы: gl hf</div>
-            <div>NightFox: nh</div>
-            <div class="mb-chat-line-system">Система: Блайнды 50 / 100. Hero на кнопке.</div>
-          </div>
-          <div class="mb-chat-input-row">
-            <input class="mb-input" id="mb-chat-input" placeholder="Сообщение в чат..." />
-            <button class="mb-chat-send" id="mb-chat-send">⮞</button>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- BOTTOM PLAYER PANEL -->
-    <section class="mb-bottom-panel">
-      <div class="mb-hero-row">
+    <!-- КНОПКИ / ХОД ИГРОКА -->
+    <section class="bottom-panel">
+      <div class="hero-row">
         <!-- Hero info + cards -->
-        <div class="mb-hero-info">
-          <div class="mb-hero-avatar">MB</div>
-          <div class="mb-hero-meta">
-            <div class="mb-hero-name">Hero · Стол #MB-104</div>
-            <div class="mb-hero-stack">Стек: <span id="mb-hero-stack">36 200</span> MBC</div>
-            <div class="mb-timebank">
-              <div class="mb-timebank-fill"></div>
+        <div class="hero-info">
+          <div class="hero-avatar" id="heroAvatar">MB</div>
+          <div class="hero-meta">
+            <div class="hero-name" id="heroName">Hero</div>
+            <div class="hero-stack">
+              Стек: <span id="heroStack">0</span> MBC
+            </div>
+            <div class="timebank">
+              <div class="timebank-fill" id="timebankBar"></div>
             </div>
           </div>
-          <div class="mb-hero-cards">
-            <div class="mb-hero-card red">
-              <div class="mb-hero-card-rank">A</div>
-              <div class="mb-hero-card-suit">♥</div>
-            </div>
-            <div class="mb-hero-card.black">
-              <div class="mb-hero-card-rank">K</div>
-              <div class="mb-hero-card-suit">♣</div>
-            </div>
+          <div id="hand">
+            <div class="hero-card-slot" data-slot="1"></div>
+            <div class="hero-card-slot" data-slot="2"></div>
           </div>
         </div>
 
-        <!-- Action panel (slider + presets + buttons) -->
-        <div class="mb-action-panel">
-          <div class="mb-bet-row">
-            <div class="mb-bet-slider-wrap">
-              <div class="mb-bet-label-row">
+        <!-- Панель действий -->
+        <div class="action-panel">
+          <div class="bet-row">
+            <div class="bet-slider-wrap">
+              <div class="bet-label-row">
                 <span>Размер ставки</span>
-                <span id="mb-bet-percent">50%</span>
+                <span id="betPercentLabel">0%</span>
               </div>
               <input
                 type="range"
-                class="mb-range"
-                id="mb-bet-range"
+                class="range"
+                id="betRange"
                 min="0"
                 max="100"
-                value="50"
+                value="0"
               />
             </div>
-            <div class="mb-bet-input-wrap">
+            <div class="bet-input-wrap">
               <input
                 type="number"
-                class="mb-bet-input"
-                id="mb-bet-input"
+                id="betAmount"
                 min="0"
-                step="50"
-                value="6300"
+                step="10"
+                value="0"
               />
-              <div class="mb-bet-currency">MBC</div>
+              <div class="bet-currency">MBC</div>
             </div>
           </div>
 
-          <div class="mb-bet-presets">
-            <button class="mb-preset-btn-ghost mb-preset-btn" data-mb-preset="33">⅓ банка</button>
-            <button class="mb-preset-btn-ghost mb-preset-btn" data-mb-preset="50">½ банка</button>
-            <button class="mb-preset-btn-ghost mb-preset-btn" data-mb-preset="75">¾ банка</button>
-            <button class="mb-preset-btn mb-preset-btn" data-mb-preset="100">Пот</button>
-            <button class="mb-preset-btn-ghost mb-preset-btn" data-mb-preset="max">Макс</button>
+          <div class="bet-presets">
+            <button class="preset-btn-ghost preset-btn" data-bet-preset="33">⅓ банка</button>
+            <button class="preset-btn-ghost preset-btn" data-bet-preset="50">½ банка</button>
+            <button class="preset-btn-ghost preset-btn" data-bet-preset="75">¾ банка</button>
+            <button class="preset-btn preset-btn" data-bet-preset="100">Пот</button>
+            <button class="preset-btn-ghost preset-btn" data-bet-preset="max">Макс</button>
           </div>
 
-          <div class="mb-actions-row">
-            <button class="mb-action-btn mb-action-folid">Fold</button>
-            <button class="mb-action-btn mb-action-check" id="mb-check-call">Check / Call 100</button>
-            <button class="mb-action-btn mb-action-bet" id="mb-bet-raise">Bet 6 300</button>
+          <div class="actions-row" id="actions">
+            <button class="action-btn action-fold" id="foldButton">Fold</button>
+            <button class="action-btn action-check" id="checkCallButton">Check / Call</button>
+            <button class="action-btn action-bet" id="betRaiseButton">Bet / Raise</button>
+            <button class="action-btn action-allin" id="allInButton">All-in</button>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Additional info / options -->
-        <div class="mb-bottom-right-info">
-          <div class="mb-toggle-group">
-            <div class="mb-toggle mb-toggle-active">
-              <div class="mb-toggle-dot"></div>
-              Авто-макер
-            </div>
-            <div class="mb-toggle">
-              <div class="mb-toggle-dot"></div>
-              Sit out next BB
-            </div>
-            <div class="mb-toggle">
-              <div class="mb-toggle-dot"></div>
-              Авто-ребай
-            </div>
-          </div>
+    <!-- ЧАТ / ИСТОРИЯ -->
+    <section class="side-panel">
+      <div class="side-tabs">
+        <button class="side-tab-btn side-tab-btn-active" id="tabChat">Чат</button>
+        <button class="side-tab-btn" id="tabHistory">История раздач</button>
+      </div>
+
+      <div class="side-body">
+        <div id="chat">
+          <!-- index.js может уже пушить сюда строки -->
+        </div>
+        <div class="chat-input-row">
+          <input class="input" id="chatInput" placeholder="Сообщение в чат..." />
+          <button class="chat-send" id="chatSend">⮞</button>
         </div>
       </div>
     </section>
   </main>
 </div>
 
-<script>
-  // Простая логика синхронизации слайдера и инпута (без реальной игры)
-  (function () {
-    const potEl = document.getElementById('mb-pot-amount');
-    const range = document.getElementById('mb-bet-range');
-    const input = document.getElementById('mb-bet-input');
-    const percentLabel = document.getElementById('mb-bet-percent');
-    const betButton = document.getElementById('mb-bet-raise');
-    const presetButtons = document.querySelectorAll('.mb-preset-btn');
-    const chatInput = document.getElementById('mb-chat-input');
-    const chatSend = document.getElementById('mb-chat-send');
-    const chatLog = document.getElementById('mb-chat-log');
-
-    function getPot() {
-      const raw = potEl.textContent.replace(/\s/g, '');
-      const value = parseInt(raw, 10);
-      return isNaN(value) ? 0 : value;
-    }
-
-    function formatNumber(n) {
-      return n.toLocaleString('ru-RU');
-    }
-
-    function updateFromRange() {
-      const pot = getPot();
-      const percent = parseInt(range.value, 10);
-      percentLabel.textContent = percent + '%';
-      const value = Math.max(0, Math.round(pot * percent / 100 / 50) * 50); // шаг 50
-      input.value = value;
-      betButton.textContent = 'Bet ' + formatNumber(value);
-    }
-
-    function updateFromInput() {
-      const pot = getPot();
-      const val = Math.max(0, parseInt(input.value || '0', 10));
-      const percent = pot > 0 ? Math.round((val / pot) * 100) : 0;
-      range.value = Math.max(0, Math.min(100, percent));
-      percentLabel.textContent = range.value + '%';
-      betButton.textContent = 'Bet ' + formatNumber(val);
-    }
-
-    if (range && input && betButton && percentLabel) {
-      range.addEventListener('input', updateFromRange);
-      input.addEventListener('input', updateFromInput);
-      updateFromRange();
-    }
-
-    presetButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const pot = getPot();
-        const type = btn.getAttribute('data-mb-preset');
-        let percent = 50;
-        if (type === '33') percent = 33;
-        else if (type === '50') percent = 50;
-        else if (type === '75') percent = 75;
-        else if (type === '100') percent = 100;
-        else if (type === 'max') percent = 100;
-
-        range.value = percent;
-        updateFromRange();
-      });
-    });
-
-    function sendChatMessage() {
-      const text = (chatInput.value || '').trim();
-      if (!text) return;
-      const div = document.createElement('div');
-      div.className = 'mb-chat-line-hero';
-      div.textContent = 'Вы: ' + text;
-      chatLog.appendChild(div);
-      chatLog.scrollTop = chatLog.scrollHeight;
-      chatInput.value = '';
-    }
-
-    chatSend.addEventListener('click', sendChatMessage);
-    chatInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        sendChatMessage();
-      }
-    });
-  })();
-</script>
+<!-- ТВОЙ JS -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="/index.js"></script>
 </body>
 </html>
