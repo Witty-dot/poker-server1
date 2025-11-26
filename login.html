@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poker Room – Вход</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+
+<div class="container">
+
+  <div class="form-box">
+
+    <h1 class="title">Вход</h1>
+
+    <form id="loginForm">
+      <label>Логин или Email</label>
+      <input type="text" id="login" required>
+
+      <label>Пароль</label>
+      <input type="password" id="password" required>
+
+      <div class="row">
+        <label class="remember">
+          <input type="checkbox" id="remember" />
+          Запомнить меня
+        </label>
+
+        <a href="/forgot" class="forgot-link">Забыли пароль?</a>
+      </div>
+
+      <button type="submit" class="neon-btn">Войти</button>
+    </form>
+
+    <div class="switch">
+      Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const payload = {
+        login: document.getElementById("login").value.trim(),
+        password: document.getElementById("password").value.trim(),
+        remember: document.getElementById("remember").checked
+    };
+
+    // Тут вместо console.log делай запрос на свой backend
+    // fetch('/api/auth/login', { method: 'POST', ... })
+    console.log("Login payload:", payload);
+});
+</script>
+
+</body>
+</html>
