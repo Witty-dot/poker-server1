@@ -5,26 +5,31 @@
   <title>Midnight Black Poker – Table</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-
     :root {
       --bg-main: #050509;
       --bg-secondary: #0c0c14;
       --bg-elevated: #10101b;
       --accent: #6f7aff;
-      --accent-strong: rgba(111,122,255,0.85);
+      --accent-strong: rgba(111, 122, 255, 0.85);
       --danger: #ff416f;
       --success: #35d49b;
       --text-main: #f5f5f5;
       --text-muted: #9a9aad;
-      --border-soft: rgba(255,255,255,0.08);
-      --shadow-soft: 0 0 50px rgba(0,0,0,0.9);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --shadow-soft: 0 0 50px rgba(0, 0, 0, 0.9);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body { height: 100%; }
 
     body {
-      font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",sans-serif;
-      background: radial-gradient(circle at top,#151528 0,#050509 55%,#000 100%);
+      font-family: system-ui, -apple-system, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #151528 0, #050509 55%, #000 100%);
       color: var(--text-main);
     }
 
@@ -34,68 +39,74 @@
       flex-direction: column;
     }
 
-
-    /* ---------------- HEADER ---------------- */
+    /* -------- HEADER -------- */
 
     .topbar {
       padding: 10px 16px 12px;
-      background: linear-gradient(to bottom,
-          rgba(5,5,10,0.95),
-          rgba(5,5,10,0.8),
-          transparent
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 5, 10, 0.96),
+        rgba(5, 5, 10, 0.85),
+        transparent
       );
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 10;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* Верхняя строка */
     .topbar-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
+      min-width: 0;
     }
 
-    /* Левый блок */
     .topbar-left {
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
 
     .logo-mark {
       width: 26px;
       height: 26px;
       border-radius: 50%;
-      background: conic-gradient(from 210deg,#000,#151528,#6f7aff,#000);
-      box-shadow: 0 0 12px rgba(111,122,255,0.7);
+      background: conic-gradient(from 210deg, #000, #151528, #6f7aff, #000);
+      box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
       position: relative;
+      flex-shrink: 0;
     }
+
     .logo-mark::after {
-      content:"";
-      position:absolute;
-      inset:26%;
-      border-radius:inherit;
-      border:1px solid rgba(255,255,255,0.4);
-      background: radial-gradient(circle,rgba(255,255,255,0.2),transparent);
+      content: "";
+      position: absolute;
+      inset: 26%;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
     }
 
     .topbar-title-block {
       display: flex;
       flex-direction: column;
       gap: 2px;
+      min-width: 0;
     }
+
     .topbar-main {
       font-size: 13px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       white-space: nowrap;
     }
+
     .topbar-sub {
       font-size: 11px;
       letter-spacing: 0.2em;
@@ -104,7 +115,7 @@
       white-space: nowrap;
     }
 
-    /* Правый верхний угол: Стол + игроки */
+    /* правый верх: стол и игроки, в столбик */
     .topbar-table-meta {
       display: flex;
       flex-direction: column;
@@ -115,16 +126,17 @@
     .pill {
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(10,10,20,0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 10, 20, 0.85);
       font-size: 11px;
       white-space: nowrap;
     }
 
-    /* Нижняя строка — 2 кнопки */
+    /* нижний ряд: две кнопки */
     .topbar-actions {
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .btn {
@@ -132,7 +144,7 @@
       padding: 6px 14px;
       font-size: 12px;
       border: 1px solid transparent;
-      cursor:pointer;
+      cursor: pointer;
       background: transparent;
       color: var(--text-main);
       transition: 0.15s;
@@ -140,457 +152,614 @@
     }
 
     .btn-leave {
-      border-color: rgba(255,65,111,0.55);
-      background: radial-gradient(circle at 0 0,rgba(255,65,111,0.2),transparent);
-      color:#ffe9f1;
-    }
-    .btn-leave:hover {
-      box-shadow:0 0 14px rgba(255,65,111,0.6);
+      border-color: rgba(255, 65, 111, 0.55);
+      background: radial-gradient(circle at 0 0, rgba(255, 65, 111, 0.2), transparent);
+      color: #ffe9f1;
+      box-shadow: 0 0 14px rgba(255, 65, 111, 0.4);
     }
 
     .btn-ghost {
-      border-color: rgba(255,255,255,0.18);
+      border-color: rgba(255, 255, 255, 0.18);
       color: var(--text-muted);
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), transparent);
     }
+
     .btn-ghost:hover {
-      border-color: rgba(255,255,255,0.35);
+      border-color: rgba(255, 255, 255, 0.35);
       color: var(--text-main);
     }
 
-
-    /* ---------------- MAIN TABLE ---------------- */
+    /* -------- MAIN LAYOUT -------- */
 
     .main {
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      padding:10px;
-      gap:10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      gap: 10px;
+      min-height: 0;
     }
 
     .table-wrap {
       border-radius: 24px;
-      background: radial-gradient(circle at top,#18182b,#050509 65%);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: radial-gradient(circle at top, #18182b, #050509 65%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow: var(--shadow-soft);
       padding: 12px;
       position: relative;
     }
 
     .table-top-info {
-      display:flex;
-      justify-content:space-between;
-      font-size:12px;
-      color:var(--text-muted);
-      margin-bottom:4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      gap: 8px;
     }
 
     .table-top-left {
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+
     .dot-live {
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--success);
-      box-shadow:0 0 10px rgba(53,212,155,0.9);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(53, 212, 155, 0.9);
     }
 
     .table-top-right {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      align-items:flex-end;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-end;
     }
 
     .mini-pill {
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.1);
-      padding:1px 7px;
-      font-size:11px;
-      color:var(--text-muted);
-      background:rgba(5,5,15,0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1px 7px;
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(5, 5, 15, 0.9);
     }
 
+    .table-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* -------- TABLE + BOARD -------- */
+
     .poker-table {
-      width:100%;
-      max-width:820px;
-      aspect-ratio:2.3/1;
-      border-radius:999px;
-      margin:auto;
-      position:relative;
+      width: 100%;
+      max-width: 820px;
+      aspect-ratio: 2.3 / 1;
+      border-radius: 999px;
+      position: relative;
       background:
-        radial-gradient(circle at 50% -40%,rgba(255,255,255,0.18),transparent 60%),
-        radial-gradient(circle at 50% 130%,rgba(111,122,255,0.28),#050509 70%);
-      box-shadow:0 0 26px rgba(111,122,255,0.6);
+        radial-gradient(circle at 50% -40%, rgba(255, 255, 255, 0.18), transparent 60%),
+        radial-gradient(circle at 50% 130%, rgba(111, 122, 255, 0.28), #050509 70%);
+      box-shadow: 0 0 26px rgba(111, 122, 255, 0.6);
+      margin: auto;
+      overflow: hidden;
     }
 
     .poker-table-inner {
-      position:absolute;
-      inset:14%;
-      border-radius:999px;
-      background: radial-gradient(circle at 50% 0,rgba(255,255,255,0.06),transparent 65%),
-                  radial-gradient(circle at 50% 130%,rgba(111,122,255,0.24),#050509 80%);
-      border:1px solid rgba(255,255,255,0.15);
-      box-shadow:inset 0 0 40px rgba(0,0,0,0.9);
+      position: absolute;
+      inset: 14%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.06), transparent 65%),
+        radial-gradient(circle at 50% 130%, rgba(111, 122, 255, 0.24), #050509 80%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
     }
 
     .table-logo {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%,-50%);
-      text-align:center;
-      font-size:14px;
-      letter-spacing:0.26em;
-      color:rgba(245,245,255,0.95);
-      text-transform:uppercase;
-      pointer-events:none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.26em;
+      color: rgba(245, 245, 255, 0.95);
+      text-transform: uppercase;
+      pointer-events: none;
+      white-space: nowrap;
     }
+
     .table-logo span {
-      display:block;
-      font-size:9px;
-      margin-top:3px;
-      letter-spacing:0.3em;
-      color:rgba(192,196,255,0.85);
+      display: block;
+      font-size: 9px;
+      margin-top: 3px;
+      letter-spacing: 0.3em;
+      color: rgba(192, 196, 255, 0.85);
     }
 
-
-    /* --- POT (скрыт при 0) --- */
+    /* банк — скрыт при 0, чуть выше логотипа */
     #pot {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%,-50%) translateY(-35px);
-      font-size:12px;
-      color:rgba(230,230,255,0.9);
-      text-align:center;
-      display:none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(-30px);
+      font-size: 12px;
+      color: rgba(230, 230, 255, 0.9);
+      text-align: center;
+      display: none;
     }
 
-    /* BORAD */
+    #pot span {
+      font-weight: 600;
+      color: #fff;
+    }
+
     #board {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%, -50%) translateY(4px);
-      display:flex;
-      gap:6px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(6px);
+      display: flex;
+      gap: 6px;
     }
 
-    /* SIDE POTS */
     #sidePots {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%, -50%) translateY(40px);
-      font-size:11px;
-      color:rgba(200,203,255,0.9);
-      text-align:center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(40px);
+      font-size: 11px;
+      color: rgba(200, 203, 255, 0.9);
+      text-align: center;
     }
 
+    .card {
+      width: 28px;
+      height: 38px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 0 0, #ffffff, #e4e4f4);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
 
-    /* ---------------- SEATS (оставил как было) ---------------- */
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent 60%);
+      mix-blend-mode: multiply;
+    }
 
-    #players { position:absolute; inset:0; }
+    .card-rank {
+      position: absolute;
+      left: 4px;
+      top: 3px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .card-suit {
+      position: absolute;
+      right: 4px;
+      bottom: 3px;
+      font-size: 9px;
+    }
+
+    .card.red { color: #d41245; }
+    .card.black { color: #16162a; }
+
+    /* -------- SEATS (окаймляют стол, с именем и стеком) -------- */
+
+    #players {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
 
     .seat {
-      position:absolute;
-      height:34px;
-      padding:4px 12px;
-      border-radius:999px;
-      background:rgba(5,5,15,0.96);
-      border:1px solid rgba(255,255,255,0.14);
-      color:var(--text-muted);
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:11px;
+      position: absolute;
+      height: 30px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(5, 5, 15, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+      pointer-events: auto;
     }
 
-    .seat-1 { top:6%; left:50%; transform:translate(-50%,0); }
-    .seat-2 { top:33%; right:6%; transform:translate(0,-50%); }
-    .seat-3 { bottom:33%; right:6%; transform:translate(0,50%); }
-    .seat-4 { bottom:6%; left:50%; transform:translate(-50%,0); }
-    .seat-5 { bottom:33%; left:6%; transform:translate(0,50%); }
-    .seat-6 { top:33%; left:6%; transform:translate(0,-50%); }
+    .seat-name {
+      max-width: 55px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
+    .seat-stack {
+      font-weight: 600;
+      color: #fff;
+    }
 
-    /* Dealer chip */
+    /* позиции 6-макс */
+    .seat-1 { top: 6%; left: 50%; transform: translate(-50%, 0); }
+    .seat-2 { top: 32%; right: 6%; transform: translate(0, -50%); }
+    .seat-3 { bottom: 32%; right: 6%; transform: translate(0, 50%); }
+    .seat-4 { bottom: 6%; left: 50%; transform: translate(-50%, 0); }
+    .seat-5 { bottom: 32%; left: 6%; transform: translate(0, 50%); }
+    .seat-6 { top: 32%; left: 6%; transform: translate(0, -50%); }
+
+    /* дилер — у края стола */
     .dealer-chip {
-      width:18px; height:18px;
-      border-radius:50%;
-      background:rgba(5,5,15,0.95);
-      border:1px solid rgba(255,255,255,0.8);
-      box-shadow:0 0 12px rgba(111,122,255,0.7);
-      position:absolute;
-      font-size:10px;
-      display:flex; align-items:center; justify-content:center;
-      color:white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(5, 5, 15, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
+      position: absolute;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
     }
-    .dealer-1 { top:13%; left:50%; transform:translate(-50%,-50%); }
-    .dealer-2 { top:33%; right:14%; transform:translate(50%,-50%); }
-    .dealer-3 { bottom:33%; right:14%; transform:translate(50%,50%); }
-    .dealer-4 { bottom:13%; left:50%; transform:translate(-50%,50%); }
-    .dealer-5 { bottom:33%; left:14%; transform:translate(-50%,50%); }
-    .dealer-6 { top:33%; left:14%; transform:translate(-50%,-50%); }
 
+    .dealer-1 { top: 13%; left: 50%; transform: translate(-50%, -50%); }
+    .dealer-2 { top: 33%; right: 14%; transform: translate(50%, -50%); }
+    .dealer-3 { bottom: 33%; right: 14%; transform: translate(50%, 50%); }
+    .dealer-4 { bottom: 13%; left: 50%; transform: translate(-50%, 50%); }
+    .dealer-5 { bottom: 33%; left: 14%; transform: translate(-50%, 50%); }
+    .dealer-6 { top: 33%; left: 14%; transform: translate(-50%, -50%); }
 
-    /* ---------------- HERO (не менял) ---------------- */
+    /* -------- HERO / ACTIONS -------- */
 
     .bottom-panel {
       border-radius: 18px;
       background: radial-gradient(circle at 0 0, #18182a, #050509 70%);
-      border: 1px solid rgba(255,255,255,0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       box-shadow: var(--shadow-soft);
-      padding: 12px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .hero-row {
-      display:grid;
-      grid-template-columns: minmax(0,1.8fr) minmax(0,3fr) minmax(0,1fr);
-      gap:12px;
-      align-items:center;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3.2fr) minmax(0, 1.5fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     .hero-info {
-      display:flex; align-items:center; gap:10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .hero-avatar {
-      width:40px; height:40px; border-radius:50%;
-      background: radial-gradient(circle,rgba(111,122,255,0.25),#050509);
-      border:1px solid rgba(255,255,255,0.15);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:600; letter-spacing:0.1em;
-    }
-    .hero-meta { display:flex; flex-direction:column; gap:3px; font-size:12px; }
-    .hero-stack { font-size:13px; font-weight:600; }
 
-    #hand { display:flex; gap:6px; }
+    .hero-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(111, 122, 255, 0.25), #050509);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 12px;
+    }
+
+    .hero-stack {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    #hand {
+      display: flex;
+      gap: 6px;
+      margin-left: auto;
+    }
 
     .hero-card-slot {
-      width:34px; height:46px;
-      border-radius:8px;
-      background: radial-gradient(circle,#fff,#e5e5f4);
-      border:1px solid rgba(0,0,0,0.1);
-      box-shadow:0 4px 10px rgba(0,0,0,0.6);
+      width: 34px;
+      height: 46px;
+      border-radius: 8px;
+      background: radial-gradient(circle, #ffffff, #e4e4f4);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
     }
 
-    /* ACTION PANEL */
-
     .action-panel {
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      background:rgba(5,5,15,0.92);
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.1);
-      padding:10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(5, 5, 15, 0.92);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 9px;
     }
 
     .bet-row {
-      display:grid;
-      grid-template-columns: minmax(0,2fr) minmax(0,1.4fr);
-      gap:10px;
-      align-items:center;
+      display: grid;
+      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.6fr);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .bet-slider-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .bet-label-row {
-      display:flex; justify-content:space-between;
-      font-size:11px; color:var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
-    input.range {
-      width:100%;
-      height:4px;
-      border-radius:4px;
-      background:rgba(255,255,255,0.08);
-      -webkit-appearance:none;
+    input[type="range"].range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      outline: none;
     }
-    input.range::-webkit-slider-thumb {
-      -webkit-appearance:none;
-      width:14px; height:14px; border-radius:50%;
-      background:#fff;
-      border:2px solid var(--accent-strong);
-      box-shadow:0 0 10px rgba(111,122,255,0.7);
-      margin-top:-5px;
+
+    input[type="range"].range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent-strong);
+      box-shadow: 0 0 10px rgba(111, 122, 255, 0.8);
+      margin-top: -5px;
+    }
+
+    .bet-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     #betAmount {
-      border-radius:999px;
-      background:rgba(10,10,20,0.9);
-      border:1px solid rgba(255,255,255,0.15);
-      padding:5px 10px;
-      font-size:12px; color:var(--text-main);
-      width:100%;
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(10, 10, 20, 0.95);
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--text-main);
     }
 
-    .bet-presets { display:flex; gap:6px; flex-wrap:wrap; font-size:11px; }
+    .bet-currency {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .bet-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 11px;
+    }
+
     .preset-btn {
-      padding:4px 7px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.16);
-      background:rgba(10,10,20,0.9);
-      color:#eee;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(10, 10, 24, 0.9);
+      color: #e2e2ff;
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+
+    .preset-btn-ghost {
+      border-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
     }
 
     .actions-row {
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:8px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 4px;
     }
+
     .action-btn {
-      border-radius:999px;
-      padding:8px 10px;
-      font-size:13px;
-      font-weight:500;
-      border:1px solid transparent;
-      cursor:pointer;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
     .action-fold {
-      background:rgba(255,65,111,0.2);
-      border-color:rgba(255,65,111,0.7);
-      color:#ffdce6;
+      background: radial-gradient(circle at 0 0, rgba(255, 65, 111, 0.25), #2b0b16);
+      border-color: rgba(255, 65, 111, 0.7);
+      color: #ffe5ef;
     }
 
     .action-check {
-      background:rgba(255,255,255,0.06);
-      border-color:rgba(255,255,255,0.2);
-      color:white;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), #10101a);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #f5f5ff;
     }
 
     .action-bet {
-      background:rgba(111,122,255,0.3);
-      border-color:rgba(111,122,255,0.9);
-      color:#050509;
+      background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.35), #282a68);
+      border-color: rgba(111, 122, 255, 0.85);
+      color: #050509;
+      box-shadow: 0 0 18px rgba(111, 122, 255, 0.8);
     }
 
     .action-allin {
-      background:rgba(255,215,0,0.25);
-      border-color:rgba(255,215,0,0.8);
-      color:white;
+      background: radial-gradient(circle at 0 0, rgba(255, 215, 0, 0.25), #4a3a05);
+      border-color: rgba(255, 215, 0, 0.8);
+      color: #fff7d0;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.7);
     }
 
+    /* фикс, чтобы текст Check / Call не упирался в край */
     #checkCallButton {
-      padding:8px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      padding: 8px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* позиция/действие героя справа */
+    .hero-status {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 11px;
+      align-items: flex-end;
+    }
 
-    /* ---------------- CHAT ---------------- */
+    /* -------- CHAT -------- */
 
     .side-panel {
-      border-radius:20px;
-      background: radial-gradient(circle,#171725,#050509 70%);
-      border:1px solid rgba(255,255,255,0.07);
-      padding:10px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, #171725, #050509 70%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: var(--shadow-soft);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .side-tabs { display:flex; gap:8px; }
-    .side-tab-btn {
-      flex:1;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.15);
-      background:transparent;
-      cursor:pointer;
-      font-size:12px;
-      color:var(--text-muted);
+    .side-tabs {
+      display: flex;
+      gap: 6px;
+      font-size: 12px;
     }
+
+    .side-tab-btn {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 10px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+    }
+
     .side-tab-btn-active {
-      background:rgba(10,10,20,0.95);
-      border-color:rgba(255,255,255,0.2);
-      color:white;
+      background: rgba(10, 10, 24, 0.96);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #f5f5ff;
     }
 
     .side-body {
-      flex:1;
-      border-radius:14px;
-      background:rgba(5,5,15,0.9);
-      border:1px solid rgba(255,255,255,0.07);
-      padding:10px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
+      flex: 1;
+      border-radius: 14px;
+      background: rgba(5, 5, 15, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     #chat {
-      flex:1; overflow-y:auto;
-      font-size:12px; color:var(--text-muted);
-      display:flex; flex-direction:column; gap:4px;
+      flex: 1;
+      overflow-y: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .chat-input-row { display:flex; gap:6px; }
+    .chat-input-row {
+      display: flex;
+      gap: 6px;
+    }
 
     .input {
-      flex:1;
-      border-radius:999px;
-      padding:6px 10px;
-      background:rgba(10,10,20,0.9);
-      color:white;
-      border:1px solid rgba(255,255,255,0.15);
-      font-size:12px;
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(10, 10, 22, 0.95);
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--text-main);
     }
 
     .chat-send {
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(111,122,255,0.25);
-      border:1px solid rgba(255,255,255,0.2);
-      color:white;
-      font-size:12px;
-      cursor:pointer;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.25), transparent);
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #f5f5ff;
     }
 
   </style>
 </head>
-
 <body>
 <div class="page">
 
-  <!-- ███████████████ HEADER ███████████████ -->
+  <!-- HEADER -->
   <header class="topbar">
-
     <div class="topbar-row">
-
       <div class="topbar-left">
         <div class="logo-mark"></div>
-
         <div class="topbar-title-block">
           <div class="topbar-main">MIDNIGHT BLACK</div>
           <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
         </div>
       </div>
-
-      <!-- ПРАВЫЙ ВЕРХНИЙ УГОЛ -->
       <div class="topbar-table-meta">
         <div class="pill" id="tableName">Стол #MB-001</div>
         <div class="pill" id="tablePlayers">6 / 6 игроков</div>
       </div>
-
     </div>
 
-    <!-- Нижняя строка -->
     <div class="topbar-actions">
       <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
       <button class="btn btn-ghost" id="btnSettings">Настройки</button>
     </div>
-
   </header>
 
-  <!-- ███████████████ MAIN SECTION ███████████████ -->
+  <!-- MAIN -->
   <main class="main">
-
-    <!-- TABLE BLOCK -->
+    <!-- TABLE -->
     <section class="table-wrap">
-
       <div class="table-top-info">
         <div class="table-top-left">
           <div class="dot-live"></div>
@@ -602,139 +771,153 @@
         </div>
       </div>
 
-      <div class="poker-table">
+      <div class="table-center">
+        <div class="poker-table" id="table">
+          <div class="poker-table-inner">
+            <div id="pot">Банк: <span>0</span> MBC</div>
 
-        <div class="poker-table-inner">
+            <div class="table-logo">
+              MIDNIGHT BLACK
+              <span>POKER ROOM</span>
+            </div>
 
-          <!-- NO POT UNTIL >0 -->
-          <div id="pot">Банк: <span>0</span> MBC</div>
-
-          <div class="table-logo">
-            MIDNIGHT BLACK
-            <span>POKER ROOM</span>
+            <div id="board"></div>
+            <div id="sidePots"></div>
           </div>
 
-          <div id="board"></div>
+          <div id="players">
+            <div class="seat seat-1" data-seat="1">
+              <span class="seat-name">Seat 1</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-2" data-seat="2">
+              <span class="seat-name">Seat 2</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-3" data-seat="3">
+              <span class="seat-name">Seat 3</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-4" data-seat="4">
+              <span class="seat-name">Seat 4</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-5" data-seat="5">
+              <span class="seat-name">Seat 5</span>
+              <span class="seat-stack">0</span>
+            </div>
+            <div class="seat seat-6" data-seat="6">
+              <span class="seat-name">Seat 6</span>
+              <span class="seat-stack">0</span>
+            </div>
+          </div>
 
-          <div id="sidePots"></div>
-
+          <div class="dealer-chip dealer-1" id="dealerChip">D</div>
         </div>
-
-        <!-- SEATS (как у тебя было) -->
-        <div id="players">
-          <div class="seat seat-1"><span>P1</span></div>
-          <div class="seat seat-2"><span>P2</span></div>
-          <div class="seat seat-3"><span>P3</span></div>
-          <div class="seat seat-4"><span>P4</span></div>
-          <div class="seat seat-5"><span>P5</span></div>
-          <div class="seat seat-6"><span>P6</span></div>
-        </div>
-
-        <div id="dealerChip" class="dealer-chip dealer-1">D</div>
-
       </div>
     </section>
 
-
-    <!-- ACTION BLOCK (оставлено как у тебя) -->
+    <!-- HERO + ACTIONS -->
     <section class="bottom-panel">
-
       <div class="hero-row">
-
         <div class="hero-info">
           <div class="hero-avatar" id="heroAvatar">MB</div>
-
           <div class="hero-meta">
             <div id="heroName">Hero</div>
-            <div class="hero-stack">Стек: <span id="heroStack">0</span> MBC</div>
+            <div class="hero-stack">
+              Стек: <span id="heroStack">0</span> MBC
+            </div>
           </div>
-
           <div id="hand">
-            <div class="hero-card-slot"></div>
-            <div class="hero-card-slot"></div>
+            <div class="hero-card-slot" data-slot="1"></div>
+            <div class="hero-card-slot" data-slot="2"></div>
           </div>
         </div>
 
         <div class="action-panel">
-
           <div class="bet-row">
-            <div>
+            <div class="bet-slider-wrap">
               <div class="bet-label-row">
                 <span>Размер ставки</span>
                 <span id="betPercentLabel">0%</span>
               </div>
-              <input type="range" class="range" id="betRange" min="0" max="100" value="0">
+              <input type="range" class="range" id="betRange" min="0" max="100" value="0" />
             </div>
-
-            <div>
-              <input id="betAmount" type="number" min="0" step="1" value="0">
+            <div class="bet-input-wrap">
+              <input type="number" id="betAmount" min="0" step="1" value="0" />
+              <div class="bet-currency">MBC</div>
             </div>
           </div>
 
           <div class="bet-presets">
-            <button class="preset-btn" data-bet-preset="33">⅓</button>
-            <button class="preset-btn" data-bet-preset="50">½</button>
-            <button class="preset-btn" data-bet-preset="75">¾</button>
+            <button class="preset-btn preset-btn-ghost" data-bet-preset="33">⅓ банка</button>
+            <button class="preset-btn preset-btn-ghost" data-bet-preset="50">½ банка</button>
+            <button class="preset-btn preset-btn-ghost" data-bet-preset="75">¾ банка</button>
             <button class="preset-btn" data-bet-preset="100">Пот</button>
-            <button class="preset-btn" data-bet-preset="max">Макс</button>
+            <button class="preset-btn preset-btn-ghost" data-bet-preset="max">Макс</button>
           </div>
 
-          <div class="actions-row">
+          <div class="actions-row" id="actions">
             <button class="action-btn action-fold" id="foldButton">Fold</button>
             <button class="action-btn action-check" id="checkCallButton">Check / Call</button>
             <button class="action-btn action-bet" id="betRaiseButton">Bet / Raise</button>
             <button class="action-btn action-allin" id="allInButton">All-in</button>
           </div>
-
         </div>
 
-        <div class="hero-meta" style="font-size:12px;">
-          <div id="heroPosition">BTN</div>
+        <div class="hero-status">
+          <div id="heroPosition">Позиция: BTN</div>
           <div id="heroLastAction">Ваш ход</div>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- CHAT -->
+    <!-- CHAT / HISTORY -->
     <section class="side-panel">
       <div class="side-tabs">
         <button class="side-tab-btn side-tab-btn-active" id="tabChat">Чат</button>
-        <button class="side-tab-btn" id="tabHistory">История</button>
+        <button class="side-tab-btn" id="tabHistory">История раздач</button>
       </div>
 
       <div class="side-body">
         <div id="chat"></div>
-
         <div class="chat-input-row">
-          <input class="input" id="chatInput" placeholder="Сообщение..." />
+          <input class="input" id="chatInput" placeholder="Сообщение в чат..." />
           <button class="chat-send" id="chatSend">⮞</button>
         </div>
       </div>
     </section>
-
   </main>
 </div>
 
-
-<!-- Скрипт: скрывать банк, если =0 -->
+<!-- авто-скрытие надписи "Банк" при 0 -->
 <script>
 (function () {
   const potEl = document.getElementById('pot');
-  const val = potEl.querySelector('span');
-  function check() {
-    const n = parseFloat(val.textContent);
-    potEl.style.display = (!n || n<=0) ? 'none' : 'block';
+  if (!potEl) return;
+  const span = potEl.querySelector('span');
+  if (!span) return;
+
+  function updatePotVisibility() {
+    const raw = (span.textContent || "").replace(/\s+/g, "");
+    const num = parseFloat(raw);
+    if (!raw || !isFinite(num) || num <= 0) {
+      potEl.style.display = "none";
+    } else {
+      potEl.style.display = "block";
+    }
   }
-  check();
-  new MutationObserver(check).observe(val,{childList:true,characterData:true,subtree:true});
+
+  updatePotVisibility();
+  new MutationObserver(updatePotVisibility).observe(span, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
 })();
 </script>
 
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script src="/index.js"></script>
-
 </body>
 </html>
