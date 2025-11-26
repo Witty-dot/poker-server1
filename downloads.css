@@ -1,0 +1,219 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background: radial-gradient(circle at top, #111b33 0, #050814 45%, #02040a 100%);
+  color: #e5ecff;
+}
+
+a {
+  color: inherit;
+}
+
+/* Обёртка страницы */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Верхняя панель */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: rgba(5, 10, 25, 0.95);
+  border-bottom: 1px solid #1d2b45;
+  box-shadow: 0 0 18px rgba(0, 180, 255, 0.3);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 10px #29b6f6,
+    0 0 18px rgba(120, 0, 255, 0.8);
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  font-size: 14px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  opacity: 0.85;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #29b6f6, #b388ff);
+  transition: width 0.15s;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+  text-shadow: 0 0 8px #29b6f6;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Контент */
+.content {
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+}
+
+/* Хиро-блок */
+.hero {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  text-shadow:
+    0 0 14px #29b6f6,
+    0 0 22px rgba(120, 0, 255, 0.9);
+}
+
+.hero p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Сетка карточек */
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 800px) {
+  .downloads-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Карточка платформы */
+.card {
+  background: rgba(10, 16, 32, 0.95);
+  border-radius: 16px;
+  padding: 22px 20px 20px;
+  border: 1px solid #1d2b45;
+  box-shadow:
+    0 0 24px rgba(0, 180, 255, 0.28),
+    0 0 45px rgba(120, 0, 255, 0.22);
+  backdrop-filter: blur(6px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Бейдж платформы */
+.platform-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: 1px solid;
+}
+
+.platform-badge.ios {
+  border-color: #29b6f6;
+  box-shadow: 0 0 14px rgba(41, 182, 246, 0.7);
+}
+
+.platform-badge.android {
+  border-color: #4caf50;
+  box-shadow: 0 0 14px rgba(76, 175, 80, 0.7);
+}
+
+/* Заголовок и текст */
+.card h2 {
+  margin: 10px 0 6px;
+  font-size: 20px;
+}
+
+.card-text {
+  margin: 0 0 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Кнопки */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.neon-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #29b6f6;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.08s ease-in-out;
+  box-shadow:
+    0 0 18px rgba(41, 182, 246, 0.5),
+    0 0 26px rgba(120, 0, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.neon-btn.primary {
+  background: #101c35;
+  color: #e3f4ff;
+}
+
+.neon-btn.ghost {
+  background: transparent;
+  color: #29b6f6;
+  box-shadow: 0 0 12px rgba(41, 182, 246, 0.5);
+}
+
+.neon-btn:hover {
+  background: #163057;
+  box-shadow:
+    0 0 32px rgba(41, 182, 246, 0.8),
+    0 0 50px rgba(120, 0, 255, 0.7);
+}
+
+.neon-btn:active {
+  background: #0b4a7a;
+  transform: translateY(1px) scale(0.99);
+  box-shadow:
+    0 0 44px rgba(41, 182, 246, 1),
+    0 0 74px rgba(120, 0, 255, 0.95);
+}
+
+/* Примечания */
+.note {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.7;
+  line-height: 1.4;
+}
