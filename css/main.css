@@ -642,7 +642,7 @@ nav a:hover::after {
 /* ================= FOOTER ================= */
 
 footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px солид rgba(255, 255, 255, 0.05);
   padding: 14px 0 20px;
   font-size: 11px;
   color: var(--text-muted);
@@ -714,12 +714,15 @@ footer {
   margin-top: 10px;
 }
 
+/* подписи к полям */
+.auth-label,
 .auth-form label {
   font-size: 13px;
   line-height: 1.4;
   color: var(--text-muted);
 }
 
+/* инпуты */
 .auth-input {
   width: 100%;
   border-radius: 999px;
@@ -736,6 +739,7 @@ footer {
   box-shadow: 0 0 16px rgba(111, 122, 255, 0.55);
 }
 
+/* блок действий */
 .auth-actions {
   margin-top: 16px;
   display: flex;
@@ -743,6 +747,8 @@ footer {
   gap: 10px;
 }
 
+/* главная неоновая кнопка — и для login, и для других auth-страниц */
+.auth-submit,
 .neon-btn {
   width: 100%;
   border-radius: 999px;
@@ -757,11 +763,13 @@ footer {
   transition: all 0.15s ease-out;
 }
 
+.auth-submit:hover,
 .neon-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 0 32px rgba(111, 122, 255, 0.95);
 }
 
+/* переключатель "Нет аккаунта?" / "Уже есть аккаунт?" */
 .auth-switch {
   margin-top: 12px;
   font-size: 13px;
@@ -777,7 +785,7 @@ footer {
   color: #ffffff;
 }
 
-/* текст-пояснение под кнопкой (forgot и т.п.) */
+/* текст-пояснение под кнопкой */
 .auth-note,
 .auth-inline-link {
   font-size: 13px;
@@ -793,12 +801,26 @@ footer {
   text-align: right;
 }
 
-.auth-inline-link a {
-  color: #c9ceff;
+/* строчка "Забыли пароль?" */
+.auth-extra-row {
+  margin-top: 4px;
+  text-align: right;
+  font-size: 12px;
 }
 
-.auth-inline-link a:hover {
+/* универсальный стиль ссылки в auth-блоках */
+.auth-inline-link a,
+.auth-extra-row a,
+.auth-link {
+  color: #c9ceff;
+  text-decoration: none;
+}
+
+.auth-inline-link a:hover,
+.auth-extra-row a:hover,
+.auth-link:hover {
   color: #ffffff;
+  text-decoration: underline;
 }
 
 /* ================= DOWNLOADS LIST ================= */
