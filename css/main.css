@@ -642,7 +642,7 @@ nav a:hover::after {
 /* ================= FOOTER ================= */
 
 footer {
-  border-top: 1px солид rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding: 14px 0 20px;
   font-size: 11px;
   color: var(--text-muted);
@@ -777,14 +777,6 @@ footer {
   color: var(--text-muted);
 }
 
-.auth-switch a {
-  color: #c9ceff;
-}
-
-.auth-switch a:hover {
-  color: #ffffff;
-}
-
 /* текст-пояснение под кнопкой */
 .auth-note,
 .auth-inline-link {
@@ -808,18 +800,20 @@ footer {
   font-size: 12px;
 }
 
-/* универсальный стиль ссылки в auth-блоках */
+/* единый стиль всех ссылок внутри auth-блоков */
+.auth-switch a,
 .auth-inline-link a,
 .auth-extra-row a,
 .auth-link {
-  color: #c9ceff;
+  color: #7093ff;
   text-decoration: none;
 }
 
+.auth-switch a:hover,
 .auth-inline-link a:hover,
 .auth-extra-row a:hover,
 .auth-link:hover {
-  color: #ffffff;
+  color: #9ab0ff;
   text-decoration: underline;
 }
 
