@@ -3,59 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Poker Room – Регистрация</title>
+  <title>Midnight Black Poker – Регистрация</title>
   <link rel="stylesheet" href="registration.css" />
 </head>
 <body>
 
-<div class="container">
+<header class="mini-header">
+  <div class="mini-header-inner">
+    <a href="index.html" class="logo-wrap">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text-main">MIDNIGHT BLACK</div>
+        <div class="logo-text-sub">POKER ROOM</div>
+      </div>
+    </a>
 
-  <div class="form-box">
-
-    <h1 class="title">Регистрация</h1>
-
-    <form id="registerForm">
-      <label>Логин</label>
-      <input type="text" id="username" required>
-
-      <label>Email</label>
-      <input type="email" id="email" required>
-
-      <label>Пароль</label>
-      <input type="password" id="password" required>
-
-      <label>Подтверждение пароля</label>
-      <input type="password" id="password2" required>
-
-      <button type="submit" class="neon-btn">Создать аккаунт</button>
-    </form>
-
-    <div class="switch">
-      Уже есть аккаунт? <a href="/login">Войти</a>
+    <div class="mini-header-actions">
+      <a href="login.html" class="mini-link">Войти</a>
     </div>
-
   </div>
+</header>
 
+<div class="page-wrap">
+  <div class="container">
+    <div class="form-box">
+
+      <h1 class="title">Регистрация</h1>
+      <p class="subtitle">
+        Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
+      </p>
+
+      <form id="registerForm" class="form">
+        <label for="username">Логин</label>
+        <input type="text" id="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="password">Пароль</label>
+        <input type="password" id="password" required>
+
+        <label for="password2">Подтверждение пароля</label>
+        <input type="password" id="password2" required>
+
+        <button type="submit" class="neon-btn">Создать аккаунт</button>
+      </form>
+
+      <div class="switch">
+        Уже есть аккаунт? <a href="login.html">Войти</a>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <script>
 document.getElementById("registerForm").addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const user = {
-        username: document.getElementById("username").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        password: document.getElementById("password").value.trim(),
-        password2: document.getElementById("password2").value.trim()
-    };
+  const user = {
+    username: document.getElementById("username").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    password: document.getElementById("password").value.trim(),
+    password2: document.getElementById("password2").value.trim()
+  };
 
-    if (user.password !== user.password2) {
-        alert("Пароли не совпадают");
-        return;
-    }
+  if (user.password !== user.password2) {
+    alert("Пароли не совпадают");
+    return;
+  }
 
-    // Отправка запроса (адаптируй под свой backend)
-    console.log("Регистрация:", user);
+  // TODO: отправка запроса на backend
+  console.log("Регистрация:", user);
 });
 </script>
 
