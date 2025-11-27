@@ -241,7 +241,7 @@ nav a:hover::after {
   width: 360px;
   height: 360px;
   background: radial-gradient(circle, rgba(111, 122, 255, 0.26), transparent 70%);
-  opacity: 0.05;
+  opacity: 0.01;
   filter: blur(8px);
   pointer-events: none;
 }
