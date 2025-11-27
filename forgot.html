@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Midnight Black Poker – Восстановление пароля</title>
-  <link rel="stylesheet" href="forgot.css" />
+  <title>Midnight Black Poker – Восстановление доступа</title>
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
 <div class="auth-page">
 
-  <!-- ХЕДЕР ДЛЯ ВСЕХ СТРАНИЦ -->
+  <!-- ХЕДЕР -->
   <header>
     <div class="container">
       <div class="header-inner">
-        
-        <!-- ЛОГО ВСЕГДА ВЕДЁТ НА ГЛАВНУЮ -->
+
         <a href="/" class="logo-wrap">
           <div class="logo-mark"></div>
           <div>
@@ -39,26 +38,33 @@
     </div>
   </header>
 
+  <!-- КОНТЕНТ -->
   <main class="auth-main">
     <div class="auth-card-wrap">
       <div class="auth-card">
-        
-        <h1 class="auth-title">Восстановление пароля</h1>
+
+        <h1 class="auth-title">Восстановление доступа</h1>
         <p class="auth-subtitle">
-          Укажите свой email — мы отправим вам ссылку для восстановления пароля.
+          Укажите email, привязанный к аккаунту. Мы пришлём ссылку для сброса пароля.
         </p>
 
         <form id="forgotForm" class="auth-form">
           <label class="auth-label" for="email">Email</label>
-          <input type="email" id="email" class="auth-input" required>
+          <input class="auth-input" type="email" id="email" required />
 
-          <button type="submit" class="auth-submit">Отправить ссылку</button>
+          <button type="submit" class="btn-primary auth-submit">
+            Отправить ссылку
+          </button>
         </form>
 
         <div class="auth-switch">
           Вспомнили пароль?
           <a href="/login.html">Войти</a>
         </div>
+
+        <p class="auth-hint">
+          Если письма нет в течение нескольких минут — проверьте папку “Спам”.
+        </p>
 
       </div>
     </div>
@@ -67,16 +73,15 @@
 </div>
 
 <script>
-document.getElementById("forgotForm").addEventListener("submit", (e) => {
+document.getElementById('forgotForm').addEventListener('submit', function (e) {
   e.preventDefault();
-  
-  const email = document.getElementById("email").value.trim();
-  console.log("Восстановление:", email);
+  const email = document.getElementById('email').value.trim();
+  if (!email) return;
 
-  // TODO: backend
-  alert("Если email существует — мы отправили письмо 😊");
+  // Здесь потом воткнём реальный запрос к backend
+  console.log('Запрос на восстановление пароля для:', email);
+  alert('Если такой email есть в системе, мы отправим на него ссылку для сброса пароля.');
 });
 </script>
-
 </body>
 </html>
