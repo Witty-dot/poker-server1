@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Midnight Black Poker – Восстановление доступа</title>
+  <!-- общий стиль для всего сайта -->
   <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
 <div class="auth-page">
 
-  <!-- ОДИНАКОВЫЙ ХЕДЕР -->
+  <!-- ХЕДЕР КАК НА ГЛАВНОЙ / LOGIN / REG -->
   <header>
     <div class="container">
       <div class="header-inner">
 
+        <!-- клик по логотипу → главная -->
         <a href="/" class="logo-wrap">
           <div class="logo-mark"></div>
           <div>
@@ -38,17 +40,18 @@
     </div>
   </header>
 
-  <!-- КАРТОЧКА ТОЧНО КАК У ЛОГИНА/РЕГИ -->
+  <!-- КАРТОЧКА ФОРМЫ В ТОЙ ЖЕ СЕТКЕ, ЧТО LOGIN/REG -->
   <main class="auth-main">
     <div class="auth-card-wrap">
       <section class="auth-card">
+
         <h1 class="auth-title">Восстановление доступа</h1>
         <p class="auth-subtitle">
-          Укажите email, привязанный к аккаунту. Мы пришлём
+          Укажите email, привязанный к аккаунту Midnight Black. Мы пришлём
           ссылку для сброса пароля.
         </p>
 
-        <form class="auth-form auth-form-forgot" id="forgotForm">
+        <form class="auth-form" id="forgotForm">
           <label class="auth-label" for="email">Email</label>
           <input
             class="auth-input"
@@ -69,21 +72,22 @@
         </p>
 
         <p class="auth-note">
-          Если письма нет в течение нескольких минут —
-          проверьте папку «Спам».
+          Если письма нет в течение нескольких минут — проверьте папку «Спам».
         </p>
+
       </section>
     </div>
   </main>
 </div>
 
 <script>
-document.getElementById("forgotForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const email = document.getElementById("email").value.trim();
-  console.log("Запрос на восстановление для:", email);
-  // здесь потом повесим реальный запрос на бэкенд
-});
+  // заглушка обработки формы — чтобы потом легко подцепить бэкенд
+  document.getElementById("forgotForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    console.log("Запрос на восстановление для:", email);
+    // здесь позже будет реальный запрос на сервер
+  });
 </script>
 </body>
 </html>
