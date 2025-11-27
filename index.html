@@ -4,209 +4,211 @@
   <meta charset="utf-8" />
   <title>Midnight Black Poker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- общий стиль для всего сайта -->
   <link rel="stylesheet" href="/css/main.css" />
 </head>
-
 <body>
+  <div class="page-wrap">
 
-<!-- ====== ХЭДЕР ПОДТЯГИВАЕМ АВТОМАТИЧЕСКИ ====== -->
-<div id="header-placeholder"></div>
+    <!-- ХЭДЕР ИЗ partials/header.html -->
+    <div include-html="/partials/header.html"></div>
 
-<script>
-fetch("/partials/header.html")
-  .then(res => res.text())
-  .then(html => document.getElementById("header-placeholder").innerHTML = html);
-</script>
-<!-- ============================================= -->
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <div class="container">
+          <div class="hero-grid">
 
-<div class="page-wrap">
-  <main>
+            <!-- Левая колонка -->
+            <div>
+              <div class="hero-eyebrow">ночной премиум-покер</div>
 
-    <!-- ========== HERO ========== -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
+              <h1 class="hero-title">
+                <span>Midnight Black Poker</span><br/>
+                когда за столом остаются только свои
+              </h1>
 
-          <div>
-            <div class="hero-eyebrow">ночной премиум-покер</div>
+              <p class="hero-subtitle">
+                Покер-рум для чила с приятной атмосферой. Без кричащих баннеров,
+                только аккуратный интерфейс, быстрые столы и мгновенные выплаты.
+              </p>
 
-            <h1 class="hero-title">
-              <span>Midnight Black Poker</span><br>
-              когда за столом остаются только свои
-            </h1>
-
-            <p class="hero-subtitle">
-              Покер-рум для чила с приятной атмосферой. Без кричащих баннеров —
-              только аккуратный интерфейс, быстрые столы и мгновенные выплаты.
-            </p>
-
-            <div class="hero-cta-row">
-              <a href="/table" class="btn btn-primary">Играть в браузере</a>
-              <a href="/downloads" class="btn btn-ghost">Скачать iOS-клиент</a>
-            </div>
-
-            <div class="hero-note">
-              <span class="hero-note-badge"></span>
-              Лайв-столы уже открыты. Новые турниры — каждый час.
-            </div>
-
-            <div class="hero-metrics">
-              <div class="metric-item">
-                <strong>24/7</strong> живые кэш-столы
+              <div class="hero-cta-row">
+                <a href="/table.html" class="btn btn-primary">Играть в браузере</a>
+                <a href="/downloads.html" class="btn btn-ghost">Скачать iOS-клиент</a>
               </div>
-              <div class="metric-item">
-                <strong>0.5 сек</strong> средняя задержка действий
+
+              <div class="hero-note">
+                <span class="hero-note-badge"></span>
+                Лайв-столы уже открыты. Новые турниры — каждый час.
               </div>
-              <div class="metric-item">
-                <strong>RNG</strong> сертифицированное распределение карт
-              </div>
-            </div>
 
-          </div>
-
-          <!-- Превью стола -->
-          <div class="hero-table-card">
-            <div class="table-card-header">
-              <div class="table-badge">Midnight Hold'em · NL 25–100</div>
-              <div class="table-status">
-                <div class="status-dot"></div>
-                Сейчас за столом: 6 игроков
-              </div>
-            </div>
-
-            <div class="table-preview-wrap">
-              <div class="poker-table">
-                <div class="poker-table-inner">
-
-                  <div class="table-logo">
-                    MIDNIGHT BLACK
-                    <span>POKER ROOM</span>
-                  </div>
-
-                  <div class="community-cards">
-                    <div class="card red"><div class="card-rank">A</div><div class="card-suit">♥</div></div>
-                    <div class="card black"><div class="card-rank">K</div><div class="card-suit">♣</div></div>
-                    <div class="card red"><div class="card-rank">Q</div><div class="card-suit">♦</div></div>
-                    <div class="card black"><div class="card-rank">J</div><div class="card-suit">♠</div></div>
-                    <div class="card red"><div class="card-rank">10</div><div class="card-suit">♥</div></div>
-                  </div>
-
-                  <div class="pot-indicator">
-                    Банк: <span>124 300</span> MBC
-                  </div>
-
+              <div class="hero-metrics">
+                <div class="metric-item">
+                  <strong>24/7</strong>
+                  живые кэш-столы
+                </div>
+                <div class="metric-item">
+                  <strong>0.5 сек</strong>
+                  средняя задержка действий
+                </div>
+                <div class="metric-item">
+                  <strong>RNG</strong>
+                  сертифицированное распределение карт
                 </div>
               </div>
             </div>
+
+            <!-- Правая колонка — превью стола -->
+            <div class="hero-table-card" id="tables">
+              <div class="table-card-header">
+                <div class="table-badge">Midnight Hold'em · NL 25–100</div>
+                <div class="table-status">
+                  <div class="status-dot"></div>
+                  Сейчас за столом: 6 игроков
+                </div>
+              </div>
+
+              <div class="table-preview-wrap">
+                <div class="poker-table">
+                  <div class="poker-table-inner">
+                    <div class="table-logo">
+                      MIDNIGHT BLACK
+                      <span>POKER ROOM</span>
+                    </div>
+
+                    <div class="community-cards">
+                      <div class="card red">
+                        <div class="card-rank">A</div>
+                        <div class="card-suit">♥</div>
+                      </div>
+                      <div class="card black">
+                        <div class="card-rank">K</div>
+                        <div class="card-suit">♣</div>
+                      </div>
+                      <div class="card red">
+                        <div class="card-rank">Q</div>
+                        <div class="card-suit">♦</div>
+                      </div>
+                      <div class="card black">
+                        <div class="card-rank">J</div>
+                        <div class="card-suit">♠</div>
+                      </div>
+                      <div class="card red">
+                        <div class="card-rank">10</div>
+                        <div class="card-suit">♥</div>
+                      </div>
+                    </div>
+
+                    <div class="pot-indicator">
+                      Банк: <span>124&nbsp;300</span> MBC
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- /hero-table-card -->
+
           </div>
+        </div>
+      </section>
 
-        </div><!-- hero-grid -->
-      </div>
-    </section>
+      <!-- FEATURES / "Безопасность" -->
+      <section class="features" id="security">
+        <div class="container">
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-label">честная игра</div>
+              <div class="feature-title">Сертифицированный генератор случайных чисел</div>
+              <p class="feature-text">
+                Равномерное распределение карт и прозрачная статистика раздач.
+                Мы не вмешиваемся в игру, только даём вам стол и честный рандом.
+              </p>
+              <div class="feature-pill">
+                <div class="feature-pill-dot"></div>
+                Логи рук для анализа
+              </div>
+            </article>
 
-    <!-- ========== FEATURES (без изменений) ========== -->
-    <section class="features" id="security">
-      <div class="container">
-        <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-label">скорость</div>
+              <div class="feature-title">Мгновенные действия и анимации</div>
+              <p class="feature-text">
+                Оптимизированный клиент — действия происходят без лагов,
+                а анимации не мешают игре. Только чёткие решения и быстрый ритм.
+              </p>
+            </article>
 
-          <article class="feature-card">
-            <div class="feature-label">честная игра</div>
-            <div class="feature-title">Сертифицированный генератор случайных чисел</div>
-            <p class="feature-text">
-              Равномерное распределение карт и прозрачная статистика. Мы не вмешиваемся — только честный рандом.
-            </p>
-            <div class="feature-pill">
-              <div class="feature-pill-dot"></div> Логи рук для анализа
+            <article class="feature-card">
+              <div class="feature-label">безопасность</div>
+              <div class="feature-title">Многоуровневая защита аккаунта</div>
+              <p class="feature-text">
+                Двухфакторная авторизация, контроль устройств, уведомления о входах.
+                Ваш баланс и история игр под защитой.
+              </p>
+            </article>
+
+            <article class="feature-card">
+              <div class="feature-label">экосистема</div>
+              <div class="feature-title">Веб, iOS и десктоп-клиенты</div>
+              <p class="feature-text">
+                Играйте дома с ноутбука или в дороге с телефона. Один аккаунт —
+                единый банкролл и прогресс на всех платформах.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPS -->
+      <section class="apps" id="apps">
+        <div class="container">
+          <div class="apps-inner">
+            <div>
+              <div class="apps-title">Клиенты Midnight Black Poker</div>
+              <p class="apps-text">
+                Мы постепенно открываем доступ к нативным клиентам. Уже доступен
+                веб-клиент, дальше — iOS и десктоп-версии. Весь интерфейс выдержан
+                в едином тёмном стиле.
+              </p>
             </div>
-          </article>
 
-          <article class="feature-card">
-            <div class="feature-label">скорость</div>
-            <div class="feature-title">Мгновенные действия и анимации</div>
-            <p class="feature-text">Оптимизированный клиент — никакого лага.</p>
-          </article>
+            <div class="apps-buttons">
+              <a href="/table.html" class="store-badge">
+                <div>
+                  <div class="store-label">веб-версия</div>
+                  <div class="store-name">Играть в браузере</div>
+                </div>
+              </a>
 
-          <article class="feature-card">
-            <div class="feature-label">безопасность</div>
-            <div class="feature-title">Многоуровневая защита аккаунта</div>
-            <p class="feature-text">2FA, контроль устройств, безопасность баланса.</p>
-          </article>
+              <a href="/downloads.html" class="store-badge">
+                <div>
+                  <div class="store-label">скоро</div>
+                  <div class="store-name">iOS / Android</div>
+                </div>
+              </a>
 
-          <article class="feature-card">
-            <div class="feature-label">экосистема</div>
-            <div class="feature-title">Веб, iOS и десктоп-клиенты</div>
-            <p class="feature-text">Единый аккаунт на всех устройствах.</p>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== APPS ========== -->
-    <section class="apps" id="apps">
-      <div class="container">
-        <div class="apps-inner">
-
-          <div>
-            <div class="apps-title">Клиенты Midnight Black Poker</div>
-            <p class="apps-text">
-              Уже доступен веб-клиент. Далее — iOS, Android и Desktop.
-            </p>
-          </div>
-
-          <div class="apps-buttons">
-            <a href="/table" class="store-badge">
-              <div>
-                <div class="store-label">веб-версия</div>
-                <div class="store-name">Играть в браузере</div>
-              </div>
-            </a>
-
-            <a href="/downloads" class="store-badge">
-              <div>
-                <div class="store-label">скоро</div>
-                <div class="store-name">iOS / Android</div>
-              </div>
-            </a>
-
-            <div class="store-badge">
-              <div>
-                <div class="store-label">позже</div>
-                <div class="store-name">Desktop-клиент</div>
+              <div class="store-badge">
+                <div>
+                  <div class="store-label">позже</div>
+                  <div class="store-name">Desktop-клиент</div>
+                </div>
               </div>
             </div>
+
           </div>
-
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-  </main>
+    <!-- ФУТЕР ИЗ partials/footer.html -->
+    <div include-html="/partials/footer.html"></div>
 
-  <!-- ================== FOOTER ================== -->
-  <footer id="support">
-    <div class="container">
-      <div class="footer-inner">
-        <div>
-          © Midnight Black Poker, <span id="year"></span>.
-        </div>
+  </div>
 
-        <div class="footer-links">
-          <a href="/terms">Пользовательское соглашение</a>
-          <a href="/privacy">Политика конфиденциальности</a>
-          <a href="/security">Безопасность</a>
-          <a href="/support">Поддержка</a>
-          <a href="/downloads">Загрузки</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-</div><!-- page-wrap -->
-
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
+  <!-- Скрипт, который подсовывает header/footer -->
+  <script src="/js/include-html.js"></script>
+  <script>
+    includeHTML();
+  </script>
 </body>
 </html>
