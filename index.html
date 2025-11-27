@@ -354,7 +354,7 @@
       box-shadow: 0 0 12px rgba(53, 212, 155, 0.9);
     }
 
-    /* САМ СТОЛ */
+    /* СТОЛ-ПРЕВЬЮ (упрощённый, без мест игроков) */
     .table-preview-wrap {
       padding: 12px 4px 10px;
     }
@@ -403,6 +403,7 @@
       color: rgba(245, 245, 255, 0.9);
       opacity: 0.96;
       white-space: nowrap;
+      pointer-events: none;
     }
 
     .table-logo span {
@@ -417,10 +418,9 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) translateY(22px);
       display: flex;
       gap: 6px;
-      margin-top: 28px;
     }
 
     .card {
@@ -457,57 +457,14 @@
       font-size: 9px;
     }
 
-    .card.red {
-      color: #d41245;
-    }
-
-    .card.black {
-      color: #16162a;
-    }
-
-    .seat {
-      position: absolute;
-      width: 52px;
-      height: 26px;
-      border-radius: 999px;
-      background: rgba(5, 5, 15, 0.93);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .seat.active {
-      border-color: var(--accent-strong);
-      box-shadow:
-        0 0 16px rgba(111, 122, 255, 0.75),
-        0 0 38px rgba(0, 0, 0, 0.9);
-      color: #e2e2ff;
-    }
-
-    .seat.stack::after {
-      content: "124K";
-      margin-left: 3px;
-      color: #f5f5ff;
-      font-weight: 600;
-      font-size: 10px;
-    }
-
-    .seat-1 { top: 6%; left: 50%; transform: translateX(-50%); }
-    .seat-2 { top: 23%; right: 6%; }
-    .seat-3 { bottom: 23%; right: 6%; }
-    .seat-4 { bottom: 6%; left: 50%; transform: translateX(-50%); }
-    .seat-5 { bottom: 23%; left: 6%; }
-    .seat-6 { top: 23%; left: 6%; }
+    .card.red { color: #d41245; }
+    .card.black { color: #16162a; }
 
     .pot-indicator {
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -5px);
+      transform: translate(-50%, -50%) translateY(-18px);
       font-size: 11px;
       color: rgba(221, 223, 255, 0.85);
     }
@@ -716,24 +673,24 @@
     <header>
       <div class="container">
         <div class="header-inner">
-          <div class="logo-wrap">
+          <a href="index.html" class="logo-wrap">
             <div class="logo-mark"></div>
             <div>
               <div class="logo-text-main">MIDNIGHT BLACK</div>
               <div class="logo-text-sub">POKER ROOM</div>
             </div>
-          </div>
+          </a>
 
           <nav>
-            <a href="#tables">Столы</a>
+            <a href="table.html">Столы</a>
             <a href="#security">Безопасность</a>
-            <a href="#apps">Приложения</a>
+            <a href="downloads.html">Приложения</a>
             <a href="#support">Поддержка</a>
           </nav>
 
           <div class="header-cta">
-            <button class="btn btn-ghost">Войти</button>
-            <button class="btn btn-primary">Регистрация</button>
+            <a href="login.html" class="btn btn-ghost">Войти</a>
+            <a href="registration.html" class="btn btn-primary">Регистрация</a>
           </div>
         </div>
       </div>
@@ -756,8 +713,8 @@
               </p>
 
               <div class="hero-cta-row">
-                <a href="/table.html" class="btn btn-primary">Играть в браузере</a>
-                <button class="btn btn-ghost">Скачать iOS-клиент</button>
+                <a href="table.html" class="btn btn-primary">Играть в браузере</a>
+                <a href="downloads.html" class="btn btn-ghost">Скачать iOS-клиент</a>
               </div>
 
               <div class="hero-note">
@@ -781,13 +738,13 @@
               </div>
             </div>
 
-            <!-- TABLE PREVIEW CARD -->
+            <!-- TABLE PREVIEW CARD (упрощённый) -->
             <div class="hero-table-card" id="tables">
               <div class="table-card-header">
-                <div class="table-badge">Midnight Hold'em / NL 25–100</div>
+                <div class="table-badge">Midnight Hold'em · NL 25–100</div>
                 <div class="table-status">
                   <div class="status-dot"></div>
-                  6 из 6 игроков · 124K в банке
+                  Сейчас за столом: 6 игроков
                 </div>
               </div>
 
@@ -804,7 +761,7 @@
                         <div class="card-rank">A</div>
                         <div class="card-suit">♥</div>
                       </div>
-                      <div class="card.black">
+                      <div class="card black">
                         <div class="card-rank">K</div>
                         <div class="card-suit">♣</div>
                       </div>
@@ -823,16 +780,8 @@
                     </div>
 
                     <div class="pot-indicator">
-                      Bank: <span>124 300</span> MBC
+                      Банк: <span>124&nbsp;300</span> MBC
                     </div>
-
-                    <!-- Места игроков -->
-                    <div class="seat seat-1">Hero</div>
-                    <div class="seat seat-2 stack active">Seat 2</div>
-                    <div class="seat seat-3 stack">Seat 3</div>
-                    <div class="seat seat-4">Seat 4</div>
-                    <div class="seat seat-5 stack">Seat 5</div>
-                    <div class="seat seat-6">Seat 6</div>
                   </div>
                 </div>
               </div>
@@ -901,18 +850,18 @@
               </p>
             </div>
             <div class="apps-buttons">
-              <div class="store-badge">
+              <a href="table.html" class="store-badge">
                 <div>
                   <div class="store-label">веб-версия</div>
                   <div class="store-name">Играть в браузере</div>
                 </div>
-              </div>
-              <div class="store-badge">
+              </a>
+              <a href="downloads.html" class="store-badge">
                 <div>
                   <div class="store-label">скоро</div>
                   <div class="store-name">iOS / Android</div>
                 </div>
-              </div>
+              </a>
               <div class="store-badge">
                 <div>
                   <div class="store-label">позже</div>
