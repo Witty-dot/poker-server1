@@ -84,7 +84,7 @@ header {
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer; /* чтобы было ясно, что кликабельно */
+  cursor: pointer;
 }
 
 .logo-mark {
@@ -210,7 +210,7 @@ nav a:hover::after {
   background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.09), transparent);
 }
 
-/* ================= HERO (только для главной страницы) ================= */
+/* ================= HERO (только главная) ================= */
 
 .hero {
   position: relative;
@@ -356,8 +356,6 @@ nav a:hover::after {
   background: var(--success);
   box-shadow: 0 0 12px rgba(53, 212, 155, 0.9);
 }
-
-/* Сам стол-превью */
 
 .table-preview-wrap {
   padding: 12px 4px 10px;
@@ -521,7 +519,7 @@ nav a:hover::after {
   color: #f5f5ff;
 }
 
-/* ================= FEATURES SECTION ================= */
+/* ================= FEATURES ================= */
 
 .features {
   padding: 20px 0 50px;
@@ -581,7 +579,7 @@ nav a:hover::after {
   box-shadow: 0 0 10px rgba(111, 122, 255, 0.9);
 }
 
-/* ================= APPS SECTION ================= */
+/* ================= APPS ================= */
 
 .apps {
   padding-bottom: 50px;
@@ -670,7 +668,7 @@ footer {
   color: var(--text-main);
 }
 
-/* ================= AUTH / FORM PAGES (регистрация, логин, форгот, даунлоад) ================= */
+/* ================= AUTH PAGES (login, register, forgot, downloads) ================= */
 
 .auth-page {
   flex: 1;
@@ -693,29 +691,32 @@ footer {
   background: radial-gradient(circle at 0 0, #181828, #050509 80%);
   border: 1px solid var(--border-soft);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-  padding: 22px 20px 20px;
+  padding: 26px 22px 22px;
 }
 
 .auth-title {
-  font-size: 22px;
-  margin-bottom: 4px;
+  font-size: 24px;
+  line-height: 1.25;
+  margin-bottom: 8px;
 }
 
 .auth-subtitle {
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .auth-form label {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.4;
   color: var(--text-muted);
 }
 
@@ -724,8 +725,8 @@ footer {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(10, 10, 22, 0.95);
-  padding: 7px 13px;
-  font-size: 13px;
+  padding: 9px 14px;
+  font-size: 14px;
   color: var(--text-main);
   outline: none;
 }
@@ -736,18 +737,18 @@ footer {
 }
 
 .auth-actions {
-  margin-top: 12px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .neon-btn {
   width: 100%;
   border-radius: 999px;
   border: 1px solid rgba(150, 158, 255, 0.4);
-  padding: 9px 16px;
-  font-size: 13px;
+  padding: 10px 18px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   background: radial-gradient(circle at 0 0, #a8b0ff, #6f7aff 45%, #4a53f0 100%);
@@ -762,8 +763,9 @@ footer {
 }
 
 .auth-switch {
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--text-muted);
 }
 
@@ -775,15 +777,105 @@ footer {
   color: #ffffff;
 }
 
-/* для ссылок "Забыли пароль?", "Скачать клиенты" под кнопкой */
+/* текст-пояснение под кнопкой (forgot и т.п.) */
+.auth-note,
 .auth-inline-link {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--text-muted);
+}
+
+.auth-note {
+  margin-top: 10px;
+}
+
+.auth-inline-link {
   text-align: right;
 }
 
 .auth-inline-link a {
   color: #c9ceff;
+}
+
+.auth-inline-link a:hover {
+  color: #ffffff;
+}
+
+/* ================= DOWNLOADS LIST ================= */
+
+.download-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.download-item {
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: radial-gradient(
+    circle at 0 0,
+    rgba(255, 255, 255, 0.06),
+    rgba(5, 5, 15, 0.96)
+  );
+  padding: 10px 18px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.7);
+  color: #f5f5ff;
+  transition: border-color 0.18s ease-out,
+              box-shadow 0.18s ease-out,
+              transform 0.12s ease-out;
+}
+
+.download-item:hover {
+  border-color: rgba(168, 176, 255, 0.85);
+  box-shadow: 0 0 26px rgba(111, 122, 255, 0.85);
+  transform: translateY(-1px);
+}
+
+.download-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.download-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+.download-badge-available {
+  color: #9ad1ff;
+}
+
+.download-main {
+  font-weight: 500;
+}
+
+.download-note {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* яркая доступная кнопка */
+.download-item.is-primary {
+  background: radial-gradient(circle at 0 0, #a8b0ff, #6f7aff 45%, #4a53f0 100%);
+  border-color: rgba(150, 158, 255, 0.85);
+  color: #050509;
+  box-shadow: 0 0 30px rgba(111, 122, 255, 0.95);
+}
+
+.download-item.is-primary .download-badge,
+.download-item.is-primary .download-note {
+  color: rgba(5, 5, 10, 0.8);
+}
+
+.download-item.is-disabled {
+  opacity: 0.9;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -838,82 +930,5 @@ footer {
 
   .auth-card {
     padding-inline: 16px;
-  }
-   /* ============================
-   DOWNLOADS
-   ============================ */
-
-  .download-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .download-item {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), rgba(5, 5, 15, 0.96));
-    padding: 10px 18px;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.7);
-    color: #f5f5ff;
-    transition: border-color 0.18s ease-out, box-shadow 0.18s ease-out, transform 0.12s ease-out;
-  }
-
-  .download-item:hover {
-    border-color: rgba(168, 176, 255, 0.85);
-    box-shadow: 0 0 26px rgba(111, 122, 255, 0.85);
-    transform: translateY(-1px);
-  }
-
-  .download-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    font-size: 13px;
-  }
-
-  .download-badge {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--text-muted);
-  }
-
-  .download-badge-available {
-    color: #9ad1ff;
-  }
-
-  .download-main {
-    font-weight: 500;
-  }
-
-  .download-note {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  /* яркая "доступная" кнопка с неоном */
-  .download-item.is-primary {
-  background: radial-gradient(circle at 0 0, #a8b0ff, #6f7aff 45%, #4a53f0 100%);
-  border-color: rgba(150, 158, 255, 0.85);
-  color: #050509;
-    box-shadow: 0 0 30px rgba(111, 122, 255, 0.95);
-  }
-
-  .download-item.is-primary .download-badge {
-    color: rgba(5, 5, 10, 0.8);
-  }
-
-  .download-item.is-primary .download-note {
-    color: rgba(5, 5, 10, 0.8);
-  }
-
-  /* слегка притушить ещё недоступные клиенты */
-  .download-item.is-disabled {
-    opacity: 0.9;
   }
 }
