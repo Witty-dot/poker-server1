@@ -5,6 +5,8 @@ const socket = io('https://poker-server-f2et.onrender.com', {
 
 let myPlayerId = null;
 let turnTimerInterval = null;
+let lastSeenLogMessage = null;
+let lastSeenDealerDetails = null;
 
 // Кэш DOM-элементов
 const seatEls      = Array.from(document.querySelectorAll('.seat'));          // seat-1..6
@@ -21,13 +23,22 @@ const heroCardsSlots   = Array.from(document.querySelectorAll('.hero-card-slot')
 const heroLastActionEl = document.getElementById('heroLastAction');
 const heroPositionEl   = document.getElementById('heroPosition');
 
-const tableInfoEl = document.getElementById('tableInfo'); // верхняя строка под зелёной точкой
-const chatEl      = document.getElementById('chat');      // скроллящийся чат (если есть)
+const tableInfoEl = document.getElementById('tableInfo'); // текст под зелёной точкой
+const chatEl      = document.getElementById('chat');      // окно чата
+
+// Кнопки действий (если есть на странице)
+const foldButton      = document.getElementById('foldButton');
+const checkCallButton = document.getElementById('checkCallButton');
+const betRaiseButton  = document.getElementById('betRaiseButton');
+const allInButton     = document.getElementById('allInButton');
+const betRangeEl      = document.getElementById('betRange');
+const betAmountEl     = document.getElementById('betAmount');
+const betPercentLabel = document.getElementById('betPercentLabel');
+const presetButtons   = Array.from(document.querySelectorAll('[data-bet-preset]'));
 
 // ============== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ РИСОВАНИЯ ==============
 
 function suitToColor(suit) {
-  // На сервере масть у тебя '♥','♦','♠','♣' (судя по разметке)
   if (suit === '♥' || suit === '♦') return 'red';
   return 'black';
 }
@@ -56,6 +67,18 @@ function clearTurnTimer() {
   }
 }
 
+// ====== ЧАТ (добавляем строки, а не затираем полностью) ======
+function appendChatLine(type, text) {
+  if (!chatEl || !text) return;
+  const line = document.createElement('div');
+  // простое различие по типам
+  if (type === 'dealer') line.className = 'chat-line-dealer';
+  if (type === 'system') line.className = 'chat-line-system';
+  line.textContent = text;
+  chatEl.appendChild(line);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
 // ============== РЕНДЕР ИГРОКОВ (стулья) ==============
 
 function renderSeats(state) {
@@ -68,6 +91,7 @@ function renderSeats(state) {
 
     if (!p) {
       seatEl.classList.add('seat--empty');
+      seatEl.classList.remove('active');
       if (nameEl)  nameEl.textContent  = 'Пусто';
       if (stackEl) stackEl.textContent = '';
       return;
@@ -82,24 +106,16 @@ function renderSeats(state) {
       stackEl.textContent = p.stack;
     }
 
-    // Подсветка активного игрока
+    // Подсветка активного игрока (совместимо с .seat.active)
     if (p.id === state.currentTurn) {
-      seatEl.classList.add('seat--active');
+      seatEl.classList.add('active');
     } else {
-      seatEl.classList.remove('seat--active');
-    }
-
-    // Игрок на паузе — чуть приглушим (если есть такой класс)
-    if (p.isPaused) {
-      seatEl.classList.add('seat--paused');
-    } else {
-      seatEl.classList.remove('seat--paused');
+      seatEl.classList.remove('active');
     }
   });
 
   // Переставляем фишку дилера по buttonPlayerId
   if (dealerChipEl && state.buttonPlayerId) {
-    // убираем старые классы dealer-1..dealer-6
     dealerChipEl.classList.remove(
       'dealer-1','dealer-2','dealer-3','dealer-4','dealer-5','dealer-6'
     );
@@ -114,7 +130,7 @@ function renderSeats(state) {
   }
 }
 
-// ============== РЕНДЕР БОРДА, БАНКА, СООБЩЕНИЙ ==============
+// ============== РЕНДЕР БОРДА, БАНКА, СТАТУСА ==============
 
 function renderBoardAndPot(state) {
   // Банк
@@ -136,29 +152,37 @@ function renderBoardAndPot(state) {
   // Детализация сайд-потов (по желанию)
   if (sidePotsEl) {
     const potDetails = state.potDetails || [];
-    if (potDetails.length) {
-      sidePotsEl.textContent = potDetails.join(' | ');
-    } else {
-      sidePotsEl.textContent = '';
-    }
+    sidePotsEl.textContent = potDetails.length ? potDetails.join(' | ') : '';
   }
 
-  // Общая инфа по столу / сообщения крупье
+  // ВЕРХНЯЯ ИНФА ПОД ЗЕЛЁНОЙ ТОЧКОЙ — БЕЗ "ТЕКСТА КРУПЬЕ"
   if (tableInfoEl) {
-    // Можно комбинировать stage + tableMessage
-    let text = '';
-    if (state.tableMessage) text += state.tableMessage;
-    if (!text) {
-      // запасной вариант: просто стадия
-      text = 'Стадия: ' + (state.stage || '—');
-    }
-    tableInfoEl.textContent = text;
+    const stageMap = {
+      waiting:  'Ожидание раздачи',
+      preflop:  'Префлоп',
+      flop:     'Флоп',
+      turn:     'Тёрн',
+      river:    'Ривер',
+      showdown: 'Шоудаун'
+    };
+    const stageName = stageMap[state.stage] || '—';
+    const sb = state.smallBlind || 0;
+    const bb = state.bigBlind || 0;
+    tableInfoEl.textContent = `Live · Hold'em · Блайнды ${sb}/${bb} · ${stageName}`;
   }
 
-  // Крупье в чат (минимальная версия)
-  if (chatEl && state.dealerDetails) {
-    // не спамим бесконечно — для простоты просто перезаписываем
-    chatEl.textContent = state.dealerDetails;
+  // КРУПЬЕ В ЧАТЕ:
+  // 1) короткие сообщения (lastLogMessage -> tableMessage)
+  if (state.tableMessage && state.tableMessage !== lastSeenLogMessage) {
+    appendChatLine('dealer', state.tableMessage);
+    lastSeenLogMessage = state.tableMessage;
+  }
+
+  // 2) развёрнутая расшифровка (dealerDetails) — многострочный текст
+  if (state.dealerDetails && state.dealerDetails !== lastSeenDealerDetails) {
+    const lines = String(state.dealerDetails).split('\n');
+    lines.forEach(line => appendChatLine('system', line));
+    lastSeenDealerDetails = state.dealerDetails;
   }
 }
 
@@ -175,25 +199,29 @@ function renderHero(state) {
     heroStackEl.textContent = me ? (me.stack || 0) : 0;
   }
 
-  // Позиция (BTN / SB / BB — сервер такого не шлёт, можно позже добавить,
-  // сейчас просто покажем стадию и "Ваш ход" / "Ожидание")
   if (heroPositionEl) {
-    heroPositionEl.textContent = 'Стадия: ' + (state.stage || '—');
+    const stageMap = {
+      waiting:  'Ожидание',
+      preflop:  'Префлоп',
+      flop:     'Флоп',
+      turn:     'Тёрн',
+      river:    'Ривер',
+      showdown: 'Шоудаун'
+    };
+    heroPositionEl.textContent = 'Стадия: ' + (stageMap[state.stage] || '—');
   }
 
-  // Карманные карты
+  // КАРМАННЫЕ КАРТЫ — рисуем мини-карты внутри hero-card-slot
   const yourCards = state.yourCards || [];
   heroCardsSlots.forEach((slot, idx) => {
+    slot.innerHTML = '';
     const card = yourCards[idx];
-    if (!card) {
-      slot.textContent = ''; // можно тут фон-задник сделать через CSS
-      slot.classList.remove('card-red', 'card-black');
-      return;
-    }
-    const label = String(card.rank) + String(card.suit);
-    slot.textContent = label;
-    slot.classList.remove('card-red', 'card-black');
-    slot.classList.add(suitToColor(card.suit) === 'red' ? 'card-red' : 'card-black');
+    if (!card) return;
+    const cardEl = createCardEl(card);
+    // немного уменьшим, чтобы влезло
+    cardEl.style.width = '100%';
+    cardEl.style.height = '100%';
+    slot.appendChild(cardEl);
   });
 
   // Статус "Ваш ход" + таймер
@@ -232,6 +260,31 @@ function renderState(state) {
   renderSeats(state);
   renderBoardAndPot(state);
   renderHero(state);
+  updateBetControls(state);
+}
+
+// ================== УПРАВЛЕНИЕ СТАВКОЙ (ползунок / пресеты) ==================
+
+function updateBetControls(state) {
+  if (!betRangeEl || !betAmountEl) return;
+  const players = state.players || [];
+  const me = players.find(p => p.id === myPlayerId) || null;
+  if (!me) return;
+
+  const stack = me.stack || 0;
+
+  // если сейчас не наш ход — можно заблокировать управление, если захочешь
+  // пока просто оставляем
+
+  // синхронность ползунка и поля ставки
+  betRangeEl.addEventListener('input', () => {
+    const percent = parseInt(betRangeEl.value, 10) || 0;
+    if (betPercentLabel) {
+      betPercentLabel.textContent = percent + '%';
+    }
+    const amount = Math.floor((stack * percent) / 100);
+    betAmountEl.value = amount;
+  }, { once: true });
 }
 
 // ================== SOCKET.IO СЛУШАТЕЛИ ==================
@@ -260,17 +313,70 @@ socket.on('disconnect', (reason) => {
 socket.on('gameState', (state) => {
   console.log('[table.js] gameState:', state);
   if (!myPlayerId) {
-    // на всякий случай обновим, если пришло раньше connect
     myPlayerId = socket.id;
   }
   renderState(state);
 });
 
-// ================== (ПОТОМ) КНОПКИ ДЕЙСТВИЙ ==================
-// Здесь позже можно навесить:
-// - foldButton -> socket.emit('action', { type: 'fold' })
-// - check/call  -> socket.emit('action', { type: 'call' })
-// - bet/raise   -> socket.emit('action', { type: 'bet', amount: ... })
-// - all-in      -> socket.emit('action', { type: 'allin' })
-//
-// Пока не трогаем, сначала добиваем корректный рендер.
+// ================== КНОПКИ ДЕЙСТВИЙ ==================
+
+function wireActionButtons() {
+  if (foldButton) {
+    foldButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'fold' });
+    });
+  }
+
+  if (checkCallButton) {
+    checkCallButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'call' });
+    });
+  }
+
+  if (betRaiseButton) {
+    betRaiseButton.addEventListener('click', () => {
+      if (!betAmountEl) return;
+      const raw = parseInt(betAmountEl.value, 10);
+      const amount = Number.isFinite(raw) && raw > 0 ? raw : 0;
+      if (amount <= 0) return;
+      socket.emit('action', { type: 'bet', amount });
+    });
+  }
+
+  if (allInButton) {
+    allInButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'allin' });
+    });
+  }
+
+  // пресеты (⅓ пота, ½, макс и т.п.)
+  if (presetButtons.length && betAmountEl) {
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.getAttribute('data-bet-preset');
+        // пока очень грубо: "max" -> пустим all-in, остальное не трогаем
+        if (preset === 'max') {
+          socket.emit('action', { type: 'allin' });
+          return;
+        }
+        // остальное можно потом нормально привязать к pot/stack
+      });
+    });
+  }
+
+  // iOS-неон для .action-btn (как в демо)
+  const actionBtns = document.querySelectorAll('.action-btn');
+  actionBtns.forEach(btn => {
+    const press = () => btn.classList.add('is-pressed');
+    const release = () => btn.classList.remove('is-pressed');
+
+    btn.addEventListener('touchstart', press, { passive: true });
+    btn.addEventListener('mousedown', press);
+
+    ['touchend', 'touchcancel', 'mouseup', 'mouseleave'].forEach(ev => {
+      btn.addEventListener(ev, release);
+    });
+  });
+}
+
+wireActionButtons();
