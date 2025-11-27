@@ -6,9 +6,10 @@
   <title>Midnight Black Poker – Скачать клиенты</title>
   <link rel="stylesheet" href="/css/main.css" />
 </head>
-<body class="auth-page">
+<body>
+<div class="auth-page">
 
-  <!-- ХЕДЕР (тот же, что везде) -->
+  <!-- ХЕДЕР общий -->
   <header>
     <div class="container">
       <div class="header-inner">
@@ -37,45 +38,53 @@
     </div>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <!-- КАРТОЧКА "Скачать клиенты" -->
   <main class="auth-main">
     <div class="auth-card-wrap">
-      <div class="auth-card">
-
+      <section class="auth-card">
         <h1 class="auth-title">Скачать клиенты</h1>
         <p class="auth-subtitle">
           Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
         </p>
 
-        <div class="downloads-grid">
-          <div class="download-pill download-pill-disabled">
-            <div class="download-pill-label">Скоро</div>
-            <div class="download-pill-title">iOS-клиент</div>
-            <div class="download-pill-desc">Тестируем нативное приложение</div>
-          </div>
+        <div class="download-list">
 
-          <div class="download-pill download-pill-disabled">
-            <div class="download-pill-label">В разработке</div>
-            <div class="download-pill-title">Android-клиент</div>
-            <div class="download-pill-desc">Готовим релиз под Android</div>
-          </div>
-
-          <div class="download-pill download-pill-disabled">
-            <div class="download-pill-label">Скоро</div>
-            <div class="download-pill-title">Desktop (Windows + macOS)</div>
-            <div class="download-pill-desc">Клиент для игры с ПК</div>
-          </div>
-
-          <a class="download-pill download-pill-active" href="/table.html">
-            <div class="download-pill-label">Доступно</div>
-            <div class="download-pill-title">Веб-версия в браузере</div>
-            <div class="download-pill-desc">Открыть стол прямо сейчас</div>
+          <a class="download-item is-disabled" href="#">
+            <div class="download-text">
+              <div class="download-badge">Скоро</div>
+              <div class="download-main">iOS-клиент</div>
+              <div class="download-note">Тестируем нативное приложение</div>
+            </div>
           </a>
-        </div>
 
-      </div>
+          <a class="download-item is-disabled" href="#">
+            <div class="download-text">
+              <div class="download-badge">В разработке</div>
+              <div class="download-main">Android-клиент</div>
+              <div class="download-note">Готовим релиз под Android</div>
+            </div>
+          </a>
+
+          <a class="download-item is-disabled" href="#">
+            <div class="download-text">
+              <div class="download-badge">Скоро</div>
+              <div class="download-main">Desktop (Windows + macOS)</div>
+              <div class="download-note">Клиент для игры с ПК</div>
+            </div>
+          </a>
+
+          <a class="download-item is-primary" href="/table.html">
+            <div class="download-text">
+              <div class="download-badge download-badge-available">Доступно</div>
+              <div class="download-main">Веб-версия в браузере</div>
+              <div class="download-note">Открыть стол прямо сейчас</div>
+            </div>
+          </a>
+
+        </div>
+      </section>
     </div>
   </main>
-
+</div>
 </body>
 </html>
