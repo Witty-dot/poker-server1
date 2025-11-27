@@ -9,7 +9,7 @@
 <body>
 <div class="auth-page">
 
-  <!-- ХЕДЕР такой же, как на login/registration -->
+  <!-- ОДИНАКОВЫЙ ХЕДЕР -->
   <header>
     <div class="container">
       <div class="header-inner">
@@ -38,18 +38,25 @@
     </div>
   </header>
 
-  <!-- САМА КАРТОЧКА, 1-в-1 как у регистрации/логина по классам -->
+  <!-- КАРТОЧКА ТОЧНО КАК У ЛОГИНА/РЕГИ -->
   <main class="auth-main">
     <div class="auth-card-wrap">
       <section class="auth-card">
         <h1 class="auth-title">Восстановление доступа</h1>
         <p class="auth-subtitle">
-          Укажите email, привязанный к аккаунту. Мы пришлём ссылку для сброса пароля.
+          Укажите email, привязанный к аккаунту. Мы пришлём
+          ссылку для сброса пароля.
         </p>
 
-        <form class="auth-form" id="forgotForm">
+        <form class="auth-form auth-form-forgot" id="forgotForm">
           <label class="auth-label" for="email">Email</label>
-          <input class="auth-input" type="email" id="email" required />
+          <input
+            class="auth-input"
+            type="email"
+            id="email"
+            name="email"
+            required
+          />
 
           <button type="submit" class="auth-btn-primary">
             Отправить ссылку
@@ -75,7 +82,7 @@ document.getElementById("forgotForm").addEventListener("submit", function (e) {
   e.preventDefault();
   const email = document.getElementById("email").value.trim();
   console.log("Запрос на восстановление для:", email);
-  // сюда потом повесим реальный запрос на бэкенд
+  // здесь потом повесим реальный запрос на бэкенд
 });
 </script>
 </body>
