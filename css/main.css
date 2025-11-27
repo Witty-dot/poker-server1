@@ -463,10 +463,10 @@ nav a:hover::after {
 }
 
 /* расстановка стульев по периметру */
-.hero-seat-1 { top: 6%;  left: 50%; transform: translate(-50%, 0); }
+.hero-seat-1 { top: 0%;  left: 50%; transform: translate(-50%, 0); }
 .hero-seat-2 { top: 26%; right: 4%; transform: translate(0, -50%); }
 .hero-seat-3 { bottom: 26%; right: 4%; transform: translate(0, 50%); }
-.hero-seat-4 { bottom: 6%; left: 50%; transform: translate(-50%, 0); }
+.hero-seat-4 { bottom: 0%; left: 50%; transform: translate(-50%, 0); }
 .hero-seat-5 { bottom: 26%; left: 4%; transform: translate(0, 50%); }
 .hero-seat-6 { top: 26%; left: 4%; transform: translate(0, -50%); }
 
