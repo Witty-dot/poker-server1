@@ -839,4 +839,81 @@ footer {
   .auth-card {
     padding-inline: 16px;
   }
+   /* ============================
+   DOWNLOADS
+   ============================ */
+
+  .download-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .download-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.06), rgba(5, 5, 15, 0.96));
+    padding: 10px 18px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.7);
+    color: #f5f5ff;
+    transition: border-color 0.18s ease-out, box-shadow 0.18s ease-out, transform 0.12s ease-out;
+  }
+
+  .download-item:hover {
+    border-color: rgba(168, 176, 255, 0.85);
+    box-shadow: 0 0 26px rgba(111, 122, 255, 0.85);
+    transform: translateY(-1px);
+  }
+
+  .download-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+  }
+
+  .download-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+  }
+
+  .download-badge-available {
+    color: #9ad1ff;
+  }
+
+  .download-main {
+    font-weight: 500;
+  }
+
+  .download-note {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* яркая "доступная" кнопка с неоном */
+  .download-item.is-primary {
+  background: radial-gradient(circle at 0 0, #a8b0ff, #6f7aff 45%, #4a53f0 100%);
+  border-color: rgba(150, 158, 255, 0.85);
+  color: #050509;
+    box-shadow: 0 0 30px rgba(111, 122, 255, 0.95);
+  }
+
+  .download-item.is-primary .download-badge {
+    color: rgba(5, 5, 10, 0.8);
+  }
+
+  .download-item.is-primary .download-note {
+    color: rgba(5, 5, 10, 0.8);
+  }
+
+  /* слегка притушить ещё недоступные клиенты */
+  .download-item.is-disabled {
+    opacity: 0.9;
+  }
 }
