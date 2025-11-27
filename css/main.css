@@ -229,20 +229,7 @@ nav a:hover::after {
   opacity: 0.65;
   filter: blur(4px);
   pointer-events: none;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  top: -140px;
-  left: -110px;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(111, 122, 255, 0.45), transparent 70%);
-  opacity: 0.55;
-  filter: blur(6px);
-  pointer-events: none;
-}
+{
 
 .hero-grid {
   display: grid;
