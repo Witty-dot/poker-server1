@@ -680,14 +680,19 @@ footer {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 32px 16px 40px;
+  justify-content: flex-start;      /* выше, ближе к хедеру */
+  padding: 40px 16px 40px;          /* как на старом логине */
+}
+
+.auth-card-wrap {
+  width: 100%;
+  max-width: 640px;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 420px;
-  border-radius: 22px;
+  max-width: 640px;
+  border-radius: 28px;
   background: radial-gradient(circle at 0 0, #181828, #050509 80%);
   border: 1px solid var(--border-soft);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
@@ -695,7 +700,7 @@ footer {
 }
 
 .auth-title {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.25;
   margin-bottom: 8px;
 }
@@ -704,7 +709,7 @@ footer {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .auth-form {
@@ -777,6 +782,14 @@ footer {
   color: var(--text-muted);
 }
 
+.auth-switch a {
+  color: #c9ceff;
+}
+
+.auth-switch a:hover {
+  color: #ffffff;
+}
+
 /* текст-пояснение под кнопкой */
 .auth-note,
 .auth-inline-link {
@@ -800,20 +813,18 @@ footer {
   font-size: 12px;
 }
 
-/* единый стиль всех ссылок внутри auth-блоков */
-.auth-switch a,
+/* универсальный стиль ссылки в auth-блоках */
 .auth-inline-link a,
 .auth-extra-row a,
 .auth-link {
-  color: #7093ff;
+  color: #c9ceff;
   text-decoration: none;
 }
 
-.auth-switch a:hover,
 .auth-inline-link a:hover,
 .auth-extra-row a:hover,
 .auth-link:hover {
-  color: #9ab0ff;
+  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -946,5 +957,12 @@ footer {
 
   .auth-card {
     padding-inline: 16px;
+  }
+}
+
+/* чуть больше паддингов на широких экранах — как в старом логине */
+@media (min-width: 640px) {
+  .auth-card {
+    padding: 32px 34px 30px;
   }
 }
