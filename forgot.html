@@ -3,26 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Midnight Black Poker – Восстановление доступа</title>
-  <!-- общий стиль для всего сайта -->
-  <link rel="stylesheet" href="/css/main.css" />
+  <title>Midnight Black Poker – Восстановление пароля</title>
+  <link rel="stylesheet" href="main.css" />
 </head>
 <body>
-<div class="auth-page">
+<div class="page-wrap">
 
-  <!-- ХЕДЕР КАК НА ГЛАВНОЙ / LOGIN / REG -->
+  <!-- ХЕДЕР, как на главной/логине -->
   <header>
     <div class="container">
       <div class="header-inner">
-
-        <!-- клик по логотипу → главная -->
-        <a href="/" class="logo-wrap">
+        <div class="logo-wrap" onclick="window.location.href='/'">
           <div class="logo-mark"></div>
           <div>
             <div class="logo-text-main">MIDNIGHT BLACK</div>
             <div class="logo-text-sub">POKER ROOM</div>
           </div>
-        </a>
+        </div>
 
         <nav>
           <a href="/#tables">Столы</a>
@@ -32,61 +29,81 @@
         </nav>
 
         <div class="header-cta">
-          <a href="/login.html" class="btn btn-ghost">Войти</a>
-          <a href="/registration.html" class="btn btn-primary">Регистрация</a>
+          <a href="/login.html" class="btn btn-primary">Войти</a>
+          <a href="/registration.html" class="btn btn-ghost">Регистрация</a>
         </div>
-
       </div>
     </div>
   </header>
 
-  <!-- КАРТОЧКА ФОРМЫ В ТОЙ ЖЕ СЕТКЕ, ЧТО LOGIN/REG -->
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="auth-main">
-    <div class="auth-card-wrap">
-      <section class="auth-card">
+    <div class="auth-card">
+      <h1 class="auth-title">Восстановление пароля</h1>
+      <p class="auth-subtitle">
+        Укажите email, который вы использовали при регистрации в Midnight Black Poker.
+        Мы отправим на него письмо для восстановления доступа.
+      </p>
 
-        <h1 class="auth-title">Восстановление доступа</h1>
-        <p class="auth-subtitle">
-          Укажите email, привязанный к аккаунту Midnight Black. Мы пришлём
-          ссылку для сброса пароля.
-        </p>
+      <form id="forgotForm" class="auth-form">
+        <label class="auth-label" for="forgotEmail">Email</label>
+        <input
+          type="email"
+          id="forgotEmail"
+          class="auth-input"
+          required
+          autocomplete="email"
+        />
 
-        <form class="auth-form" id="forgotForm">
-          <label class="auth-label" for="email">Email</label>
-          <input
-            class="auth-input"
-            type="email"
-            id="email"
-            name="email"
-            required
-          />
-
-          <button type="submit" class="auth-btn-primary">
-            Отправить ссылку
+        <div class="auth-actions">
+          <button type="submit" class="auth-submit">
+            Отправить письмо для восстановления
           </button>
-        </form>
+        </div>
+      </form>
 
-        <p class="auth-switch">
-          Вспомнили пароль?
-          <a href="/login.html">Войти</a>
-        </p>
+      <p class="auth-note">
+        Если в течение нескольких минут письмо не пришло, проверьте папку «Спам» или
+        попробуйте указать другой email, который могли использовать при регистрации.
+      </p>
 
-        <p class="auth-note">
-          Если письма нет в течение нескольких минут — проверьте папку «Спам».
-        </p>
-
-      </section>
+      <div class="auth-switch">
+        Вспомнили пароль?
+        <a href="/login.html">Вернуться к входу</a>
+      </div>
     </div>
   </main>
+
+  <!-- ФУТЕР (общий) -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>© Midnight Black Poker, 2025</div>
+        <div class="footer-links">
+          <a href="/privacy.html">Политика конфиденциальности</a>
+          <a href="/terms.html">Пользовательское соглашение</a>
+          <a href="/support.html">Поддержка</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </div>
 
 <script>
-  // заглушка обработки формы — чтобы потом легко подцепить бэкенд
-  document.getElementById("forgotForm").addEventListener("submit", function (e) {
+  const form = document.getElementById('forgotForm');
+
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    console.log("Запрос на восстановление для:", email);
-    // здесь позже будет реальный запрос на сервер
+
+    const email = document.getElementById('forgotEmail').value.trim();
+
+    const payload = { email };
+
+    // TODO: заменить на реальный запрос к backend
+    console.log('Запрос восстановления пароля:', payload);
+
+    alert('Если такой email есть в системе, мы отправим письмо с инструкциями по восстановлению пароля.');
   });
 </script>
 </body>
