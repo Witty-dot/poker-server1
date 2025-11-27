@@ -4,14 +4,37 @@
   <meta charset="utf-8" />
   <title>Midnight Black Poker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- общий стиль для всего сайта -->
   <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
   <div class="page-wrap">
 
-    <!-- ХЭДЕР ИЗ partials/header.html -->
-    <div include-html="/partials/header.html"></div>
+    <!-- ХЭДЕР -->
+    <header>
+      <div class="container">
+        <div class="header-inner">
+          <a href="/" class="logo-wrap">
+            <div class="logo-mark"></div>
+            <div>
+              <div class="logo-text-main">MIDNIGHT BLACK</div>
+              <div class="logo-text-sub">POKER ROOM</div>
+            </div>
+          </a>
+
+          <nav>
+            <a href="/table.html">Столы</a>
+            <a href="#security">Безопасность</a>
+            <a href="/downloads.html">Приложения</a>
+            <a href="#support">Поддержка</a>
+          </nav>
+
+          <div class="header-cta">
+            <a href="/login.html" class="btn btn-ghost">Войти</a>
+            <a href="/registration.html" class="btn btn-primary">Регистрация</a>
+          </div>
+        </div>
+      </div>
+    </header>
 
     <main>
       <!-- HERO -->
@@ -59,7 +82,7 @@
               </div>
             </div>
 
-            <!-- Правая колонка — превью стола -->
+            <!-- Правая колонка — превью стола, без карт/банка, со стульями -->
             <div class="hero-table-card" id="tables">
               <div class="table-card-header">
                 <div class="table-badge">Midnight Hold'em · NL 25–100</div>
@@ -77,31 +100,24 @@
                       <span>POKER ROOM</span>
                     </div>
 
-                    <div class="community-cards">
-                      <div class="card red">
-                        <div class="card-rank">A</div>
-                        <div class="card-suit">♥</div>
-                      </div>
-                      <div class="card black">
-                        <div class="card-rank">K</div>
-                        <div class="card-suit">♣</div>
-                      </div>
-                      <div class="card red">
-                        <div class="card-rank">Q</div>
-                        <div class="card-suit">♦</div>
-                      </div>
-                      <div class="card black">
-                        <div class="card-rank">J</div>
-                        <div class="card-suit">♠</div>
-                      </div>
-                      <div class="card red">
-                        <div class="card-rank">10</div>
-                        <div class="card-suit">♥</div>
-                      </div>
+                    <!-- стулья-аватарки -->
+                    <div class="hero-seat hero-seat-1">
+                      <div class="hero-seat-avatar"></div>
                     </div>
-
-                    <div class="pot-indicator">
-                      Банк: <span>124&nbsp;300</span> MBC
+                    <div class="hero-seat hero-seat-2">
+                      <div class="hero-seat-avatar"></div>
+                    </div>
+                    <div class="hero-seat hero-seat-3">
+                      <div class="hero-seat-avatar"></div>
+                    </div>
+                    <div class="hero-seat hero-seat-4">
+                      <div class="hero-seat-avatar"></div>
+                    </div>
+                    <div class="hero-seat hero-seat-5">
+                      <div class="hero-seat-avatar"></div>
+                    </div>
+                    <div class="hero-seat hero-seat-6">
+                      <div class="hero-seat-avatar"></div>
                     </div>
                   </div>
                 </div>
@@ -200,15 +216,24 @@
       </section>
     </main>
 
-    <!-- ФУТЕР ИЗ partials/footer.html -->
-    <div include-html="/partials/footer.html"></div>
+    <!-- ФУТЕР -->
+    <footer id="support">
+      <div class="container">
+        <div class="footer-inner">
+          <div>© Midnight Black Poker, <span id="year"></span>. Все права защищены.</div>
+          <div class="footer-links">
+            <a href="/terms.html">Пользовательское соглашение</a>
+            <a href="/privacy.html">Политика конфиденциальности</a>
+            <a href="/support.html">Поддержка</a>
+          </div>
+        </div>
+      </div>
+    </footer>
 
   </div>
 
-  <!-- Скрипт, который подсовывает header/footer -->
-  <script src="/js/include-html.js"></script>
   <script>
-    includeHTML();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
