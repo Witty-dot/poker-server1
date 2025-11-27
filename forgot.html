@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Midnight Black Poker – Восстановление пароля</title>
-  <link rel="stylesheet" href="main.css" />
+  <title>Восстановление доступа – Midnight Black Poker</title>
+
+  <!-- ВАЖНО: правильный путь -->
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
-<div class="page-wrap">
 
-  <!-- ХЕДЕР, как на главной/логине -->
+<div class="auth-page">
+
+  <!-- HEADER -->
   <header>
     <div class="container">
       <div class="header-inner">
-        <div class="logo-wrap" onclick="window.location.href='/'">
+
+        <div class="logo-wrap" onclick="location.href='/'">
           <div class="logo-mark"></div>
           <div>
             <div class="logo-text-main">MIDNIGHT BLACK</div>
@@ -29,82 +33,46 @@
         </nav>
 
         <div class="header-cta">
-          <a href="/login.html" class="btn btn-primary">Войти</a>
-          <a href="/registration.html" class="btn btn-ghost">Регистрация</a>
+          <a href="/login.html" class="btn btn-ghost">Войти</a>
+          <a href="/registration.html" class="btn btn-primary">Регистрация</a>
         </div>
+
       </div>
     </div>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <!-- CONTENT -->
   <main class="auth-main">
     <div class="auth-card">
-      <h1 class="auth-title">Восстановление пароля</h1>
+
+      <h1 class="auth-title">Восстановление доступа</h1>
       <p class="auth-subtitle">
-        Укажите email, который вы использовали при регистрации в Midnight Black Poker.
-        Мы отправим на него письмо для восстановления доступа.
+        Укажите email, привязанный к вашему аккаунту Midnight Black.  
+        Мы отправим ссылку для сброса пароля.
       </p>
 
-      <form id="forgotForm" class="auth-form">
-        <label class="auth-label" for="forgotEmail">Email</label>
-        <input
-          type="email"
-          id="forgotEmail"
-          class="auth-input"
-          required
-          autocomplete="email"
-        />
+      <form class="auth-form">
+        <label>Email</label>
+        <input type="email" class="auth-input" required>
 
         <div class="auth-actions">
-          <button type="submit" class="auth-submit">
-            Отправить письмо для восстановления
-          </button>
+          <button type="submit" class="neon-btn">Отправить ссылку</button>
         </div>
       </form>
 
-      <p class="auth-note">
-        Если в течение нескольких минут письмо не пришло, проверьте папку «Спам» или
-        попробуйте указать другой email, который могли использовать при регистрации.
-      </p>
-
       <div class="auth-switch">
-        Вспомнили пароль?
-        <a href="/login.html">Вернуться к входу</a>
+        Вспомнили пароль?  
+        <a href="/login.html">Войти</a>
       </div>
+
+      <div class="auth-note">
+        Если письма нет несколько минут — проверьте папку «Спам».
+      </div>
+
     </div>
   </main>
 
-  <!-- ФУТЕР (общий) -->
-  <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div>© Midnight Black Poker, 2025</div>
-        <div class="footer-links">
-          <a href="/privacy.html">Политика конфиденциальности</a>
-          <a href="/terms.html">Пользовательское соглашение</a>
-          <a href="/support.html">Поддержка</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
 </div>
 
-<script>
-  const form = document.getElementById('forgotForm');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById('forgotEmail').value.trim();
-
-    const payload = { email };
-
-    // TODO: заменить на реальный запрос к backend
-    console.log('Запрос восстановления пароля:', payload);
-
-    alert('Если такой email есть в системе, мы отправим письмо с инструкциями по восстановлению пароля.');
-  });
-</script>
 </body>
 </html>
