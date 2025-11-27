@@ -218,17 +218,31 @@ nav a:hover::after {
   overflow: hidden;
 }
 
-/* сильное сияние – слева сверху, фиолетовое */
+/* мягкое свечение сверху справа */
 .hero::before {
   content: "";
   position: absolute;
   top: -220px;
-  right: -130px;
-  width: 440px;
-  height: 440px;
-  background: radial-gradient(circle, rgba(111, 122, 255, 0.45), transparent 70%);
-  opacity: 0.6;
-  filter: blur(4px);
+  right: -160px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(111, 122, 255, 0.38), transparent 70%);
+  opacity: 0.75;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* лёгкий фиолетовый отсвет слева, как на макете */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: -140px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(111, 122, 255, 0.26), transparent 70%);
+  opacity: 0.55;
+  filter: blur(8px);
   pointer-events: none;
 }
 
@@ -237,6 +251,8 @@ nav a:hover::after {
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr);
   align-items: center;
   gap: 32px;
+  position: relative; /* чтобы отсветы были под контентом */
+  z-index: 1;
 }
 
 .hero-eyebrow {
@@ -306,7 +322,7 @@ nav a:hover::after {
   margin-bottom: 2px;
 }
 
-/* ================= TABLE PREVIEW CARD (главная) ================= */
+/* ================= HERO TABLE PREVIEW (как игровой стол, но без карт/банка) ================= */
 
 .hero-table-card {
   border-radius: 28px;
@@ -359,88 +375,150 @@ nav a:hover::after {
 }
 
 .table-preview-wrap {
-  padding: 12px 4px 10px;
+  padding: 14px 6px 12px;
 }
 
-.poker-table {
+/* сам стол — максимально близко к игровому варианту */
+
+.hero-table {
   position: relative;
   width: 100%;
-  max-width: 440px;
-  aspect-ratio: 2.2 / 1;
+  max-width: 780px;
+  aspect-ratio: 2.3 / 1;
   margin: 0 auto;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 50% -30%, rgba(255, 255, 255, 0.18), transparent 55%),
-    radial-gradient(circle at 50% 130%, rgba(111, 122, 255, 0.26), #050509 70%);
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.02),
-    0 0 26px rgba(0, 0, 0, 0.95),
-    0 0 45px rgba(111, 122, 255, 0.7);
+    radial-gradient(circle at 50% -40%, rgba(255, 255, 255, 0.18), transparent 60%),
+    radial-gradient(circle at 50% 130%, rgba(111, 122, 255, 0.28), #050509 70%);
+  box-shadow: 0 0 26px rgba(111, 122, 255, 0.6);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.poker-table-inner {
-  width: 82%;
-  height: 62%;
+.hero-table-inner {
+  position: absolute;
+  inset: 14%;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.06), transparent 60%),
-    radial-gradient(circle at 50% 120%, rgba(111, 122, 255, 0.2), #050509 80%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  position: relative;
+    radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.06), transparent 65%),
+    radial-gradient(circle at 50% 130%, rgba(111, 122, 255, 0.24), #050509 80%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
 }
 
-.table-logo {
+/* логотип по центру стола */
+
+.hero-table-logo {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 13px;
-  letter-spacing: 0.25em;
+  font-size: 14px;
+  letter-spacing: 0.26em;
+  color: rgba(245, 245, 255, 0.95);
   text-transform: uppercase;
-  color: rgba(245, 245, 255, 0.9);
-  opacity: 0.96;
+  pointer-events: none;
   white-space: nowrap;
 }
 
-/* ===== стулья-аватарки вокруг стола ===== */
+.hero-table-logo span {
+  display: block;
+  font-size: 9px;
+  margin-top: 3px;
+  letter-spacing: 0.3em;
+  color: rgba(192, 196, 255, 0.85);
+}
+
+/* стулья и аватарки по периметру, как в игровом столе */
+
+.hero-seats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
 
 .hero-seat {
   position: absolute;
-  width: 42px;
-  height: 42px;
+  height: 30px;
+  padding: 4px 10px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%, #2b2b40, #050509 80%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 0 14px rgba(0, 0, 0, 0.9),
-    0 0 16px rgba(111, 122, 255, 0.55);
+  background: rgba(5, 5, 15, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  pointer-events: auto;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.85);
 }
 
 .hero-seat-avatar {
-  width: 70%;
-  height: 70%;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%, #f5f5ff, #7079ff 65%, #1a1a2c 100%);
-  box-shadow: 0 0 10px rgba(111, 122, 255, 0.85);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 0 0, rgba(111, 122, 255, 0.45), #050509);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 600;
+  color: #f5f5ff;
+  flex-shrink: 0;
 }
 
-/* 6 позиций по кругу */
-.hero-seat-1 { top: 4%;  left: 50%; transform: translateX(-50%); }
-.hero-seat-2 { top: 23%; right: 2%; }
-.hero-seat-3 { bottom: 23%; right: 2%; }
-.hero-seat-4 { bottom: 4%; left: 50%; transform: translateX(-50%); }
-.hero-seat-5 { bottom: 23%; left: 2%; }
-.hero-seat-6 { top: 23%; left: 2%; }
+.hero-seat-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 
+.hero-seat-name {
+  max-width: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-seat-stack {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* расположение 6 стульев – ближе к периметру, как на игровом столе */
+
+.hero-seat-1 { top: 4%;  left: 50%; transform: translate(-50%, 0); }
+.hero-seat-2 { top: 24%; right: 3%; transform: translate(0, -50%); }
+.hero-seat-3 { bottom: 24%; right: 3%; transform: translate(0, 50%); }
+.hero-seat-4 { bottom: 4%; left: 50%; transform: translate(-50%, 0); }
+.hero-seat-5 { bottom: 24%; left: 3%; transform: translate(0, 50%); }
+.hero-seat-6 { top: 24%; left: 3%; transform: translate(0, -50%); }
+
+/* фишка дилера — сбоку от стула, а не поверх */
+
+.hero-dealer-chip {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(5, 5, 15, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 12px rgba(111, 122, 255, 0.7);
+  position: absolute;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* рядом с Seat 1, как в столе */
+
+.hero-dealer-1 {
+  top: 4%;
+  left: 50%;
+  transform: translate(-115%, -50%);
+}
 /* ================= FEATURES ================= */
 
 .features {
