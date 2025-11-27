@@ -56,7 +56,7 @@ a {
   padding: 0 16px;
 }
 
-/* ================= HEADER (общий для всех страниц) ================= */
+/* ================= HEADER ================= */
 
 header {
   position: sticky;
@@ -167,7 +167,7 @@ nav a:hover::after {
   gap: 10px;
 }
 
-/* ================= Кнопки (общие) ================= */
+/* ================= Кнопки ================= */
 
 .btn {
   display: inline-flex;
@@ -210,7 +210,7 @@ nav a:hover::after {
   background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.09), transparent);
 }
 
-/* ================= HERO (только главная) ================= */
+/* ================= HERO (главная, сильное сияние) ================= */
 
 .hero {
   position: relative;
@@ -218,35 +218,18 @@ nav a:hover::after {
   overflow: hidden;
 }
 
+/* сильное сияние – слева сверху, фиолетовое */
 .hero::before {
   content: "";
   position: absolute;
   top: -220px;
-  right: -120px;
-  width: 420px;
-  height: 420px;
+  left: -130px;
+  width: 440px;
+  height: 440px;
   background: radial-gradient(circle, rgba(111, 122, 255, 0.45), transparent 70%);
-  opacity: 0.65;
+  opacity: 0.6;
   filter: blur(4px);
   pointer-events: none;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  top: -200px;
-  right: -160px;
-  width: 480px;
-  height: 480px;
-  background: radial-gradient(
-    circle,
-    rgba(111, 122, 255, 0.55),
-    transparent 72%
-  );
-  opacity: 0.75;
-  filter: blur(12px);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .hero-grid {
@@ -425,117 +408,38 @@ nav a:hover::after {
   white-space: nowrap;
 }
 
-.table-logo span {
-  display: block;
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  color: rgba(192, 196, 255, 0.8);
-  margin-top: 3px;
-}
+/* ===== стулья-аватарки вокруг стола ===== */
 
-.community-cards {
+.hero-seat {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 6px;
-  margin-top: 28px;
-}
-
-.card {
-  width: 26px;
-  height: 36px;
-  border-radius: 6px;
-  background: radial-gradient(circle at 0 0, #ffffff, #e4e4f4);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  position: relative;
-  overflow: hidden;
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent 60%);
-  mix-blend-mode: multiply;
-}
-
-.card-rank {
-  position: absolute;
-  left: 4px;
-  top: 3px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.card-suit {
-  position: absolute;
-  right: 4px;
-  bottom: 3px;
-  font-size: 9px;
-}
-
-.card.red {
-  color: #d41245;
-}
-
-.card.black {
-  color: #16162a;
-}
-
-.seat {
-  position: absolute;
-  width: 52px;
-  height: 26px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
-  background: rgba(5, 5, 15, 0.93);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.9);
+  background: radial-gradient(circle at 30% 20%, #2b2b40, #050509 80%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 14px rgba(0, 0, 0, 0.9),
+    0 0 16px rgba(111, 122, 255, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  color: var(--text-muted);
 }
 
-.seat.active {
-  border-color: var(--accent-strong);
-  box-shadow:
-    0 0 16px rgba(111, 122, 255, 0.75),
-    0 0 38px rgba(0, 0, 0, 0.9);
-  color: #e2e2ff;
+.hero-seat-avatar {
+  width: 70%;
+  height: 70%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #f5f5ff, #7079ff 65%, #1a1a2c 100%);
+  box-shadow: 0 0 10px rgba(111, 122, 255, 0.85);
 }
 
-.seat.stack::after {
-  content: "124K";
-  margin-left: 3px;
-  color: #f5f5ff;
-  font-weight: 600;
-  font-size: 10px;
-}
-
-.seat-1 { top: 6%; left: 50%; transform: translateX(-50%); }
-.seat-2 { top: 23%; right: 6%; }
-.seat-3 { bottom: 23%; right: 6%; }
-.seat-4 { bottom: 6%; left: 50%; transform: translateX(-50%); }
-.seat-5 { bottom: 23%; left: 6%; }
-.seat-6 { top: 23%; left: 6%; }
-
-.pot-indicator {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -5px);
-  font-size: 11px;
-  color: rgba(221, 223, 255, 0.85);
-}
-
-.pot-indicator span {
-  font-weight: 600;
-  color: #f5f5ff;
-}
+/* 6 позиций по кругу */
+.hero-seat-1 { top: 4%;  left: 50%; transform: translateX(-50%); }
+.hero-seat-2 { top: 23%; right: 2%; }
+.hero-seat-3 { bottom: 23%; right: 2%; }
+.hero-seat-4 { bottom: 4%; left: 50%; transform: translateX(-50%); }
+.hero-seat-5 { bottom: 23%; left: 2%; }
+.hero-seat-6 { top: 23%; left: 2%; }
 
 /* ================= FEATURES ================= */
 
@@ -659,50 +563,54 @@ nav a:hover::after {
 
 /* ================= FOOTER ================= */
 
-/* ======= FOOTER (новый стиль) ======= */
-
-.mb-footer {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding: 18px 0 24px;
-  margin-top: auto;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-  font-size: 12px;
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 0 20px;
+  font-size: 11px;
   color: var(--text-muted);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  margin-top: auto;
 }
 
-.mb-footer-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 16px;
+.footer-inner {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.footer-links {
+  display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
 
-.mb-footer-links {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.mb-footer-links a {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color .15s ease-out;
-}
-
-.mb-footer-links a:hover {
+.footer-links a:hover {
   color: var(--text-main);
 }
 
-/* ================= AUTH PAGES (login, register, forgot, downloads) ================= */
+/* ================= AUTH PAGES (среднее сияние) ================= */
 
 .auth-page {
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;      /* для сияния */
+}
+
+/* средний отсвет для login/register/forgot/downloads */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  top: -160px;
+  right: -110px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(111, 122, 255, 0.36), transparent 70%);
+  opacity: 0.45;
+  filter: blur(8px);
+  pointer-events: none;
 }
 
 .auth-main {
@@ -710,7 +618,7 @@ nav a:hover::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px 40px;  /* чуть ближе к хедеру */
+  padding: 24px 16px 40px;
 }
 
 .auth-card {
@@ -776,7 +684,7 @@ nav a:hover::after {
   gap: 10px;
 }
 
-/* главная неоновая кнопка — и для login, и для других auth-страниц */
+/* главная неоновая кнопка */
 .auth-submit,
 .neon-btn {
   width: 100%;
@@ -829,7 +737,7 @@ nav a:hover::after {
   font-size: 12px;
 }
 
-/* ссылки в auth-блоках — как на старом login (#7093ff) */
+/* ссылки в auth-блоках (#7093ff как на логине) */
 .auth-switch a,
 .auth-inline-link a,
 .auth-extra-row a,
@@ -843,6 +751,58 @@ nav a:hover::after {
 .auth-extra-row a:hover,
 .auth-link:hover {
   text-decoration: underline;
+}
+
+/* ================= TEXT PAGES (privacy, terms — мягкое сияние) ================= */
+
+.text-page {
+  min-height: calc(100vh - 120px);
+  padding: 32px 16px 40px;
+  position: relative;
+}
+
+/* мягкий отсвет */
+.text-page::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: -80px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(111, 122, 255, 0.28), transparent 70%);
+  opacity: 0.3;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.text-card {
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 22px;
+  background: radial-gradient(circle at 0 0, #181828, #050509 85%);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  padding: 24px 20px 26px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.text-card h1 {
+  font-size: 22px;
+  margin-bottom: 14px;
+  color: var(--text-main);
+}
+
+.text-card h2 {
+  font-size: 16px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.text-card p + p {
+  margin-top: 8px;
 }
 
 /* ================= DOWNLOADS LIST ================= */
@@ -950,7 +910,7 @@ nav a:hover::after {
   }
 
   .auth-main {
-    padding-top: 20px; /* чуть ближе к хедеру и на мобиле */
+    padding-top: 20px;
   }
 }
 
@@ -973,6 +933,10 @@ nav a:hover::after {
   }
 
   .auth-card {
+    padding-inline: 16px;
+  }
+
+  .text-card {
     padding-inline: 16px;
   }
 }
