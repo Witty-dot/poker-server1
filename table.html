@@ -39,7 +39,7 @@
     /* ---------- HEADER ---------- */
 
     .topbar {
-      padding:10px 16px 12px;
+      padding:8px 12px 10px;
       background:linear-gradient(to bottom,
         rgba(5,5,10,0.96),
         rgba(5,5,10,0.85),
@@ -50,9 +50,6 @@
       position:sticky;
       top:0;
       z-index:10;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
     }
 
     .topbar-row {
@@ -111,11 +108,25 @@
       white-space:nowrap;
     }
 
-    .topbar-table-meta {
+    .topbar-right {
       display:flex;
       flex-direction:column;
       align-items:flex-end;
       gap:4px;
+      min-width:0;
+    }
+
+    .topbar-actions {
+      display:flex;
+      gap:6px;
+      flex-wrap:nowrap;
+    }
+
+    .topbar-table-line {
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
     .pill {
@@ -127,15 +138,9 @@
       white-space:nowrap;
     }
 
-    .topbar-actions {
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
     .btn {
       border-radius:999px;
-      padding:6px 14px;
+      padding:6px 12px;
       font-size:12px;
       border:1px solid transparent;
       cursor:pointer;
@@ -156,11 +161,19 @@
       border-color:rgba(255,255,255,0.18);
       color:var(--text-muted);
       background:radial-gradient(circle at 0 0,rgba(255,255,255,0.06),transparent);
+      padding-inline:9px;
     }
 
     .btn-ghost:hover {
       border-color:rgba(255,255,255,0.35);
       color:var(--text-main);
+    }
+
+    .btn-icon {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
     }
 
     /* ---------- MAIN LAYOUT ---------- */
@@ -194,16 +207,33 @@
 
     .table-top-left {
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       gap:10px;
+      max-width:60%;
     }
 
     .dot-live {
       width:8px;
       height:8px;
+      margin-top:3px;
       border-radius:50%;
       background:var(--success);
       box-shadow:0 0 10px rgba(53,212,155,0.9);
+      flex-shrink:0;
+    }
+
+    #tableInfo {
+      line-height:1.3;
+    }
+
+    /* короткое сообщение крупье над столом */
+    .dealer-short {
+      font-size:11px;
+      color:#f7e496;
+      margin-top:2px;
+      opacity:0.9;
+      max-height:2.6em;
+      overflow:hidden;
     }
 
     .table-top-right {
@@ -237,8 +267,8 @@
       border-radius:999px;
       position:relative;
       background:
-        radial-gradient(circle at 50% -40%,rgba(255,255,255,0.18),transparent 60%),
-        radial-gradient(circle at 50% 130%,rgba(111,122,255,0.28),#050509 70%);
+        radial-gradient(circle at 50% -40%,rgba(255,255,255,0.16),transparent 60%),
+        radial-gradient(circle at 50% 130%,rgba(111,122,255,0.24),#050509 70%);
       box-shadow:0 0 26px rgba(111,122,255,0.6);
       margin:auto;
       overflow:hidden;
@@ -250,7 +280,7 @@
       border-radius:999px;
       background:
         radial-gradient(circle at 50% 0,rgba(255,255,255,0.06),transparent 65%),
-        radial-gradient(circle at 50% 130%,rgba(111,122,255,0.24),#050509 80%);
+        radial-gradient(circle at 50% 130%,rgba(111,122,255,0.22),#050509 80%);
       border:1px solid rgba(255,255,255,0.14);
       box-shadow:inset 0 0 40px rgba(0,0,0,0.9);
     }
@@ -425,7 +455,7 @@
     .dealer-1 {
       top:8%;
       left:65%;
-      transform:translate(-115%,-50%); /* чуть левее и по центру по вертикали */
+      transform:translate(-115%,-50%);
     }
 
     /* слева от стульев на правой стороне (внутрь стола) */
@@ -543,7 +573,7 @@
       justify-content:space-between;
       font-size:11px;
       color:var(--text-muted);
-      margin-bottom:6px; /* чуть выше от ползунка, чтобы шарик не залезал на "Р" */
+      margin-bottom:6px;
     }
 
     input[type="range"].range {
@@ -574,7 +604,6 @@
       justify-content:flex-end;
     }
 
-    /* поле ставки фиксированной ширины, не рвёт экран */
     #betAmount {
       flex:0 0 80px;
       max-width:80px;
@@ -662,7 +691,6 @@
       box-shadow:0 0 18px rgba(255,215,0,0.7);
     }
 
-    /* яркий неон при нажатии: и через :active, и через класс is-pressed (чтобы на iOS точно сработало) */
     .action-btn:active,
     .action-btn.is-pressed {
       transform:scale(0.94);
@@ -700,9 +728,16 @@
     .hero-status {
       display:flex;
       flex-direction:column;
-      gap:2px;
+      gap:4px;
       font-size:11px;
       align-items:flex-end;
+    }
+
+    .hero-best-hand {
+      font-size:11px;
+      color:var(--text-muted);
+      max-width:180px;
+      text-align:right;
     }
 
     /* ---------- CHAT ---------- */
@@ -716,7 +751,9 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      min-height:230px;
+      min-height:0;
+      /* фиксированная высота для скролла чата */
+      flex:0 0 260px;
     }
 
     .side-tabs {
@@ -791,6 +828,20 @@
       color:#f5f5ff;
     }
 
+    @media (max-width:600px) {
+      .topbar-main {
+        font-size:12px;
+        letter-spacing:0.15em;
+      }
+      .topbar-sub {
+        font-size:10px;
+        letter-spacing:0.18em;
+      }
+      .side-panel {
+        flex:0 0 220px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -806,15 +857,17 @@
           <div class="topbar-sub" id="tableTitle">TABLE · NL 50–100</div>
         </div>
       </div>
-      <div class="topbar-table-meta">
-        <div class="pill" id="tableName">Стол #MB-001</div>
-        <div class="pill" id="tablePlayers">6 / 6 игроков</div>
-      </div>
-    </div>
 
-    <div class="topbar-actions">
-      <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
-      <button class="btn btn-ghost" id="btnSettings">Настройки</button>
+      <div class="topbar-right">
+        <div class="topbar-actions">
+          <button class="btn btn-ghost btn-icon" id="btnSettings" aria-label="Настройки">⚙</button>
+          <button class="btn btn-leave" id="btnLeave">Покинуть стол</button>
+        </div>
+        <div class="topbar-table-line">
+          <span class="pill" id="tableName">Стол #MB-001</span>
+          <span class="pill" id="tablePlayers">6 / 6 игроков</span>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -825,7 +878,10 @@
       <div class="table-top-info">
         <div class="table-top-left">
           <div class="dot-live"></div>
-          <div id="tableInfo">Live · Hold'em · Blind 50 / 100</div>
+          <div>
+            <div id="tableInfo">Live · Hold'em · Blind 50 / 100</div>
+            <div class="dealer-short" id="dealerShort"></div>
+          </div>
         </div>
         <div class="table-top-right">
           <div class="mini-pill" id="minBuyin">Мин. бай-ин: 5 000</div>
@@ -948,6 +1004,7 @@
         <div class="hero-status">
           <div id="heroPosition">Позиция: BTN</div>
           <div id="heroLastAction">Ваш ход</div>
+          <div class="hero-best-hand" id="heroBestHand">Комбинация: —</div>
         </div>
       </div>
     </section>
