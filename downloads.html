@@ -4,18 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Midnight Black Poker – Скачать клиенты</title>
-  <!-- единый стиль для всего сайта -->
   <link rel="stylesheet" href="/css/main.css" />
 </head>
-<body>
-<div class="auth-page">
+<body class="auth-page">
 
-  <!-- ХЕДЕР -->
+  <!-- ХЕДЕР (тот же, что везде) -->
   <header>
     <div class="container">
       <div class="header-inner">
 
-        <!-- клик по логотипу всегда ведёт на главную -->
         <a href="/" class="logo-wrap">
           <div class="logo-mark"></div>
           <div>
@@ -40,7 +37,7 @@
     </div>
   </header>
 
-  <!-- КОНТЕНТ -->
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="auth-main">
     <div class="auth-card-wrap">
       <div class="auth-card">
@@ -50,43 +47,35 @@
           Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
         </p>
 
-        <!-- Используем уже существующий стиль store-badge / apps-buttons -->
-        <div class="apps-buttons" style="margin-top: 16px;">
+        <div class="downloads-grid">
+          <div class="download-pill download-pill-disabled">
+            <div class="download-pill-label">Скоро</div>
+            <div class="download-pill-title">iOS-клиент</div>
+            <div class="download-pill-desc">Тестируем нативное приложение</div>
+          </div>
 
-          <a class="store-badge" href="#">
-            <div>
-              <div class="store-label">скоро</div>
-              <div class="store-name">iOS-клиент</div>
-            </div>
+          <div class="download-pill download-pill-disabled">
+            <div class="download-pill-label">В разработке</div>
+            <div class="download-pill-title">Android-клиент</div>
+            <div class="download-pill-desc">Готовим релиз под Android</div>
+          </div>
+
+          <div class="download-pill download-pill-disabled">
+            <div class="download-pill-label">Скоро</div>
+            <div class="download-pill-title">Desktop (Windows + macOS)</div>
+            <div class="download-pill-desc">Клиент для игры с ПК</div>
+          </div>
+
+          <a class="download-pill download-pill-active" href="/table.html">
+            <div class="download-pill-label">Доступно</div>
+            <div class="download-pill-title">Веб-версия в браузере</div>
+            <div class="download-pill-desc">Открыть стол прямо сейчас</div>
           </a>
-
-          <a class="store-badge" href="#">
-            <div>
-              <div class="store-label">в разработке</div>
-              <div class="store-name">Android-клиент</div>
-            </div>
-          </a>
-
-          <a class="store-badge" href="#">
-            <div>
-              <div class="store-label">скоро</div>
-              <div class="store-name">Desktop (Windows + macOS)</div>
-            </div>
-          </a>
-
-          <a class="store-badge" href="/table.html">
-            <div>
-              <div class="store-label">доступно</div>
-              <div class="store-name">Веб-версия в браузере</div>
-            </div>
-          </a>
-
         </div>
 
       </div>
     </div>
   </main>
 
-</div>
 </body>
 </html>
