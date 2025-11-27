@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Midnight Black Poker – Скачать клиенты</title>
-  <link rel="stylesheet" href="downloads.css" />
+  <!-- единый стиль для всего сайта -->
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
 <div class="auth-page">
@@ -14,6 +15,7 @@
     <div class="container">
       <div class="header-inner">
 
+        <!-- клик по логотипу всегда ведёт на главную -->
         <a href="/" class="logo-wrap">
           <div class="logo-mark"></div>
           <div>
@@ -38,35 +40,45 @@
     </div>
   </header>
 
+  <!-- КОНТЕНТ -->
   <main class="auth-main">
     <div class="auth-card-wrap">
       <div class="auth-card">
 
         <h1 class="auth-title">Скачать клиенты</h1>
         <p class="auth-subtitle">
-          Midnight Black Poker доступен на нескольких платформах. Выберите нужную версию.
+          Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
         </p>
 
-        <div class="download-list">
+        <!-- Используем уже существующий стиль store-badge / apps-buttons -->
+        <div class="apps-buttons" style="margin-top: 16px;">
 
-          <a class="download-item" href="#">
-            <div class="download-title">iOS-клиент</div>
-            <div class="download-desc">Скоро доступен</div>
+          <a class="store-badge" href="#">
+            <div>
+              <div class="store-label">скоро</div>
+              <div class="store-name">iOS-клиент</div>
+            </div>
           </a>
 
-          <a class="download-item" href="#">
-            <div class="download-title">Android-клиент</div>
-            <div class="download-desc">В разработке</div>
+          <a class="store-badge" href="#">
+            <div>
+              <div class="store-label">в разработке</div>
+              <div class="store-name">Android-клиент</div>
+            </div>
           </a>
 
-          <a class="download-item" href="#">
-            <div class="download-title">Desktop (Windows + macOS)</div>
-            <div class="download-desc">Скоро доступен</div>
+          <a class="store-badge" href="#">
+            <div>
+              <div class="store-label">скоро</div>
+              <div class="store-name">Desktop (Windows + macOS)</div>
+            </div>
           </a>
 
-          <a class="download-item" href="/table.html">
-            <div class="download-title">Веб-версия</div>
-            <div class="download-desc">Открыть прямо в браузере</div>
+          <a class="store-badge" href="/table.html">
+            <div>
+              <div class="store-label">доступно</div>
+              <div class="store-name">Веб-версия в браузере</div>
+            </div>
           </a>
 
         </div>
@@ -76,6 +88,5 @@
   </main>
 
 </div>
-
 </body>
 </html>
