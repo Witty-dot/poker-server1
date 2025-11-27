@@ -7,54 +7,68 @@
   <link rel="stylesheet" href="registration.css" />
 </head>
 <body>
+<div class="auth-page">
 
-<header class="mini-header">
-  <div class="mini-header-inner">
-    <a href="index.html" class="logo-wrap">
-      <div class="logo-mark"></div>
-      <div>
-        <div class="logo-text-main">MIDNIGHT BLACK</div>
-        <div class="logo-text-sub">POKER ROOM</div>
+  <!-- ЕДИНЫЙ ХЕДЕР, КАК НА ГЛАВНОЙ -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <div class="logo-mark"></div>
+          <div>
+            <div class="logo-text-main">MIDNIGHT BLACK</div>
+            <div class="logo-text-sub">POKER ROOM</div>
+          </div>
+        </div>
+
+        <nav>
+          <a href="/#tables">Столы</a>
+          <a href="/#security">Безопасность</a>
+          <a href="/#apps">Приложения</a>
+          <a href="/#support">Поддержка</a>
+        </nav>
+
+        <div class="header-cta">
+          <a href="/login.html" class="btn btn-ghost">Войти</a>
+          <a href="/registration.html" class="btn btn-primary">Регистрация</a>
+        </div>
       </div>
-    </a>
-
-    <div class="mini-header-actions">
-      <a href="login.html" class="mini-link">Войти</a>
     </div>
-  </div>
-</header>
+  </header>
 
-<div class="page-wrap">
-  <div class="container">
-    <div class="form-box">
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="auth-main">
+    <div class="auth-card-wrap">
+      <div class="auth-card">
+        <h1 class="auth-title">Регистрация</h1>
+        <p class="auth-subtitle">
+          Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
+        </p>
 
-      <h1 class="title">Регистрация</h1>
-      <p class="subtitle">
-        Один аккаунт для веб-версии, мобильных и десктоп-клиентов Midnight Black.
-      </p>
+        <form id="registerForm" class="auth-form">
+          <label class="auth-label" for="username">Логин</label>
+          <input type="text" id="username" class="auth-input" required>
 
-      <form id="registerForm" class="form">
-        <label for="username">Логин</label>
-        <input type="text" id="username" required>
+          <label class="auth-label" for="email">Email</label>
+          <input type="email" id="email" class="auth-input" required>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" required>
+          <label class="auth-label" for="password">Пароль</label>
+          <input type="password" id="password" class="auth-input" required>
 
-        <label for="password">Пароль</label>
-        <input type="password" id="password" required>
+          <label class="auth-label" for="password2">Подтверждение пароля</label>
+          <input type="password" id="password2" class="auth-input" required>
 
-        <label for="password2">Подтверждение пароля</label>
-        <input type="password" id="password2" required>
+          <button type="submit" class="auth-submit">Создать аккаунт</button>
+        </form>
 
-        <button type="submit" class="neon-btn">Создать аккаунт</button>
-      </form>
-
-      <div class="switch">
-        Уже есть аккаунт? <a href="login.html">Войти</a>
+        <div class="auth-switch">
+          Уже есть аккаунт?
+          <a href="/login.html">Войти</a>
+        </div>
       </div>
-
     </div>
-  </div>
+  </main>
+
 </div>
 
 <script>
@@ -73,10 +87,9 @@ document.getElementById("registerForm").addEventListener("submit", (e) => {
     return;
   }
 
-  // TODO: отправка запроса на backend
+  // TODO: заменить на реальный запрос к backend
   console.log("Регистрация:", user);
 });
 </script>
-
 </body>
 </html>
