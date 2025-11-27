@@ -223,7 +223,7 @@ nav a:hover::after {
   content: "";
   position: absolute;
   top: -220px;
-  left: -130px;
+  right: -130px;
   width: 440px;
   height: 440px;
   background: radial-gradient(circle, rgba(111, 122, 255, 0.45), transparent 70%);
