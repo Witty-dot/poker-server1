@@ -398,7 +398,7 @@
       color:#fff;
     }
 
-    /* ещё ближе к периметру */
+    /* ближе к периметру */
     .seat-1 { top:4%;  left:50%; transform:translate(-50%,0); }
     .seat-2 { top:24%; right:2%; transform:translate(0,-50%); }
     .seat-3 { bottom:24%; right:2%; transform:translate(0,50%); }
@@ -406,7 +406,7 @@
     .seat-5 { bottom:24%; left:2%; transform:translate(0,50%); }
     .seat-6 { top:24%; left:2%; transform:translate(0,-50%); }
 
-    /* дилер РЯДОМ со стулом, снаружи */
+    /* дилер РЯДОМ со стулом (сбоку), а не сверху него */
     .dealer-chip {
       width:18px; height:18px;
       border-radius:50%;
@@ -421,10 +421,25 @@
       color:#fff;
     }
 
-    .dealer-1 { top:1%;  left:50%; transform:translate(-50%,0); }
-    .dealer-2 { top:24%; right:-3%; transform:translate(0,-50%); }
-    .dealer-3 { bottom:24%; right:-3%; transform:translate(0,50%); }
-    .dealer-4 { bottom:1%; left:50%; transform:translate(-50%,0); }
+    /* слева от seat-1 */
+    .dealer-1 {
+      top:4%;
+      left:50%;
+      transform:translate(-115%,-50%); /* чуть левее и по центру по вертикали */
+    }
+
+    /* слева от стульев на правой стороне (внутрь стола) */
+    .dealer-2 { top:24%; right:9%; transform:translate(0,-50%); }
+    .dealer-3 { bottom:24%; right:9%; transform:translate(0,50%); }
+
+    /* слева от seat-4 (влево) */
+    .dealer-4 {
+      bottom:4%;
+      left:50%;
+      transform:translate(-115%,50%);
+    }
+
+    /* слева от стульев слева (ещё чуть левее, наружу) */
     .dealer-5 { bottom:24%; left:-3%; transform:translate(0,50%); }
     .dealer-6 { top:24%; left:-3%; transform:translate(0,-50%); }
 
@@ -528,6 +543,7 @@
       justify-content:space-between;
       font-size:11px;
       color:var(--text-muted);
+      margin-bottom:6px; /* чуть выше от ползунка, чтобы шарик не залезал на "Р" */
     }
 
     input[type="range"].range {
@@ -558,7 +574,7 @@
       justify-content:flex-end;
     }
 
-    /* поле ставки — фиксированное, не рвёт экран */
+    /* поле ставки фиксированной ширины, не рвёт экран */
     #betAmount {
       flex:0 0 80px;
       max-width:80px;
@@ -614,6 +630,9 @@
       cursor:pointer;
       white-space:nowrap;
       transition:0.15s;
+      position:relative;
+      overflow:hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .action-fold {
@@ -643,27 +662,32 @@
       box-shadow:0 0 18px rgba(255,215,0,0.7);
     }
 
-    /* яркая неоновая реакция */
-    .action-btn:active {
-      transform:scale(0.96);
-      filter:brightness(1.3);
+    /* яркий неон при нажатии: и через :active, и через класс is-pressed (чтобы на iOS точно сработало) */
+    .action-btn:active,
+    .action-btn.is-pressed {
+      transform:scale(0.94);
+      filter:brightness(1.35);
       transition:0.05s;
     }
-    .action-fold:active {
-      box-shadow:0 0 26px rgba(255,65,111,1),
-                 inset 0 0 20px rgba(255,65,111,1);
+    .action-fold:active,
+    .action-fold.is-pressed {
+      box-shadow:0 0 30px rgba(255,65,111,1),
+                 inset 0 0 22px rgba(255,65,111,1);
     }
-    .action-check:active {
-      box-shadow:0 0 24px rgba(255,255,255,0.8),
-                 inset 0 0 18px rgba(255,255,255,0.9);
+    .action-check:active,
+    .action-check.is-pressed {
+      box-shadow:0 0 26px rgba(255,255,255,0.9),
+                 inset 0 0 20px rgba(255,255,255,1);
     }
-    .action-bet:active {
-      box-shadow:0 0 34px rgba(111,122,255,1),
-                 inset 0 0 22px rgba(111,122,255,1);
+    .action-bet:active,
+    .action-bet.is-pressed {
+      box-shadow:0 0 38px rgba(111,122,255,1),
+                 inset 0 0 24px rgba(111,122,255,1);
     }
-    .action-allin:active {
-      box-shadow:0 0 36px rgba(255,215,0,1),
-                 inset 0 0 22px rgba(255,215,0,1);
+    .action-allin:active,
+    .action-allin.is-pressed {
+      box-shadow:0 0 40px rgba(255,215,0,1),
+                 inset 0 0 24px rgba(255,215,0,1);
     }
 
     #checkCallButton {
@@ -692,7 +716,7 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      min-height:230px; /* повыше чат */
+      min-height:230px;
     }
 
     .side-tabs {
@@ -965,6 +989,24 @@
     childList:true,
     characterData:true,
     subtree:true
+  });
+})();
+</script>
+
+<!-- отдельный скрипт, чтобы на iOS нажатие кнопки точно подсвечивалось -->
+<script>
+(function () {
+  const buttons = document.querySelectorAll('.action-btn');
+  buttons.forEach(btn => {
+    const press = () => btn.classList.add('is-pressed');
+    const release = () => btn.classList.remove('is-pressed');
+
+    btn.addEventListener('touchstart', press, {passive:true});
+    btn.addEventListener('mousedown', press);
+
+    ['touchend','touchcancel','mouseup','mouseleave'].forEach(ev => {
+      btn.addEventListener(ev, release);
+    });
   });
 })();
 </script>
