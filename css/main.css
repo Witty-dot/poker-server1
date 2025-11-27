@@ -642,7 +642,7 @@ nav a:hover::after {
 /* ================= FOOTER ================= */
 
 footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px солид rgba(255, 255, 255, 0.05);
   padding: 14px 0 20px;
   font-size: 11px;
   color: var(--text-muted);
@@ -680,19 +680,14 @@ footer {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-start;      /* выше, ближе к хедеру */
-  padding: 40px 16px 40px;          /* как на старом логине */
-}
-
-.auth-card-wrap {
-  width: 100%;
-  max-width: 640px;
+  justify-content: center;
+  padding: 24px 16px 40px;  /* чуть ближе к хедеру */
 }
 
 .auth-card {
   width: 100%;
-  max-width: 640px;
-  border-radius: 28px;
+  max-width: 420px;
+  border-radius: 22px;
   background: radial-gradient(circle at 0 0, #181828, #050509 80%);
   border: 1px solid var(--border-soft);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
@@ -700,7 +695,7 @@ footer {
 }
 
 .auth-title {
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1.25;
   margin-bottom: 8px;
 }
@@ -709,7 +704,7 @@ footer {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .auth-form {
@@ -782,14 +777,6 @@ footer {
   color: var(--text-muted);
 }
 
-.auth-switch a {
-  color: #c9ceff;
-}
-
-.auth-switch a:hover {
-  color: #ffffff;
-}
-
 /* текст-пояснение под кнопкой */
 .auth-note,
 .auth-inline-link {
@@ -813,18 +800,19 @@ footer {
   font-size: 12px;
 }
 
-/* универсальный стиль ссылки в auth-блоках */
+/* ссылки в auth-блоках — как на старом login (#7093ff) */
+.auth-switch a,
 .auth-inline-link a,
 .auth-extra-row a,
 .auth-link {
-  color: #c9ceff;
+  color: #7093ff;
   text-decoration: none;
 }
 
+.auth-switch a:hover,
 .auth-inline-link a:hover,
 .auth-extra-row a:hover,
 .auth-link:hover {
-  color: #ffffff;
   text-decoration: underline;
 }
 
@@ -933,7 +921,7 @@ footer {
   }
 
   .auth-main {
-    padding-top: 24px;
+    padding-top: 20px; /* чуть ближе к хедеру и на мобиле */
   }
 }
 
@@ -957,12 +945,5 @@ footer {
 
   .auth-card {
     padding-inline: 16px;
-  }
-}
-
-/* чуть больше паддингов на широких экранах — как в старом логине */
-@media (min-width: 640px) {
-  .auth-card {
-    padding: 32px 34px 30px;
   }
 }
