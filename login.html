@@ -4,22 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Midnight Black Poker – Вход</title>
-  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
 <div class="auth-page">
 
-  <!-- ТОТ ЖЕ САМЫЙ ХЕДЕР -->
+  <!-- ХЕДЕР общий -->
   <header>
     <div class="container">
       <div class="header-inner">
-        <div class="logo-wrap">
+
+        <a href="/" class="logo-wrap">
           <div class="logo-mark"></div>
           <div>
             <div class="logo-text-main">MIDNIGHT BLACK</div>
             <div class="logo-text-sub">POKER ROOM</div>
           </div>
-        </div>
+        </a>
 
         <nav>
           <a href="/#tables">Столы</a>
@@ -29,9 +30,11 @@
         </nav>
 
         <div class="header-cta">
+          <!-- Активная вкладка логина — яркая -->
           <a href="/login.html" class="btn btn-primary">Войти</a>
           <a href="/registration.html" class="btn btn-ghost">Регистрация</a>
         </div>
+
       </div>
     </div>
   </header>
@@ -39,7 +42,7 @@
   <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="auth-main">
     <div class="auth-card-wrap">
-      <div class="auth-card">
+      <section class="auth-card">
         <h1 class="auth-title">Вход</h1>
         <p class="auth-subtitle">
           Войдите в Midnight Black Poker, чтобы продолжить игру на всех устройствах.
@@ -63,7 +66,7 @@
           Нет аккаунта?
           <a href="/registration.html">Создать аккаунт</a>
         </div>
-      </div>
+      </section>
     </div>
   </main>
 
