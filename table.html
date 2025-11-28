@@ -546,12 +546,25 @@
       margin-left:auto;
     }
 
+    /* БЫЛО — белые карточки-заглушки
     .hero-card-slot {
       width:34px; height:46px;
       border-radius:8px;
       background:radial-gradient(circle,#ffffff,#e4e4f4);
       border:1px solid rgba(0,0,0,0.1);
       box-shadow:0 4px 10px rgba(0,0,0,0.6);
+    }
+    */
+
+    /* СТАЛО — слот прозрачный, карта рисуется через .card внутри */
+    .hero-card-slot {
+      width:34px;
+      height:46px;
+      border-radius:8px;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      overflow:hidden;
     }
 
     .action-panel {
