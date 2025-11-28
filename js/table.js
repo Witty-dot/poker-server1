@@ -1,22 +1,28 @@
-// ================== КОННЕКТ К ДВИЖКУ ==================
+// =====================================================
+// ===============   CONNECT TO ENGINE   ===============
+// =====================================================
+
 const socket = io('https://poker-server-f2et.onrender.com', {
   transports: ['websocket', 'polling']
 });
 
 let myPlayerId = null;
+let lastState = null;
 let turnTimerInterval = null;
 let lastSeenLogMessage = null;
 let lastSeenDealerDetails = null;
-let lastState = null; // последнее полученное состояние стола
 
-// Кэш DOM-элементов
-const seatEls      = Array.from(document.querySelectorAll('.seat'));          // seat-1..6
-const dealerChipEl = document.getElementById('dealerChip');
+// =====================================================
+// ===============   DOM CACHE   ========================
+// =====================================================
 
-const potEl       = document.getElementById('pot');
-const potValueEl  = potEl ? potEl.querySelector('span') : null;
-const boardEl     = document.getElementById('board');
-const sidePotsEl  = document.getElementById('sidePots');
+const seatEls          = Array.from(document.querySelectorAll('.seat'));
+const dealerChipEl     = document.getElementById('dealerChip');
+
+const potEl            = document.getElementById('pot');
+const potValueEl       = potEl?.querySelector('span');
+const boardEl          = document.getElementById('board');
+const sidePotsEl       = document.getElementById('sidePots');
 
 const heroNameEl       = document.getElementById('heroName');
 const heroStackEl      = document.getElementById('heroStack');
@@ -25,31 +31,35 @@ const heroLastActionEl = document.getElementById('heroLastAction');
 const heroPositionEl   = document.getElementById('heroPosition');
 const heroBestHandEl   = document.getElementById('heroBestHand');
 
-const tableInfoEl  = document.getElementById('tableInfo');   // текст под зелёной точкой
-const dealerShortEl = document.getElementById('dealerShort'); // короткий текст крупье над столом
-const chatEl       = document.getElementById('chat');        // окно чата
+const tableInfoEl      = document.getElementById('tableInfo');
+const dealerShortEl    = document.getElementById('dealerShort');
+const chatEl           = document.getElementById('chat');
 
-// Кнопки действий
-const foldButton      = document.getElementById('foldButton');
-const checkCallButton = document.getElementById('checkCallButton');
-const betRaiseButton  = document.getElementById('betRaiseButton');
-const allInButton     = document.getElementById('allInButton');
+const seatButton       = document.getElementById('btnLeave');
 
-const betRangeEl      = document.getElementById('betRange');
-const betAmountEl     = document.getElementById('betAmount');
-const betPercentLabel = document.getElementById('betPercentLabel');
-const presetButtons   = Array.from(document.querySelectorAll('[data-bet-preset]'));
+// Actions
+const foldButton       = document.getElementById('foldButton');
+const checkCallButton  = document.getElementById('checkCallButton');
+const betRaiseButton   = document.getElementById('betRaiseButton');
+const allInButton      = document.getElementById('allInButton');
 
-// ================== ВСПОМОГАТЕЛЬНЫЕ ==================
+const betRangeEl       = document.getElementById('betRange');
+const betAmountEl      = document.getElementById('betAmount');
+const betPercentLabel  = document.getElementById('betPercentLabel');
+const presetButtons    = Array.from(document.querySelectorAll('[data-bet-preset]'));
+
+
+// =====================================================
+// ===============   HELPERS   ==========================
+// =====================================================
 
 function suitToColor(suit) {
-  if (suit === '♥' || suit === '♦') return 'red';
-  return 'black';
+  return (suit === '♥' || suit === '♦') ? 'red' : 'black';
 }
 
 function cardKey(card) {
   if (!card) return '';
-  return String(card.rank) + String(card.suit);
+  return `${card.rank}${card.suit}`;
 }
 
 function createCardEl(card) {
@@ -70,13 +80,10 @@ function createCardEl(card) {
 }
 
 function clearTurnTimer() {
-  if (turnTimerInterval) {
-    clearInterval(turnTimerInterval);
-    turnTimerInterval = null;
-  }
+  if (turnTimerInterval) clearInterval(turnTimerInterval);
+  turnTimerInterval = null;
 }
 
-// ====== ЧАТ (добавляем строки, не затираем) ======
 function appendChatLine(type, text) {
   if (!chatEl || !text) return;
   const line = document.createElement('div');
@@ -87,49 +94,45 @@ function appendChatLine(type, text) {
   chatEl.scrollTop = chatEl.scrollHeight;
 }
 
-// ================== РЕНДЕР СТУЛЬЕВ ==================
+// =====================================================
+// ===============   SEATS RENDER   =====================
+// =====================================================
 
 function renderSeats(state) {
   const players = state.players || [];
 
   seatEls.forEach((seatEl, idx) => {
-    const p = players[idx];
+    const slotPlayer = players[idx];
     const nameEl  = seatEl.querySelector('.seat-name');
     const stackEl = seatEl.querySelector('.seat-stack');
 
-    if (!p) {
+    if (!slotPlayer) {
       seatEl.classList.add('seat--empty');
       seatEl.classList.remove('active');
-      if (nameEl)  nameEl.textContent  = 'Пусто';
-      if (stackEl) stackEl.textContent = '';
+      nameEl.textContent = 'Пусто';
+      stackEl.textContent = '';
       return;
     }
 
     seatEl.classList.remove('seat--empty');
+    nameEl.textContent  = slotPlayer.name || ('Игрок ' + (idx + 1));
+    stackEl.textContent = slotPlayer.stack;
 
-    if (nameEl) {
-      nameEl.textContent = p.name || ('Игрок ' + (idx + 1));
-    }
-    if (stackEl) {
-      stackEl.textContent = p.stack;
-    }
-
-    if (p.id === state.currentTurn) {
-      seatEl.classList.add('active');
-    } else {
-      seatEl.classList.remove('active');
-    }
+    if (slotPlayer.id === state.currentTurn) seatEl.classList.add('active');
+    else seatEl.classList.remove('active');
   });
 
-  // Переставляем фишку дилера по buttonPlayerId
-  if (dealerChipEl && state.buttonPlayerId) {
+  // Dealer chip
+  if (dealerChipEl) {
     dealerChipEl.classList.remove(
       'dealer-1','dealer-2','dealer-3','dealer-4','dealer-5','dealer-6'
     );
 
+    const players = state.players || [];
     const btnIdx = players.findIndex(p => p.id === state.buttonPlayerId);
-    if (btnIdx >= 0 && btnIdx < 6) {
-      dealerChipEl.classList.add('dealer-' + (btnIdx + 1));
+
+    if (btnIdx >= 0) {
+      dealerChipEl.classList.add(`dealer-${btnIdx + 1}`);
       dealerChipEl.style.display = 'block';
     } else {
       dealerChipEl.style.display = 'none';
@@ -137,40 +140,40 @@ function renderSeats(state) {
   }
 }
 
-// ================== РЕНДЕР БОРДА / БАНКА / КРУПЬЕ ==================
+
+// =====================================================
+// ===============   BOARD & POT RENDER   ===============
+// =====================================================
 
 function renderBoardAndPot(state, comboKeys) {
   comboKeys = comboKeys || [];
 
-  // Банк
+  // Pot
   if (potEl && potValueEl) {
     const totalPot = state.totalPot || 0;
     potValueEl.textContent = totalPot;
     potEl.style.display = totalPot > 0 ? 'block' : 'none';
   }
 
-  // Общие карты
+  // Board
   if (boardEl) {
     boardEl.innerHTML = '';
-    const cards = state.communityCards || [];
-    cards.forEach(card => {
+    (state.communityCards || []).forEach(card => {
       const el = createCardEl(card);
-      if (comboKeys.includes(cardKey(card))) {
-        el.classList.add('card--highlight');
-      }
+      if (comboKeys.includes(cardKey(card))) el.classList.add('card--highlight');
       boardEl.appendChild(el);
     });
   }
 
-  // Детализация сайд-потов
+  // Side pots
   if (sidePotsEl) {
-    const potDetails = state.potDetails || [];
-    sidePotsEl.textContent = potDetails.length ? potDetails.join(' | ') : '';
+    const pots = state.potDetails || [];
+    sidePotsEl.textContent = pots.length ? pots.join(' | ') : '';
   }
 
-  // ВЕРХНЯЯ ИНФА ПОД ЗЕЛЁНОЙ ТОЧКОЙ
+  // Info under green dot
   if (tableInfoEl) {
-    const stageMap = {
+    const stages = {
       waiting:  'Ожидание раздачи',
       preflop:  'Префлоп',
       flop:     'Флоп',
@@ -178,363 +181,192 @@ function renderBoardAndPot(state, comboKeys) {
       river:    'Ривер',
       showdown: 'Шоудаун'
     };
-    const stageName = stageMap[state.stage] || '—';
-    const sb = state.smallBlind || 0;
-    const bb = state.bigBlind || 0;
-    tableInfoEl.textContent = `Live · Hold'em · Блайнды ${sb}/${bb} · ${stageName}`;
+    const stageName = stages[state.stage] || '—';
+    tableInfoEl.textContent =
+      `Live · Hold'em · Блайнды ${state.smallBlind}/${state.bigBlind} · ${stageName}`;
   }
 
-  // Краткое сообщение крупье над столом
+  // Short dealer text over table
   if (dealerShortEl) {
-    let shortText = null;
-    if (state.tableMessage) {
-      shortText = state.tableMessage;
-    } else if (state.dealerDetails) {
-      shortText = String(state.dealerDetails).split('\n')[0] || null;
-    }
-    if (shortText && shortText.length > 110) {
-      shortText = shortText.slice(0, 107) + '…';
-    }
-    dealerShortEl.textContent = shortText || '';
+    let txt = state.tableMessage ||
+              (state.dealerDetails ? String(state.dealerDetails).split('\n')[0] : '');
+    if (txt.length > 110) txt = txt.slice(0, 107) + '…';
+    dealerShortEl.textContent = txt || '';
   }
 
-  // КРУПЬЕ В ЧАТЕ:
-  // 1) короткие сообщения (tableMessage)
+  // Dealer → чат
   if (state.tableMessage && state.tableMessage !== lastSeenLogMessage) {
     appendChatLine('dealer', state.tableMessage);
     lastSeenLogMessage = state.tableMessage;
   }
 
-  // 2) развёрнутая расшифровка (dealerDetails)
   if (state.dealerDetails && state.dealerDetails !== lastSeenDealerDetails) {
-    const lines = String(state.dealerDetails).split('\n');
-    lines.forEach(line => appendChatLine('system', line));
+    String(state.dealerDetails).split('\n').forEach(l => appendChatLine('system', l));
     lastSeenDealerDetails = state.dealerDetails;
   }
 }
 
-// ================== РЕНДЕР ХЕРО ==================
+
+// =====================================================
+// ===============   HERO RENDER   ======================
+// =====================================================
 
 function renderHero(state, comboKeys) {
-  const players = state.players || [];
-  const me = players.find(p => p.id === myPlayerId) || null;
+  const me = (state.players || []).find(p => p.id === myPlayerId);
   comboKeys = comboKeys || [];
 
-  if (heroNameEl) {
-    heroNameEl.textContent = me ? (me.name || 'Hero') : 'Hero';
-  }
-  if (heroStackEl) {
-    heroStackEl.textContent = me ? (me.stack || 0) : 0;
-  }
+  heroNameEl.textContent  = me ? me.name : 'Hero';
+  heroStackEl.textContent = me ? me.stack : 0;
 
-  if (heroPositionEl) {
-    const stageMap = {
-      waiting:  'Ожидание',
-      preflop:  'Префлоп',
-      flop:     'Флоп',
-      turn:     'Тёрн',
-      river:    'Ривер',
-      showdown: 'Шоудаун'
-    };
-    heroPositionEl.textContent = 'Стадия: ' + (stageMap[state.stage] || '—');
-  }
+  // Stage
+  const stages = {
+    waiting:  'Ожидание',
+    preflop:  'Префлоп',
+    flop:     'Флоп',
+    turn:     'Тёрн',
+    river:    'Ривер',
+    showdown: 'Шоудаун'
+  };
+  heroPositionEl.textContent = 'Стадия: ' + (stages[state.stage] || '—');
 
-  // Комбинация
-  if (heroBestHandEl) {
-    if (state.yourBestHandType) {
-      heroBestHandEl.textContent = 'Комбинация: ' + state.yourBestHandType;
-    } else {
-      heroBestHandEl.textContent = 'Комбинация: —';
-    }
-  }
+  // Combination
+  heroBestHandEl.textContent =
+    state.yourBestHandType ? ('Комбинация: ' + state.yourBestHandType) : 'Комбинация: —';
 
-  // Карманные карты (мини-карты)
-  const yourCards = state.yourCards || [];
+  // Pocket cards
   heroCardsSlots.forEach((slot, idx) => {
     slot.innerHTML = '';
-    const card = yourCards[idx];
+    const card = (state.yourCards || [])[idx];
     if (!card) return;
-    const cardEl = createCardEl(card);
-    cardEl.style.width = '100%';
-    cardEl.style.height = '100%';
-    if (comboKeys.includes(cardKey(card))) {
-      cardEl.classList.add('card--highlight');
-    }
-    slot.appendChild(cardEl);
+    const el = createCardEl(card);
+    if (comboKeys.includes(cardKey(card))) el.classList.add('card--highlight');
+    el.style.width = '100%';
+    el.style.height = '100%';
+    slot.appendChild(el);
   });
 
-  // Статус "Ваш ход" + таймер
+  // Your turn / timer
   clearTurnTimer();
-
-  const isYourTurn = !!state.yourTurn;
-
-  if (isYourTurn) {
-    if (heroLastActionEl) {
-      heroLastActionEl.textContent = 'Ваш ход';
-    }
-
+  if (state.yourTurn) {
+    heroLastActionEl.textContent = 'Ваш ход';
     if (state.turnDeadline) {
       const deadline = state.turnDeadline;
-      const updateTimer = () => {
-        const now = Date.now();
-        let sec = Math.max(0, Math.ceil((deadline - now) / 1000));
-        if (heroLastActionEl) {
-          heroLastActionEl.textContent = `Ваш ход · ${sec} с`;
-        }
-        if (sec <= 0) {
-          clearTurnTimer();
-        }
+      const upd = () => {
+        const sec = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+        heroLastActionEl.textContent = `Ваш ход · ${sec} с`;
+        if (sec <= 0) clearTurnTimer();
       };
-      updateTimer();
-      turnTimerInterval = setInterval(updateTimer, 250);
+      upd();
+      turnTimerInterval = setInterval(upd, 250);
     }
   } else {
-    if (heroLastActionEl) {
-      heroLastActionEl.textContent = 'Ожидание других игроков';
-    }
+    heroLastActionEl.textContent = 'Ожидание других игроков';
   }
 
-  // Можно отключать кнопки, если не твой ход
-  const disabled = !isYourTurn;
+  // Disable action buttons if not your turn
+  const disable = !state.yourTurn;
   [foldButton, checkCallButton, betRaiseButton, allInButton].forEach(btn => {
     if (!btn) return;
-    btn.disabled = disabled;
-    btn.classList.toggle('is-disabled', disabled);
+    btn.disabled = disable;
+    btn.classList.toggle('is-disabled', disable);
   });
 }
 
-// ================== ГЛАВНЫЙ РЕНДЕР ==================
+
+// =====================================================
+// ===============   JOIN / LEAVE LOGIC   ===============
+// =====================================================
+
+function isMeSeated(state) {
+  if (!myPlayerId || !state || !state.players) return false;
+  const me = state.players.find(p => p.id === myPlayerId);
+  if (!me) return false;
+  return !me.isPaused && me.stack > 0;
+}
+
+function updateSeatButton(state) {
+  if (!seatButton) return;
+  const seated = isMeSeated(state);
+  if (seated) {
+    seatButton.textContent = 'Покинуть стол';
+    seatButton.classList.remove('btn-join');
+    seatButton.classList.add('btn-leave');
+  } else {
+    seatButton.textContent = 'Сесть за стол';
+    seatButton.classList.remove('btn-leave');
+    seatButton.classList.add('btn-join');
+  }
+}
+
+
+// =====================================================
+// ===============   MAIN RENDER   ======================
+// =====================================================
 
 function renderState(state) {
   lastState = state;
-
   const comboKeys = (state.yourBestHandCards || []).map(cardKey);
 
   renderSeats(state);
   renderBoardAndPot(state, comboKeys);
   renderHero(state, comboKeys);
   updateBetControls(state);
+  updateSeatButton(state);
 }
 
-// ================== УПРАВЛЕНИЕ СТАВКОЙ ==================
+
+// =====================================================
+// ===============   BET CONTROLS   =====================
+// =====================================================
 
 function updateBetControls(state) {
   if (!betRangeEl || !betAmountEl) return;
-  const players = state.players || [];
-  const me = players.find(p => p.id === myPlayerId) || null;
+  const me = (state.players || []).find(p => p.id === myPlayerId);
   if (!me) return;
 
   const stack = me.stack || 0;
-
-  // ограничиваем максимально возможную ставку твоим стеком
   betAmountEl.max = stack;
-  if (stack <= 0) {
-    betRangeEl.value = 0;
-    if (betPercentLabel) betPercentLabel.textContent = '0%';
-    return;
-  }
 
-  // если сейчас в инпуте что-то странное — приводим в диапазон
-  let current = parseInt(betAmountEl.value, 10);
-  if (!Number.isFinite(current) || current < 0) current = 0;
-  if (current > stack) current = stack;
-  betAmountEl.value = current;
+  let val = parseInt(betAmountEl.value) || 0;
+  if (val < 0) val = 0;
+  if (val > stack) val = stack;
+  betAmountEl.value = val;
 
-  // синхронизация процента с суммой
-  const percent = stack > 0 ? Math.round((current / stack) * 100) : 0;
-  betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
-  if (betPercentLabel) {
-    betPercentLabel.textContent = betRangeEl.value + '%';
-  }
+  const percent = stack > 0 ? Math.round((val / stack) * 100) : 0;
+  betRangeEl.value = percent;
+  betPercentLabel.textContent = percent + '%';
 }
 
-// Минимальная сумма для Bet/ Raise, если поле пустое / 0
 function getDefaultBetAmount() {
   if (!lastState) return 10;
-
   const s = lastState;
-  const bigBlind = s.bigBlind || 10;
-  const minRaise = s.minRaise || bigBlind;
+  const bb = s.bigBlind || 10;
+  const minRaise = s.minRaise || bb;
 
-  if (!s.currentBet || s.currentBet === 0) {
-    // первый бет на улице: хотя бы размер BB
-    return bigBlind;
-  } else {
-    // рейз до: currentBet + minRaise
-    return s.currentBet + minRaise;
-  }
+  if (!s.currentBet || s.currentBet === 0) return bb;
+  return s.currentBet + minRaise;
 }
 
-// ================== SOCKET.IO СЛУШАТЕЛИ ==================
+
+// =====================================================
+// ===============   SOCKET LISTENERS   =================
+// =====================================================
 
 socket.on('connect', () => {
-  console.log('[table.js] connected to engine:', socket.id);
   myPlayerId = socket.id;
+  console.log('[table.js] Connected →', myPlayerId);
 });
 
-socket.on('connect_error', (err) => {
-  console.error('[table.js] connect_error:', err);
-});
-
-socket.on('disconnect', (reason) => {
-  console.warn('[table.js] disconnected:', reason);
+socket.on('disconnect', () => {
   clearTurnTimer();
+  console.warn('[table.js] Disconnected');
 });
 
-// основное состояние от сервера
 socket.on('gameState', (state) => {
-  // console.log('[table.js] gameState:', state);
-  if (!myPlayerId) {
-    myPlayerId = socket.id;
-  }
   renderState(state);
 });
 
-// ================== КНОПКИ ДЕЙСТВИЙ ==================
 
-function wireActionButtons() {
-  if (foldButton) {
-    foldButton.addEventListener('click', () => {
-      socket.emit('action', { type: 'fold' });
-    });
-  }
-
-  if (checkCallButton) {
-    checkCallButton.addEventListener('click', () => {
-      socket.emit('action', { type: 'call' });
-    });
-  }
-
-  if (betRaiseButton) {
-    betRaiseButton.addEventListener('click', () => {
-      let amount = 0;
-      if (betAmountEl) {
-        const raw = parseInt(betAmountEl.value, 10);
-        if (Number.isFinite(raw) && raw > 0) {
-          amount = raw;
-        }
-      }
-
-      // Если сумма не задана или 0 — берём минимальный разумный бет/рейз
-      if (amount <= 0) {
-        amount = getDefaultBetAmount();
-      }
-
-      if (amount <= 0) return;
-
-      socket.emit('action', { type: 'bet', amount });
-    });
-  }
-
-  if (allInButton) {
-    allInButton.addEventListener('click', () => {
-      socket.emit('action', { type: 'allin' });
-    });
-  }
-
-  // Ползунок
-  if (betRangeEl && betAmountEl) {
-    betRangeEl.addEventListener('input', () => {
-      const percent = parseInt(betRangeEl.value, 10) || 0;
-      if (betPercentLabel) {
-        betPercentLabel.textContent = percent + '%';
-      }
-
-      const players = lastState && lastState.players ? lastState.players : [];
-      const me = players.find(p => p.id === myPlayerId) || null;
-      const stack = me ? me.stack || 0 : 0;
-
-      const amount = Math.floor((stack * percent) / 100);
-      betAmountEl.value = amount;
-    });
-  }
-
-  // Ручной ввод суммы — обновляем процент
-  if (betAmountEl && betRangeEl) {
-    betAmountEl.addEventListener('input', () => {
-      if (!lastState) return;
-      const players = lastState.players || [];
-      const me = players.find(p => p.id === myPlayerId) || null;
-      const stack = me ? me.stack || 0 : 0;
-
-      let val = parseInt(betAmountEl.value, 10);
-      if (!Number.isFinite(val) || val < 0) val = 0;
-      if (val > stack) val = stack;
-      betAmountEl.value = val;
-
-      const percent = stack > 0 ? Math.round((val / stack) * 100) : 0;
-      betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
-      if (betPercentLabel) {
-        betPercentLabel.textContent = betRangeEl.value + '%';
-      }
-    });
-  }
-
-  // пресеты (⅓ пота, ½, ¾, пот, макс)
-  if (presetButtons.length && betAmountEl) {
-    presetButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!lastState) return;
-        const preset = btn.getAttribute('data-bet-preset');
-
-        const players = lastState.players || [];
-        const me = players.find(p => p.id === myPlayerId) || null;
-        const stack = me ? me.stack || 0 : 0;
-        const totalPot = lastState.totalPot || 0;
-
-        let amount = 0;
-
-        if (preset === 'max') {
-          // сразу олл-ин
-          socket.emit('action', { type: 'allin' });
-          return;
-        }
-
-        if (preset === '33') {
-          amount = Math.floor(totalPot * 0.33);
-        } else if (preset === '50') {
-          amount = Math.floor(totalPot * 0.5);
-        } else if (preset === '75') {
-          amount = Math.floor(totalPot * 0.75);
-        } else if (preset === '100') {
-          amount = totalPot;
-        }
-
-        if (amount <= 0) {
-          // если банк мелкий / 0 — ориентируемся хотя бы на стек
-          amount = Math.floor(stack * (parseInt(preset, 10) || 0) / 100);
-        }
-
-        if (amount > stack) amount = stack;
-        if (amount < 0) amount = 0;
-
-        betAmountEl.value = amount;
-
-        // Обновим проценты и ползунок
-        if (stack > 0 && betRangeEl) {
-          const percent = Math.round((amount / stack) * 100);
-          betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
-          if (betPercentLabel) {
-            betPercentLabel.textContent = betRangeEl.value + '%';
-          }
-        }
-      });
-    });
-  }
-
-  // iOS-неон для .action-btn
-  const actionBtns = document.querySelectorAll('.action-btn');
-  actionBtns.forEach(btn => {
-    const press = () => btn.classList.add('is-pressed');
-    const release = () => btn.classList.remove('is-pressed');
-
-    btn.addEventListener('touchstart', press, { passive: true });
-    btn.addEventListener('mousedown', press);
-
-    ['touchend', 'touchcancel', 'mouseup', 'mouseleave'].forEach(ev => {
-      btn.addEventListener(ev, release);
-    });
-  });
-}
-
-wireActionButtons();
+// =====================================================
+// ===============   ACTION BUTTONS   ===================
+—END OF FILE—
