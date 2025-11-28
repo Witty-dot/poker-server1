@@ -13,14 +13,15 @@ let lastSeenLogMessage = null;
 let lastSeenDealerDetails = null;
 
 // =====================================================
-// ===============   DOM CACHE   ========================
+// ===============   DOM CACHE   =======================
 // =====================================================
 
 const seatEls          = Array.from(document.querySelectorAll('.seat'));
 const dealerChipEl     = document.getElementById('dealerChip');
+const tableEl          = document.getElementById('table');
 
 const potEl            = document.getElementById('pot');
-const potValueEl       = potEl?.querySelector('span');
+const potValueEl       = potEl ? potEl.querySelector('span') : null;
 const boardEl          = document.getElementById('board');
 const sidePotsEl       = document.getElementById('sidePots');
 
@@ -35,9 +36,12 @@ const tableInfoEl      = document.getElementById('tableInfo');
 const dealerShortEl    = document.getElementById('dealerShort');
 const chatEl           = document.getElementById('chat');
 
+const tableNameEl      = document.getElementById('tableName');
+const tablePlayersEl   = document.getElementById('tablePlayers');
+const tableTitleEl     = document.getElementById('tableTitle');
+
 const seatButton       = document.getElementById('btnLeave');
 
-// Actions
 const foldButton       = document.getElementById('foldButton');
 const checkCallButton  = document.getElementById('checkCallButton');
 const betRaiseButton   = document.getElementById('betRaiseButton');
@@ -48,9 +52,11 @@ const betAmountEl      = document.getElementById('betAmount');
 const betPercentLabel  = document.getElementById('betPercentLabel');
 const presetButtons    = Array.from(document.querySelectorAll('[data-bet-preset]'));
 
+const chatInput        = document.getElementById('chatInput');
+const chatSend         = document.getElementById('chatSend');
 
 // =====================================================
-// ===============   HELPERS   ==========================
+// ===============   HELPERS   =========================
 // =====================================================
 
 function suitToColor(suit) {
@@ -80,8 +86,10 @@ function createCardEl(card) {
 }
 
 function clearTurnTimer() {
-  if (turnTimerInterval) clearInterval(turnTimerInterval);
-  turnTimerInterval = null;
+  if (turnTimerInterval) {
+    clearInterval(turnTimerInterval);
+    turnTimerInterval = null;
+  }
 }
 
 function appendChatLine(type, text) {
@@ -95,7 +103,7 @@ function appendChatLine(type, text) {
 }
 
 // =====================================================
-// ===============   SEATS RENDER   =====================
+// ===============   SEATS RENDER   ====================
 // =====================================================
 
 function renderSeats(state) {
@@ -106,43 +114,81 @@ function renderSeats(state) {
     const nameEl  = seatEl.querySelector('.seat-name');
     const stackEl = seatEl.querySelector('.seat-stack');
 
-    if (!slotPlayer) {
+    // Пустой стул: нет игрока, либо paused, либо без стека
+    if (!slotPlayer || slotPlayer.isPaused || (slotPlayer.stack || 0) <= 0) {
       seatEl.classList.add('seat--empty');
       seatEl.classList.remove('active');
-      nameEl.textContent = 'Пусто';
-      stackEl.textContent = '';
+      if (nameEl)  nameEl.textContent  = 'Пусто';
+      if (stackEl) stackEl.textContent = '';
       return;
     }
 
     seatEl.classList.remove('seat--empty');
-    nameEl.textContent  = slotPlayer.name || ('Игрок ' + (idx + 1));
-    stackEl.textContent = slotPlayer.stack;
+    if (nameEl)  nameEl.textContent  = slotPlayer.name || ('Игрок ' + (idx + 1));
+    if (stackEl) stackEl.textContent = slotPlayer.stack;
 
     if (slotPlayer.id === state.currentTurn) seatEl.classList.add('active');
     else seatEl.classList.remove('active');
   });
 
-  // Dealer chip
-  if (dealerChipEl) {
-    dealerChipEl.classList.remove(
-      'dealer-1','dealer-2','dealer-3','dealer-4','dealer-5','dealer-6'
+  // Фишка дилера: позиционируем относительно реальной ширины стула
+  if (dealerChipEl && tableEl) {
+    const btnIdx = (state.players || []).findIndex(p =>
+      p.id === state.buttonPlayerId && !p.isPaused && (p.stack || 0) > 0
     );
 
-    const players = state.players || [];
-    const btnIdx = players.findIndex(p => p.id === state.buttonPlayerId);
+    if (btnIdx >= 0 && seatEls[btnIdx]) {
+      const seatEl = seatEls[btnIdx];
 
-    if (btnIdx >= 0) {
-      dealerChipEl.classList.add(`dealer-${btnIdx + 1}`);
-      dealerChipEl.style.display = 'block';
+      const tableRect = tableEl.getBoundingClientRect();
+      const seatRect  = seatEl.getBoundingClientRect();
+      const chipW = dealerChipEl.offsetWidth || 18;
+      const chipH = dealerChipEl.offsetHeight || 18;
+
+      const seatCenterX = seatRect.left + seatRect.width / 2;
+      const seatCenterY = seatRect.top  + seatRect.height / 2;
+      const tableCenterX = tableRect.left + tableRect.width / 2;
+      const tableCenterY = tableRect.top  + tableRect.height / 2;
+
+      const dx = seatCenterX - tableCenterX;
+      const dy = seatCenterY - tableCenterY;
+      const offset = 8;
+
+      let left, top;
+
+      if (Math.abs(dx) >= Math.abs(dy)) {
+        // левая / правая сторона
+        if (dx > 0) {
+          // справа от центра — фишка слева от стула (внутрь стола)
+          left = seatRect.left - tableRect.left - chipW - offset;
+        } else {
+          // слева от центра — фишка справа от стула
+          left = seatRect.right - tableRect.left + offset;
+        }
+        top = seatCenterY - tableRect.top - chipH / 2;
+      } else {
+        // верх / низ
+        if (dy > 0) {
+          // снизу — фишка над стулом
+          top = seatRect.top - tableRect.top - chipH - offset;
+        } else {
+          // сверху — фишка под стулом
+          top = seatRect.bottom - tableRect.top + offset;
+        }
+        left = seatCenterX - tableRect.left - chipW / 2;
+      }
+
+      dealerChipEl.style.left = `${left}px`;
+      dealerChipEl.style.top  = `${top}px`;
+      dealerChipEl.style.display = 'flex';
     } else {
       dealerChipEl.style.display = 'none';
     }
   }
 }
 
-
 // =====================================================
-// ===============   BOARD & POT RENDER   ===============
+// ===============   BOARD & POT RENDER   ==============
 // =====================================================
 
 function renderBoardAndPot(state, comboKeys) {
@@ -171,7 +217,7 @@ function renderBoardAndPot(state, comboKeys) {
     sidePotsEl.textContent = pots.length ? pots.join(' | ') : '';
   }
 
-  // Info under green dot
+  // Инфа под зелёной точкой
   if (tableInfoEl) {
     const stages = {
       waiting:  'Ожидание раздачи',
@@ -182,15 +228,17 @@ function renderBoardAndPot(state, comboKeys) {
       showdown: 'Шоудаун'
     };
     const stageName = stages[state.stage] || '—';
+    const sb = state.smallBlind || 0;
+    const bb = state.bigBlind || 0;
     tableInfoEl.textContent =
-      `Live · Hold'em · Блайнды ${state.smallBlind}/${state.bigBlind} · ${stageName}`;
+      `Live · Hold'em · Блайнды ${sb}/${bb} · ${stageName}`;
   }
 
-  // Short dealer text over table
+  // Краткое сообщение крупье над столом
   if (dealerShortEl) {
     let txt = state.tableMessage ||
               (state.dealerDetails ? String(state.dealerDetails).split('\n')[0] : '');
-    if (txt.length > 110) txt = txt.slice(0, 107) + '…';
+    if (txt && txt.length > 110) txt = txt.slice(0, 107) + '…';
     dealerShortEl.textContent = txt || '';
   }
 
@@ -206,19 +254,17 @@ function renderBoardAndPot(state, comboKeys) {
   }
 }
 
-
 // =====================================================
-// ===============   HERO RENDER   ======================
+// ===============   HERO RENDER   =====================
 // =====================================================
 
 function renderHero(state, comboKeys) {
   const me = (state.players || []).find(p => p.id === myPlayerId);
   comboKeys = comboKeys || [];
 
-  heroNameEl.textContent  = me ? me.name : 'Hero';
-  heroStackEl.textContent = me ? me.stack : 0;
+  if (heroNameEl)  heroNameEl.textContent  = me ? me.name : 'Hero';
+  if (heroStackEl) heroStackEl.textContent = me ? me.stack : 0;
 
-  // Stage
   const stages = {
     waiting:  'Ожидание',
     preflop:  'Префлоп',
@@ -227,13 +273,16 @@ function renderHero(state, comboKeys) {
     river:    'Ривер',
     showdown: 'Шоудаун'
   };
-  heroPositionEl.textContent = 'Стадия: ' + (stages[state.stage] || '—');
+  if (heroPositionEl) {
+    heroPositionEl.textContent = 'Стадия: ' + (stages[state.stage] || '—');
+  }
 
-  // Combination
-  heroBestHandEl.textContent =
-    state.yourBestHandType ? ('Комбинация: ' + state.yourBestHandType) : 'Комбинация: —';
+  if (heroBestHandEl) {
+    heroBestHandEl.textContent =
+      state.yourBestHandType ? ('Комбинация: ' + state.yourBestHandType) : 'Комбинация: —';
+  }
 
-  // Pocket cards
+  // Карманные карты
   heroCardsSlots.forEach((slot, idx) => {
     slot.innerHTML = '';
     const card = (state.yourCards || [])[idx];
@@ -245,26 +294,49 @@ function renderHero(state, comboKeys) {
     slot.appendChild(el);
   });
 
-  // Your turn / timer
+  // Ваш ход / таймер + подсказка "чек / бет / колл"
   clearTurnTimer();
-  if (state.yourTurn) {
-    heroLastActionEl.textContent = 'Ваш ход';
+
+  const isYourTurn = !!state.yourTurn;
+  const toCall = (me && state.currentBet)
+    ? Math.max(0, (state.currentBet || 0) - (me.betThisStreet || 0))
+    : 0;
+  let actionHint = '';
+
+  if (isYourTurn) {
+    if (toCall <= 0) {
+      actionHint = 'вы можете чекнуть или поставить';
+    } else {
+      actionHint = 'вы можете коллировать, рейзить или сбросить';
+    }
+  }
+
+  if (isYourTurn) {
+    if (heroLastActionEl) {
+      heroLastActionEl.textContent = `Ваш ход · ${actionHint || ''}`.trim();
+    }
+
     if (state.turnDeadline) {
       const deadline = state.turnDeadline;
       const upd = () => {
         const sec = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-        heroLastActionEl.textContent = `Ваш ход · ${sec} с`;
+        if (heroLastActionEl) {
+          heroLastActionEl.textContent =
+            `Ваш ход · ${actionHint || ''} · ${sec} с`.replace(' ·  ·', ' ·');
+        }
         if (sec <= 0) clearTurnTimer();
       };
       upd();
       turnTimerInterval = setInterval(upd, 250);
     }
   } else {
-    heroLastActionEl.textContent = 'Ожидание других игроков';
+    if (heroLastActionEl) {
+      heroLastActionEl.textContent = 'Ожидание других игроков';
+    }
   }
 
-  // Disable action buttons if not your turn
-  const disable = !state.yourTurn;
+  // Блокируем кнопки, если не наш ход
+  const disable = !isYourTurn;
   [foldButton, checkCallButton, betRaiseButton, allInButton].forEach(btn => {
     if (!btn) return;
     btn.disabled = disable;
@@ -272,16 +344,16 @@ function renderHero(state, comboKeys) {
   });
 }
 
-
 // =====================================================
-// ===============   JOIN / LEAVE LOGIC   ===============
+// ===============   JOIN / LEAVE LOGIC   ==============
 // =====================================================
 
 function isMeSeated(state) {
+  state = state || lastState;
   if (!myPlayerId || !state || !state.players) return false;
   const me = state.players.find(p => p.id === myPlayerId);
   if (!me) return false;
-  return !me.isPaused && me.stack > 0;
+  return !me.isPaused && (me.stack || 0) > 0;
 }
 
 function updateSeatButton(state) {
@@ -298,9 +370,28 @@ function updateSeatButton(state) {
   }
 }
 
+// =====================================================
+// ===============   HEADER INFO =======================
+// =====================================================
+
+function updateHeader(state) {
+  if (tableTitleEl) {
+    const sb = state.smallBlind || 0;
+    const bb = state.bigBlind || 0;
+    tableTitleEl.textContent = `TABLE · NL ${sb}–${bb}`;
+  }
+
+  if (tablePlayersEl) {
+    const totalSeats = seatEls.length || 6;
+    const activeCount = (state.players || []).filter(
+      p => !p.isPaused && (p.stack || 0) > 0
+    ).length;
+    tablePlayersEl.textContent = `${Math.min(activeCount, totalSeats)} / ${totalSeats} игроков`;
+  }
+}
 
 // =====================================================
-// ===============   MAIN RENDER   ======================
+// ===============   MAIN RENDER   =====================
 // =====================================================
 
 function renderState(state) {
@@ -312,11 +403,11 @@ function renderState(state) {
   renderHero(state, comboKeys);
   updateBetControls(state);
   updateSeatButton(state);
+  updateHeader(state);
 }
 
-
 // =====================================================
-// ===============   BET CONTROLS   =====================
+// ===============   BET CONTROLS   ====================
 // =====================================================
 
 function updateBetControls(state) {
@@ -327,14 +418,16 @@ function updateBetControls(state) {
   const stack = me.stack || 0;
   betAmountEl.max = stack;
 
-  let val = parseInt(betAmountEl.value) || 0;
-  if (val < 0) val = 0;
+  let val = parseInt(betAmountEl.value, 10);
+  if (!Number.isFinite(val) || val < 0) val = 0;
   if (val > stack) val = stack;
   betAmountEl.value = val;
 
   const percent = stack > 0 ? Math.round((val / stack) * 100) : 0;
-  betRangeEl.value = percent;
-  betPercentLabel.textContent = percent + '%';
+  betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
+  if (betPercentLabel) {
+    betPercentLabel.textContent = betRangeEl.value + '%';
+  }
 }
 
 function getDefaultBetAmount() {
@@ -347,9 +440,8 @@ function getDefaultBetAmount() {
   return s.currentBet + minRaise;
 }
 
-
 // =====================================================
-// ===============   SOCKET LISTENERS   =================
+// ===============   SOCKET LISTENERS  =================
 // =====================================================
 
 socket.on('connect', () => {
@@ -366,7 +458,179 @@ socket.on('gameState', (state) => {
   renderState(state);
 });
 
-
 // =====================================================
-// ===============   ACTION BUTTONS   ===================
-—END OF FILE—
+// ===============   UI WIRING   =======================
+// =====================================================
+
+function wireUi() {
+  // JOIN / LEAVE
+  if (seatButton) {
+    seatButton.addEventListener('click', () => {
+      const seated = isMeSeated();
+      if (seated) {
+        // "Покинуть стол" — ставим на паузу
+        socket.emit('setPlaying', { playing: false });
+      } else {
+        // "Сесть за стол" — создаём игрока, включаем игру
+        socket.emit('joinTable', {
+          playerName: 'Browser ' + Math.floor(Math.random() * 1000)
+        });
+        socket.emit('setPlaying', { playing: true });
+      }
+    });
+  }
+
+  // ACTION BUTTONS
+  if (foldButton) {
+    foldButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'fold' });
+    });
+  }
+
+  if (checkCallButton) {
+    checkCallButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'call' });
+    });
+  }
+
+  if (betRaiseButton) {
+    betRaiseButton.addEventListener('click', () => {
+      let amount = 0;
+      if (betAmountEl) {
+        const raw = parseInt(betAmountEl.value, 10);
+        if (Number.isFinite(raw) && raw > 0) {
+          amount = raw;
+        }
+      }
+
+      if (amount <= 0) {
+        amount = getDefaultBetAmount();
+      }
+      if (amount <= 0) return;
+
+      socket.emit('action', { type: 'bet', amount });
+    });
+  }
+
+  if (allInButton) {
+    allInButton.addEventListener('click', () => {
+      socket.emit('action', { type: 'allin' });
+    });
+  }
+
+  // RANGE → AMOUNT
+  if (betRangeEl && betAmountEl) {
+    betRangeEl.addEventListener('input', () => {
+      const percent = parseInt(betRangeEl.value, 10) || 0;
+      if (betPercentLabel) {
+        betPercentLabel.textContent = percent + '%';
+      }
+
+      const me = lastState && lastState.players
+        ? lastState.players.find(p => p.id === myPlayerId)
+        : null;
+      const stack = me ? me.stack || 0 : 0;
+
+      const amount = Math.floor((stack * percent) / 100);
+      betAmountEl.value = amount;
+    });
+  }
+
+  // AMOUNT → RANGE
+  if (betAmountEl && betRangeEl) {
+    betAmountEl.addEventListener('input', () => {
+      if (!lastState) return;
+      const me = (lastState.players || []).find(p => p.id === myPlayerId);
+      const stack = me ? me.stack || 0 : 0;
+
+      let val = parseInt(betAmountEl.value, 10);
+      if (!Number.isFinite(val) || val < 0) val = 0;
+      if (val > stack) val = stack;
+      betAmountEl.value = val;
+
+      const percent = stack > 0 ? Math.round((val / stack) * 100) : 0;
+      betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
+      if (betPercentLabel) {
+        betPercentLabel.textContent = betRangeEl.value + '%';
+      }
+    });
+  }
+
+  // PRESET BUTTONS
+  if (presetButtons.length && betAmountEl) {
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!lastState) return;
+        const preset = btn.getAttribute('data-bet-preset');
+
+        const me = (lastState.players || []).find(p => p.id === myPlayerId);
+        const stack = me ? me.stack || 0 : 0;
+        const totalPot = lastState.totalPot || 0;
+
+        let amount = 0;
+
+        if (preset === 'max') {
+          socket.emit('action', { type: 'allin' });
+          return;
+        }
+
+        if (preset === '33') {
+          amount = Math.floor(totalPot * 0.33);
+        } else if (preset === '50') {
+          amount = Math.floor(totalPot * 0.5);
+        } else if (preset === '75') {
+          amount = Math.floor(totalPot * 0.75);
+        } else if (preset === '100') {
+          amount = totalPot;
+        }
+
+        if (amount <= 0) {
+          amount = Math.floor(stack * (parseInt(preset, 10) || 0) / 100);
+        }
+
+        if (amount > stack) amount = stack;
+        if (amount < 0) amount = 0;
+
+        betAmountEl.value = amount;
+
+        if (stack > 0 && betRangeEl) {
+          const percent = Math.round((amount / stack) * 100);
+          betRangeEl.value = String(Math.min(100, Math.max(0, percent)));
+          if (betPercentLabel) {
+            betPercentLabel.textContent = betRangeEl.value + '%';
+          }
+        }
+      });
+    });
+  }
+
+  // iOS-неон для .action-btn
+  const actionBtns = document.querySelectorAll('.action-btn');
+  actionBtns.forEach(btn => {
+    const press = () => btn.classList.add('is-pressed');
+    const release = () => btn.classList.remove('is-pressed');
+
+    btn.addEventListener('touchstart', press, { passive: true });
+    btn.addEventListener('mousedown', press);
+
+    ['touchend','touchcancel','mouseup','mouseleave'].forEach(ev => {
+      btn.addEventListener(ev, release);
+    });
+  });
+
+  // Чат: авто-скролл и фокус
+  if (chatInput) {
+    chatInput.addEventListener('focus', () => {
+      setTimeout(() => {
+        chatEl && (chatEl.scrollTop = chatEl.scrollHeight);
+      }, 50);
+    });
+  }
+  if (chatSend && chatInput) {
+    chatSend.addEventListener('click', () => {
+      chatInput.value = '';
+    });
+  }
+}
+
+wireUi();
