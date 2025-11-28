@@ -135,7 +135,6 @@ function renderHeader(state) {
   }
 
   if (minBuyinEl || maxBuyinEl) {
-    // Простейшая логика: мин бай-ин ~ 50 BB, макс ~ 200 BB
     const minBuyin = bb * 50;
     const maxBuyin = bb * 200;
     if (minBuyinEl) minBuyinEl.textContent = `Мин. бай-ин: ${formatNumber(minBuyin)}`;
@@ -178,7 +177,7 @@ function positionDealerChip(state) {
   vx /= len;
   vy /= len;
 
-  const offset = 30; // насколько дальше от центра стола относительно стула
+  const offset = 30;
   const chipX = seatCx + vx * offset - tableRect.left;
   const chipY = seatCy + vy * offset - tableRect.top;
 
@@ -211,7 +210,6 @@ function renderSeats(state) {
     else seatEl.classList.remove('active');
   });
 
-  // Dealer chip — позиционируем динамически
   if (state.buttonPlayerId) {
     positionDealerChip(state);
   } else if (dealerChipEl) {
@@ -226,14 +224,12 @@ function renderSeats(state) {
 function renderBoardAndPot(state, comboKeys) {
   comboKeys = comboKeys || [];
 
-  // Pot
   if (potEl && potValueEl) {
     const totalPot = state.totalPot || 0;
     potValueEl.textContent = formatNumber(totalPot);
     potEl.style.display = totalPot > 0 ? 'block' : 'none';
   }
 
-  // Board
   if (boardEl) {
     boardEl.innerHTML = '';
     (state.communityCards || []).forEach(card => {
@@ -243,13 +239,11 @@ function renderBoardAndPot(state, comboKeys) {
     });
   }
 
-  // Side pots
   if (sidePotsEl) {
     const pots = state.potDetails || [];
     sidePotsEl.textContent = pots.length ? pots.join(' | ') : '';
   }
 
-  // Info under green dot
   if (tableInfoEl) {
     const stages = {
       waiting:  'Ожидание раздачи',
@@ -266,7 +260,6 @@ function renderBoardAndPot(state, comboKeys) {
       `Live · Hold'em · Блайнды ${sb}/${bb} · ${stageName}`;
   }
 
-  // Short dealer text over table
   if (dealerShortEl) {
     let txt = state.tableMessage ||
               (state.dealerDetails ? String(state.dealerDetails).split('\n')[0] : '');
@@ -274,7 +267,6 @@ function renderBoardAndPot(state, comboKeys) {
     dealerShortEl.textContent = txt || '';
   }
 
-  // Dealer → чат
   if (state.tableMessage && state.tableMessage !== lastSeenLogMessage) {
     appendChatLine('dealer', state.tableMessage);
     lastSeenLogMessage = state.tableMessage;
@@ -285,7 +277,6 @@ function renderBoardAndPot(state, comboKeys) {
     lastSeenDealerDetails = state.dealerDetails;
   }
 
-  // личные сообщения героя (например, выигрыш)
   if (state.message && state.message !== lastHeroMessage) {
     appendChatLine('system', state.message);
     lastHeroMessage = state.message;
@@ -345,7 +336,6 @@ function renderHero(state, comboKeys) {
       state.yourBestHandType ? ('Комбинация: ' + state.yourBestHandType) : 'Комбинация: —';
   }
 
-  // Pocket cards
   heroCardsSlots.forEach((slot, idx) => {
     if (!slot) return;
     slot.innerHTML = '';
@@ -358,7 +348,6 @@ function renderHero(state, comboKeys) {
     slot.appendChild(el);
   });
 
-  // Your turn / timer + подсказка
   clearTurnTimer();
   const hintText = getHeroHint(state);
 
@@ -381,7 +370,6 @@ function renderHero(state, comboKeys) {
     heroLastActionEl.textContent = hintText;
   }
 
-  // Disable action buttons if not your turn
   const disable = !state.yourTurn;
   [foldButton, checkCallButton, betRaiseButton, allInButton].forEach(btn => {
     if (!btn) return;
@@ -483,7 +471,6 @@ socket.on('gameState', (state) => {
   renderState(state);
 });
 
-// (чат от сервера — если добавишь на бэке)
 socket.on('chat:message', (msg) => {
   if (!msg || !msg.text) return;
   const name = msg.name || 'Игрок';
@@ -526,7 +513,6 @@ function wireActionButtons() {
     });
   }
 
-  // Ползунок
   if (betRangeEl && betAmountEl) {
     betRangeEl.addEventListener('input', () => {
       const percent = parseInt(betRangeEl.value, 10) || 0;
@@ -541,7 +527,6 @@ function wireActionButtons() {
     });
   }
 
-  // Ручной ввод суммы — обновляем процент
   if (betAmountEl && betRangeEl) {
     betAmountEl.addEventListener('input', () => {
       if (!lastState) return;
@@ -562,7 +547,6 @@ function wireActionButtons() {
     });
   }
 
-  // пресеты (⅓ пота, ½, ¾, пот, макс)
   if (presetButtons.length && betAmountEl) {
     presetButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -612,7 +596,6 @@ function wireActionButtons() {
     });
   }
 
-  // iOS-неон для кнопок действий и seat-кнопки
   const pressable = document.querySelectorAll('.action-btn, .btn-join, .btn-leave');
   pressable.forEach(btn => {
     const press = () => btn.classList.add('is-pressed');
@@ -635,7 +618,6 @@ function wireSeatButton() {
   if (!seatButton) return;
 
   seatButton.addEventListener('click', () => {
-    // если ещё вообще нет состояния — просто заходим
     if (!lastState) {
       socket.emit('joinTable', { playerName: 'Hero' });
       return;
@@ -644,11 +626,9 @@ function wireSeatButton() {
     const seated = isMeSeated(lastState);
 
     if (!seated) {
-      // сесть за стол
       socket.emit('joinTable', { playerName: 'Hero' });
       socket.emit('setPlaying', { playing: true });
     } else {
-      // покинуть (по факту — пауза)
       socket.emit('setPlaying', { playing: false });
     }
   });
@@ -664,9 +644,7 @@ function wireChat() {
   const send = () => {
     const text = chatInputEl.value.trim();
     if (!text) return;
-    // локально сразу показываем как "Вы"
     appendChatLine('player', `Вы: ${text}`);
-    // на сервер
     socket.emit('chat:send', { text });
     chatInputEl.value = '';
   };
