@@ -370,12 +370,6 @@ function getDefaultBetAmount() {
 socket.on('connect', () => {
   console.log('[table.js] connected to engine:', socket.id);
   myPlayerId = socket.id;
-
-  // сразу садимся за стол как отдельный игрок
-  const rnd = Math.floor(Math.random() * 1000);
-  socket.emit('joinTable', {
-    playerName: 'Browser ' + rnd
-  });
 });
 
 socket.on('connect_error', (err) => {
