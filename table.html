@@ -11,7 +11,7 @@
       --bg-secondary: #0c0c14;
       --bg-elevated: #10101b;
       --accent: #6f7aff;
-      --accent-strong: rgba(111,122,255,0.85);
+      --accent-strong: rgba(111, 122, 255, 0.85);
       --danger: #ff416f;
       --success: #35d49b;
       --text-main: #f5f5f5;
@@ -31,11 +31,7 @@
       overflow-x: hidden;
     }
 
-    .page {
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+    .page { min-height:100vh; display:flex; flex-direction:column; }
 
     /* ---------- HEADER ---------- */
 
@@ -149,6 +145,22 @@
       color:var(--text-main);
       transition:0.15s;
       white-space:nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-icon {
+      border-color:rgba(255,255,255,0.18);
+      color:var(--text-muted);
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.08),transparent);
+      padding-inline:10px;
+      font-size:14px;
+    }
+
+    .btn-join {
+      border:1px solid rgba(53,212,155,0.65);
+      background:radial-gradient(circle at 0 0,rgba(53,212,155,0.35),#073321);
+      color:#e8fff7;
+      box-shadow:0 0 16px rgba(53,212,155,0.8);
     }
 
     .btn-leave {
@@ -158,42 +170,11 @@
       box-shadow:0 0 14px rgba(255,65,111,0.4);
     }
 
-    .btn-join {
-      border-radius:999px;
-      padding:6px 14px;
-      font-size:12px;
-      border:1px solid rgba(53,212,155,0.65);
-      cursor:pointer;
-      background:radial-gradient(circle at 0 0,rgba(53,212,155,0.35),#073321);
-      color:#e8fff7;
-      box-shadow:0 0 16px rgba(53,212,155,0.8);
-      white-space:nowrap;
-    }
-
-    .btn-ghost {
-      border-color:rgba(255,255,255,0.18);
-      color:var(--text-muted);
-      background:radial-gradient(circle at 0 0,rgba(255,255,255,0.06),transparent);
-      padding-inline:9px;
-    }
-
-    .btn-ghost:hover {
-      border-color:rgba(255,255,255,0.35);
-      color:var(--text-main);
-    }
-
-    .btn-icon {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:14px;
-    }
-
-    .btn-leave.is-pressed,
-    .btn-join.is-pressed {
-      transform:scale(0.96);
+    .btn.is-pressed,
+    .btn:active {
+      transform:scale(0.95);
       filter:brightness(1.3);
-      box-shadow:0 0 26px rgba(255,255,255,0.6);
+      box-shadow:0 0 26px rgba(255,255,255,0.4);
       transition:0.05s;
     }
 
@@ -202,10 +183,16 @@
     .main {
       flex:1;
       display:flex;
-      flex-direction:column;
+      flex-direction:row;
       padding:10px;
       gap:10px;
       min-height:0;
+    }
+
+    @media (max-width:950px) {
+      .main {
+        flex-direction:column;
+      }
     }
 
     .table-wrap {
@@ -215,6 +202,8 @@
       box-shadow:var(--shadow-soft);
       padding:12px;
       position:relative;
+      flex:2;
+      min-width:0;
     }
 
     .table-top-info {
@@ -291,7 +280,7 @@
         radial-gradient(circle at 50% 130%,rgba(111,122,255,0.24),#050509 70%);
       box-shadow:0 0 26px rgba(111,122,255,0.6);
       margin:auto;
-      overflow:hidden;
+      overflow:visible; /* чтобы стулья не обрезало */
     }
 
     .poker-table-inner {
@@ -393,32 +382,12 @@
     .card.red { color:#d41245; }
     .card.black { color:#16162a; }
 
-    /* неоновая рамка для карт комбиниции */
+    /* НЕОНОВАЯ ПОДСВЕТКА КОМБИНАЦИИ (под цвет leave-кнопки) */
     .card--highlight {
-      border:1px solid rgba(255,120,190,0.95);
       box-shadow:
-        0 0 0 1px rgba(255,120,190,0.85),
-        0 0 12px rgba(255,120,190,0.9);
-      transform:translateY(-1px);
-    }
-
-    /* рубашка карты (префлоп-анимация) */
-    .card-back {
-      background:radial-gradient(circle at 0 0,#282856,#050509);
-      border:1px solid rgba(192,196,255,0.8);
-      box-shadow:0 0 14px rgba(111,122,255,0.9);
-    }
-
-    .card-back::before {
-      content:"MB";
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:9px;
-      letter-spacing:0.16em;
-      color:rgba(230,232,255,0.9);
+        0 0 8px rgba(255,65,111,0.95),
+        0 0 14px rgba(255,65,111,0.75);
+      border:2px solid rgba(255,65,111,0.95) !important;
     }
 
     /* ---------- SEATS ---------- */
@@ -442,6 +411,7 @@
       font-size:11px;
       color:var(--text-muted);
       pointer-events:auto;
+      transition:0.2s;
     }
 
     .seat-avatar {
@@ -483,13 +453,19 @@
     .seat-5 { bottom:24%; left:2%; transform:translate(0,50%); }
     .seat-6 { top:24%; left:2%; transform:translate(0,-50%); }
 
-    /* дилер рядом со стулом, а не на нём */
+    .seat.active {
+      box-shadow:
+        0 0 18px rgba(111,122,255,0.7),
+        0 0 30px rgba(111,122,255,0.4);
+      border-color:rgba(111,122,255,0.9);
+      color:#e5e7ff;
+    }
 
     .dealer-chip {
       width:18px; height:18px;
       border-radius:50%;
       background:rgba(5,5,15,0.95);
-      border:1px solid rgba(255,255,255,0.8);
+      border:1px solid rgba(255,255,255,0.9);
       box-shadow:0 0 12px rgba(111,122,255,0.7);
       position:absolute;
       font-size:10px;
@@ -498,23 +474,8 @@
       justify-content:center;
       color:#fff;
       pointer-events:none;
+      z-index:5;
     }
-
-    .dealer-1 {
-      top:8%;
-      left:65%;
-      transform:translate(-115%,-50%);
-    }
-
-    .dealer-2 { top:24%; right:9%; transform:translate(0,-50%); }
-    .dealer-3 { bottom:24%; right:9%; transform:translate(0,50%); }
-    .dealer-4 {
-      bottom:4%;
-      left:50%;
-      transform:translate(-115%,50%);
-    }
-    .dealer-5 { bottom:24%; left:-3%; transform:translate(0,50%); }
-    .dealer-6 { top:24%; left:-3%; transform:translate(0,-50%); }
 
     /* ---------- HERO / ACTIONS ---------- */
 
@@ -527,6 +488,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
+      margin-top:10px;
     }
 
     .hero-row {
@@ -763,6 +725,12 @@
                  inset 0 0 24px rgba(255,215,0,1);
     }
 
+    .action-btn.is-disabled {
+      opacity:0.5;
+      cursor:default;
+      box-shadow:none;
+    }
+
     #checkCallButton {
       padding:8px 16px;
       display:inline-flex;
@@ -846,8 +814,7 @@
 
     .chat-line-dealer { color:#f7e496; }
     .chat-line-system { color:#8fd4ff; }
-    .chat-line-you     { color:#e5ecff; }
-    .chat-line-player  { color:#c0ffb0; }
+    .chat-line-player { color:#e2e2ff; }
 
     .chat-input-row {
       display:flex;
@@ -874,10 +841,20 @@
       color:#f5f5ff;
     }
 
-    @media (max-width:900px) {
-      .main { flex-direction:column; }
-      .side-panel { flex:0 0 220px; }
+    @media (max-width:600px) {
+      .topbar-main {
+        font-size:12px;
+        letter-spacing:0.15em;
+      }
+      .topbar-sub {
+        font-size:10px;
+        letter-spacing:0.18em;
+      }
+      .side-panel {
+        flex:0 0 220px;
+      }
     }
+
   </style>
 </head>
 <body>
@@ -890,13 +867,13 @@
         <div class="logo-mark"></div>
         <div class="topbar-title-block">
           <div class="topbar-main">MIDNIGHT BLACK</div>
-          <div class="topbar-sub" id="tableTitle">TABLE · NL 10–20</div>
+          <div class="topbar-sub" id="tableTitle">TABLE · NL —</div>
         </div>
       </div>
 
       <div class="topbar-right">
         <div class="topbar-actions">
-          <button class="btn btn-ghost btn-icon" id="btnSettings" aria-label="Настройки">⚙</button>
+          <button class="btn btn-icon" id="btnSettings" aria-label="Настройки">⚙</button>
           <button class="btn btn-join" id="btnLeave">Сесть за стол</button>
         </div>
         <div class="topbar-table-line">
@@ -909,13 +886,14 @@
 
   <!-- MAIN -->
   <main class="main">
+
     <!-- TABLE -->
     <section class="table-wrap">
       <div class="table-top-info">
         <div class="table-top-left">
           <div class="dot-live"></div>
           <div>
-            <div id="tableInfo">Live · Hold'em · Блайнды 10/20 · Ожидание раздачи</div>
+            <div id="tableInfo">Live · Hold'em</div>
             <div class="dealer-short" id="dealerShort"></div>
           </div>
         </div>
@@ -984,72 +962,72 @@
             </div>
           </div>
 
-          <div class="dealer-chip dealer-1" id="dealerChip" style="display:none;">D</div>
+          <div class="dealer-chip" id="dealerChip" style="display:none;">D</div>
         </div>
       </div>
-    </section>
 
-    <!-- HERO + ACTIONS -->
-    <section class="bottom-panel">
-      <div class="hero-row">
-        <div class="hero-info">
-          <div class="hero-avatar" id="heroAvatar">MB</div>
-          <div class="hero-meta">
-            <div id="heroName">Hero</div>
-            <div class="hero-stack">
-              Стек: <span id="heroStack">0</span> MBC
-            </div>
-          </div>
-          <div id="hand">
-            <div class="hero-card-slot" data-slot="1"></div>
-            <div class="hero-card-slot" data-slot="2"></div>
-          </div>
-        </div>
-
-        <div class="action-panel">
-          <div class="bet-row">
-            <div class="bet-slider-wrap">
-              <div class="bet-label-row">
-                <span>Размер ставки</span>
-                <span id="betPercentLabel">0%</span>
+      <!-- HERO + ACTIONS -->
+      <section class="bottom-panel">
+        <div class="hero-row">
+          <div class="hero-info">
+            <div class="hero-avatar" id="heroAvatar">MB</div>
+            <div class="hero-meta">
+              <div id="heroName">Hero</div>
+              <div class="hero-stack">
+                Стек: <span id="heroStack">0</span> MBC
               </div>
-              <input type="range" class="range" id="betRange" min="0" max="100" value="0" />
             </div>
-            <div class="bet-input-wrap">
-              <input type="number" id="betAmount" min="0" step="1" value="0" />
-              <div class="bet-currency">MBC</div>
+            <div id="hand">
+              <div class="hero-card-slot" data-slot="1"></div>
+              <div class="hero-card-slot" data-slot="2"></div>
             </div>
           </div>
 
-          <div class="bet-presets">
-            <button class="preset-btn preset-btn-ghost" data-bet-preset="33">⅓ банка</button>
-            <button class="preset-btn preset-btn-ghost" data-bet-preset="50">½ банка</button>
-            <button class="preset-btn preset-btn-ghost" data-bet-preset="75">¾ банка</button>
-            <button class="preset-btn" data-bet-preset="100">Пот</button>
-            <button class="preset-btn preset-btn-ghost" data-bet-preset="max">Макс</button>
+          <div class="action-panel">
+            <div class="bet-row">
+              <div class="bet-slider-wrap">
+                <div class="bet-label-row">
+                  <span>Размер ставки</span>
+                  <span id="betPercentLabel">0%</span>
+                </div>
+                <input type="range" class="range" id="betRange" min="0" max="100" value="0" />
+              </div>
+              <div class="bet-input-wrap">
+                <input type="number" id="betAmount" min="0" step="1" value="0" />
+                <div class="bet-currency">MBC</div>
+              </div>
+            </div>
+
+            <div class="bet-presets">
+              <button class="preset-btn preset-btn-ghost" data-bet-preset="33">⅓ банка</button>
+              <button class="preset-btn preset-btn-ghost" data-bet-preset="50">½ банка</button>
+              <button class="preset-btn preset-btn-ghost" data-bet-preset="75">¾ банка</button>
+              <button class="preset-btn" data-bet-preset="100">Пот</button>
+              <button class="preset-btn preset-btn-ghost" data-bet-preset="max">Макс</button>
+            </div>
+
+            <div class="actions-row" id="actions">
+              <button class="action-btn action-fold" id="foldButton">Fold</button>
+              <button class="action-btn action-check" id="checkCallButton">Check / Call</button>
+              <button class="action-btn action-bet" id="betRaiseButton">Bet / Raise</button>
+              <button class="action-btn action-allin" id="allInButton">All-in</button>
+            </div>
           </div>
 
-          <div class="actions-row" id="actions">
-            <button class="action-btn action-fold" id="foldButton">Fold</button>
-            <button class="action-btn action-check" id="checkCallButton">Check / Call</button>
-            <button class="action-btn action-bet" id="betRaiseButton">Bet / Raise</button>
-            <button class="action-btn action-allin" id="allInButton">All-in</button>
+          <div class="hero-status">
+            <div id="heroPosition">Стадия: —</div>
+            <div id="heroLastAction">Ожидание других игроков</div>
+            <div class="hero-best-hand" id="heroBestHand">Комбинация: —</div>
           </div>
         </div>
-
-        <div class="hero-status">
-          <div id="heroPosition">Стадия: Ожидание</div>
-          <div id="heroLastAction">Ожидание других игроков</div>
-          <div class="hero-best-hand" id="heroBestHand">Комбинация: —</div>
-        </div>
-      </div>
+      </section>
     </section>
 
     <!-- CHAT / HISTORY -->
     <section class="side-panel">
       <div class="side-tabs">
         <button class="side-tab-btn side-tab-btn-active" id="tabChat">Чат</button>
-        <button class="side-tab-btn" id="tabHistory">История раздач</button>
+        <button class="side-tab-btn" id="tabHistory">История</button>
       </div>
 
       <div class="side-body">
@@ -1060,54 +1038,11 @@
         </div>
       </div>
     </section>
+
   </main>
 </div>
 
-<!-- авто-скрытие надписи "Банк" при 0 -->
-<script>
-(function () {
-  const potEl = document.getElementById('pot');
-  if (!potEl) return;
-  const span = potEl.querySelector('span');
-  if (!span) return;
-
-  function updatePotVisibility() {
-    const raw = (span.textContent || "").replace(/\s+/g,"");
-    const num = parseFloat(raw);
-    potEl.style.display = (!raw || !isFinite(num) || num <= 0) ? "none" : "block";
-  }
-
-  updatePotVisibility();
-  new MutationObserver(updatePotVisibility).observe(span,{
-    childList:true,
-    characterData:true,
-    subtree:true
-  });
-})();
-</script>
-
-<!-- скрипт подсветки нажатия на кнопки -->
-<script>
-(function () {
-  const buttons = document.querySelectorAll('.action-btn, #btnLeave');
-  buttons.forEach(btn => {
-    const press = () => btn.classList.add('is-pressed');
-    const release = () => btn.classList.remove('is-pressed');
-
-    btn.addEventListener('touchstart', press, {passive:true});
-    btn.addEventListener('mousedown', press);
-
-    ['touchend','touchcancel','mouseup','mouseleave'].forEach(ev => {
-      btn.addEventListener(ev, release);
-    });
-  });
-})();
-</script>
-
-<!-- socket.io именно с сервера, где крутится index.js -->
 <script src="https://poker-server-f2et.onrender.com/socket.io/socket.io.js"></script>
-
-<!-- клиентский код -->
 <script src="/js/table.js"></script>
 </body>
 </html>
