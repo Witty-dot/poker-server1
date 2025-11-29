@@ -172,10 +172,25 @@
 
     .btn.is-pressed,
     .btn:active {
-      transform:scale(0.95);
-      filter:brightness(1.3);
-      box-shadow:0 0 26px rgba(255,255,255,0.4);
-      transition:0.05s;
+      transform:translateY(1px) scale(0.97);
+      filter:brightness(1.2);
+      transition:0.06s;
+    }
+
+    /* join — зелёный неон */
+    .btn-join.is-pressed,
+    .btn-join:active {
+      box-shadow:
+      0 0 22px rgba(53,212,155,1),
+      inset 0 0 18px rgba(53,212,155,0.9);
+    }
+
+    /* leave — розовый неон */
+    .btn-leave.is-pressed,
+    .btn-leave:active {
+      box-shadow:
+      0 0 22px rgba(255,65,111,1),
+      inset 0 0 18px rgba(255,65,111,0.95);
     }
 
     /* ---------- MAIN LAYOUT ---------- */
