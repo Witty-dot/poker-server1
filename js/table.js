@@ -174,7 +174,7 @@ function positionDealerChip(state) {
     return;
   }
 
-  const seatEl = seatEls[btnIdx];
+  const seatEl   = seatEls[btnIdx];
   if (!seatEl) {
     dealerChipEl.style.display = 'none';
     return;
@@ -183,28 +183,29 @@ function positionDealerChip(state) {
   const seatRect  = seatEl.getBoundingClientRect();
   const tableRect = tableEl.getBoundingClientRect();
 
-  const tableCx = tableRect.left + tableRect.width / 2;
+  const tableCx = tableRect.left + tableRect.width  / 2;
   const tableCy = tableRect.top  + tableRect.height / 2;
-  const seatCx  = seatRect.left  + seatRect.width / 2;
-  const seatCy  = seatRect.top   + seatRect.height / 2;
+  const seatCx  = seatRect.left  + seatRect.width   / 2;
+  const seatCy  = seatRect.top   + seatRect.height  / 2;
 
-  // Вектор от центра стола к стулу
+  // нормализованный вектор от центра стола к стулу
   let vx = seatCx - tableCx;
   let vy = seatCy - tableCy;
   const len = Math.sqrt(vx*vx + vy*vy) || 1;
   vx /= len;
   vy /= len;
 
-  // Отступ внутрь стола от центра стула на половину радиуса стула + запас,
-  // чтобы фишка была на обивке стола и не налезала на стул.
-  const seatRadius = Math.max(seatRect.width, seatRect.height) / 2;
-  const offset = seatRadius + 8; // 8px внутрь стола
+  const chipSize   = dealerChipEl.offsetWidth || 18;
+  const chipRadius = chipSize / 2;
 
-  const chipX = seatCx - vx * offset - tableRect.left;
-  const chipY = seatCy - vy * offset - tableRect.top;
+  // Чип всегда на "обивке" стола: фиксированное смещение внутрь от стула
+  const offsetFromSeat = 32; // px внутрь стола
 
-  dealerChipEl.style.left = chipX + 'px';
-  dealerChipEl.style.top  = chipY + 'px';
+  const chipCenterX = seatCx - vx * offsetFromSeat;
+  const chipCenterY = seatCy - vy * offsetFromSeat;
+
+  dealerChipEl.style.left   = (chipCenterX - tableRect.left - chipRadius) + 'px';
+  dealerChipEl.style.top    = (chipCenterY - tableRect.top  - chipRadius) + 'px';
   dealerChipEl.style.display = 'block';
 }
 
