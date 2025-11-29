@@ -13,6 +13,10 @@ let lastSeenLogMessage = null;
 let lastSeenDealerDetails = null;
 let lastHeroMessage = null;
 
+// для анимации рубашка → открытые карты
+let heroFlipTimeout = null;
+let heroFlipInProgress = false;
+
 // =====================================================
 // ===============   DOM CACHE   =======================
 // =====================================================
@@ -90,6 +94,19 @@ function createCardEl(card) {
   return div;
 }
 
+// Рубашка под стиль Midnight Black
+function createCardBackEl() {
+  const div = document.createElement('div');
+  div.className = 'card card-back';
+
+  const inner = document.createElement('div');
+  inner.className = 'card-back-inner';
+  inner.textContent = 'MB';
+
+  div.appendChild(inner);
+  return div;
+}
+
 function clearTurnTimer() {
   if (turnTimerInterval) clearInterval(turnTimerInterval);
   turnTimerInterval = null;
@@ -163,23 +180,28 @@ function positionDealerChip(state) {
     return;
   }
 
-  const seatRect = seatEl.getBoundingClientRect();
+  const seatRect  = seatEl.getBoundingClientRect();
   const tableRect = tableEl.getBoundingClientRect();
 
   const tableCx = tableRect.left + tableRect.width / 2;
-  const tableCy = tableRect.top + tableRect.height / 2;
-  const seatCx  = seatRect.left + seatRect.width / 2;
-  const seatCy  = seatRect.top + seatRect.height / 2;
+  const tableCy = tableRect.top  + tableRect.height / 2;
+  const seatCx  = seatRect.left  + seatRect.width / 2;
+  const seatCy  = seatRect.top   + seatRect.height / 2;
 
+  // Вектор от центра стола к стулу
   let vx = seatCx - tableCx;
   let vy = seatCy - tableCy;
   const len = Math.sqrt(vx*vx + vy*vy) || 1;
   vx /= len;
   vy /= len;
 
-  const offset = 30;
-  const chipX = seatCx + vx * offset - tableRect.left;
-  const chipY = seatCy + vy * offset - tableRect.top;
+  // Отступ внутрь стола от центра стула на половину радиуса стула + запас,
+  // чтобы фишка была на обивке стола и не налезала на стул.
+  const seatRadius = Math.max(seatRect.width, seatRect.height) / 2;
+  const offset = seatRadius + 8; // 8px внутрь стола
+
+  const chipX = seatCx - vx * offset - tableRect.left;
+  const chipY = seatCy - vy * offset - tableRect.top;
 
   dealerChipEl.style.left = chipX + 'px';
   dealerChipEl.style.top  = chipY + 'px';
@@ -312,9 +334,17 @@ function getHeroHint(state) {
   return 'Вы можете коллировать, сделать рейз или сбросить карты.';
 }
 
-function renderHero(state, comboKeys) {
-  const me = (state.players || []).find(p => p.id === myPlayerId);
+function renderHero(state, comboKeys, prevState) {
+  const players = state.players || [];
+  const me = players.find(p => p.id === myPlayerId);
   comboKeys = comboKeys || [];
+  prevState = prevState || null;
+
+  if (heroFlipTimeout) {
+    clearTimeout(heroFlipTimeout);
+    heroFlipTimeout = null;
+    heroFlipInProgress = false;
+  }
 
   if (heroNameEl)  heroNameEl.textContent  = me ? (me.name || 'Hero') : 'Hero';
   if (heroStackEl) heroStackEl.textContent = me ? formatNumber(me.stack || 0) : 0;
@@ -336,17 +366,48 @@ function renderHero(state, comboKeys) {
       state.yourBestHandType ? ('Комбинация: ' + state.yourBestHandType) : 'Комбинация: —';
   }
 
+  const prevYourCards = prevState && prevState.yourCards ? prevState.yourCards : [];
+  const currYourCards = state.yourCards || [];
+
+  const justDealtPreflop =
+    prevState &&
+    prevYourCards.length === 0 &&
+    currYourCards.length === 2 &&
+    state.stage === 'preflop';
+
+  if (justDealtPreflop) {
+    heroFlipInProgress = true;
+  }
+
   heroCardsSlots.forEach((slot, idx) => {
     if (!slot) return;
     slot.innerHTML = '';
-    const card = (state.yourCards || [])[idx];
+    const card = currYourCards[idx];
     if (!card) return;
-    const el = createCardEl(card);
-    if (comboKeys.includes(cardKey(card))) el.classList.add('card--highlight');
+
+    let el;
+    if (heroFlipInProgress) {
+      // сначала показываем рубашку
+      el = createCardBackEl();
+    } else {
+      el = createCardEl(card);
+      if (comboKeys.includes(cardKey(card))) el.classList.add('card--highlight');
+      el.style.width = '100%';
+      el.style.height = '100%';
+    }
     el.style.width = '100%';
     el.style.height = '100%';
     slot.appendChild(el);
   });
+
+  if (heroFlipInProgress) {
+    heroFlipTimeout = setTimeout(() => {
+      heroFlipInProgress = false;
+      if (!lastState) return;
+      const keys = (lastState.yourBestHandCards || []).map(cardKey);
+      renderHero(lastState, keys, lastState);
+    }, 600);
+  }
 
   clearTurnTimer();
   const hintText = getHeroHint(state);
@@ -408,13 +469,14 @@ function updateSeatButton(state) {
 // =====================================================
 
 function renderState(state) {
+  const prevState = lastState;
   lastState = state;
   const comboKeys = (state.yourBestHandCards || []).map(cardKey);
 
   renderHeader(state);
   renderSeats(state);
   renderBoardAndPot(state, comboKeys);
-  renderHero(state, comboKeys);
+  renderHero(state, comboKeys, prevState);
   updateBetControls(state);
   updateSeatButton(state);
 }
@@ -448,7 +510,7 @@ function getDefaultBetAmount() {
   const bb = s.bigBlind || 10;
   const minRaise = s.minRaise || bb;
 
-  if (!s.currentBet || s.currentBet === 0) return bb;
+  if (!s.currentBet || s.currentBet === 0) return bb; // дефолт — BB
   return s.currentBet + minRaise;
 }
 
