@@ -16,6 +16,7 @@ let lastHeroMessage = null;
 // для анимации рубашка → открытые карты
 let heroFlipTimeout = null;
 let heroFlipInProgress = false;
+let lastHoleCardsSignature = null; // сигнатура текущей карманки героя
 
 // =====================================================
 // ===============   DOM CACHE   =======================
